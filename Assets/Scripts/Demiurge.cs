@@ -52,20 +52,21 @@ public class Demiurge : MonoBehaviour {
   void Start() {
     World world = new World();
 
+    Ows.Interpreter interpreter 
+      = new(new(world));
+
+    interpreter.Build(@"
+      IF-NOT : TRUE: GO-TO : SKIP_SET_ON_FALSE
+      SET: TEST TO TRUE
+      [SKIP_SET_ON_FALSE] : UNITY_DEBUG_LOG:TEST
+    ");
+
     Character person 
       = Entity.Types.Get<Character.Type>()
         .Make<Character>((nameof(Character.UniqueName), "Test"));
 
-    Ows.Program program = new(
-      new Ows.Program.ContextData(world),
-      @"
-        IF-NOT : TRUE: GO-TO : SKIP_SET_ON_FALSE
-        SET: TEST TO TRUE
-        [SKIP_SET_ON_FALSE] : UNITY_DEBUG_LOG:TEST
-      "
-    );
-
-    program.ExecuteAs(person);
+    interpreter.Program
+      .ExecuteAs(person);
 
     /*person.Animations
       .SelectMatches(

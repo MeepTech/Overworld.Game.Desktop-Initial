@@ -1,23 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
-namespace Overworld.Data {
-
+namespace Overworld.Script {
   public partial class Ows {
     public partial class Command {
 
       /// <summary>
-      /// A reversed IF conditional that can run a command if the condition is "not true"/false
+      /// An helpful debug command
+      // TODO: move to unity library
       /// </summary>
-      public class IF_NOT : Ows.Command.Type {
+      public class UNITY_DEBUG_LOG : Ows.Command.Type {
 
-        IF_NOT()
+        UNITY_DEBUG_LOG()
           : base(
-              new("IF-NOT"),
+              new("UNITY-DEBUG-LOG"),
               new[] {
-                typeof(IConditional),
-                typeof(Command)
+                typeof(IParameter)
               }
             ) {
         }
@@ -25,10 +25,9 @@ namespace Overworld.Data {
         public override Func<Program, Data.Character, IList<Token>, Variable> Execute {
           get;
         } = (program, executor, @params) => {
-          if(((IConditional)@params.First()).ComputeFor(executor).Not.Value) {
-            (@params[1] as Command)
-              .ExecuteFor(executor);
-          }
+          Debug.Log(@params.First() is Command conditional
+            ? conditional.ExecuteFor(executor)
+            : @params.First().Value);
 
           return null;
         };
