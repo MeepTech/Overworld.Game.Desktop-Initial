@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Unity Lazy Loaded Component Property</Title>
+      <Author>Meep.Tech</Author>
+      <Description>Uses GetComponent to load and cache a component on the current gameobject when called for the first time</Description>
+      <Shortcut>uplazy</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[public $ComponentType$ $Name$ => _$Name$ ??= GetComponent<$ComponentType$>(); $ComponentType$ _$Name$;]]>
+      </Code>
+      <Declarations>
+        <Literal>
+          <ID>ComponentType</ID>
+          <ToolTip>The type of unity component</ToolTip>
+          <Default>Transform</Default>
+        </Literal>
+        <Literal>
+          <ID>Name</ID>
+          <ToolTip>The variable name</ToolTip>
+          <Default>Component</Default>
+        </Literal>
+      </Declarations>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

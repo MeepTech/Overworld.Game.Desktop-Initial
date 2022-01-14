@@ -1,5 +1,4 @@
 ﻿using Meep.Tech.Data;
-using UnityEngine;
 
 namespace Overworld.Data {
   public sealed partial class Modifications : Meep.Tech.Data.Configuration.Modifications {
@@ -8,7 +7,7 @@ namespace Overworld.Data {
       : base(universe)  { }
 
     protected override void Initialize() {
-      Entity.Animation.Porter.LoadAllAnimationDatas(Application.persistentDataPath);
+      //IO.Entity.Animation.Porter.LoadAllAnimationDatas(UnityEngine.Application.persistentDataPath);
     }
   }
 }

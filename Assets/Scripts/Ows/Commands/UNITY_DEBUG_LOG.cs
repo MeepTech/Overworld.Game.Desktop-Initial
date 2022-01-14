@@ -1,37 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
+using static Overworld.Script.Ows;
 
-namespace Overworld.Script {
-  public partial class Ows {
-    public partial class Command {
+namespace Overworld.Script.Unity {
 
-      /// <summary>
-      /// An helpful debug command
-      // TODO: move to unity library
-      /// </summary>
-      public class UNITY_DEBUG_LOG : Ows.Command.Type {
+  /// <summary>
+  /// An helpful debug command
+  /// </summary>
+  public class UNITY_DEBUG_LOG : Ows.Command.Type {
 
-        UNITY_DEBUG_LOG()
-          : base(
-              new("UNITY-DEBUG-LOG"),
-              new[] {
-                typeof(IParameter)
-              }
-            ) {
-        }
-
-        public override Func<Program, Data.Character, IList<Token>, Variable> Execute {
-          get;
-        } = (program, executor, @params) => {
-          Debug.Log(@params.First() is Command conditional
-            ? conditional.ExecuteFor(executor)
-            : @params.First().Value);
-
-          return null;
-        };
-      }
+    UNITY_DEBUG_LOG()
+      : base(
+          new("UNITY-DEBUG-LOG"),
+          new[] {
+              typeof(IParameter)
+          }
+        ) {
     }
+
+    public override Func<Command.Context, Variable> Execute {
+      get;
+    } = context => {
+      Debug.Log(context.GetUltimateParameterVariable(0));
+
+      return null;
+    };
   }
 }

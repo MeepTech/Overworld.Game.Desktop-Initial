@@ -1,0 +1,562 @@
+fileFormatVersion: 2
+guid: b5f5bd2b52a9a6f4ea8df2dbaeb8836c
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 1815
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Height-Tiles-2_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 9160
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a58f98b91da7c8141ab0d6107efeb6b6
+      internalID: 1289144425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_1
+      rect:
+        serializedVersion: 2
+        x: 2203
+        y: 9160
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0b85eb67594119b4ea6b76c665eb6a22
+      internalID: -1972010219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_2
+      rect:
+        serializedVersion: 2
+        x: 4674
+        y: 9159
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfd105be213401a419aad445c255d565
+      internalID: -180840889
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_3
+      rect:
+        serializedVersion: 2
+        x: 7010
+        y: 9159
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 06a3789876f5fd341a340c42d3cdd63e
+      internalID: -283850609
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_4
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 6903
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 673554c915298ba48b76280c8d2b2cb4
+      internalID: 1207092807
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_5
+      rect:
+        serializedVersion: 2
+        x: 2338
+        y: 6911
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c15fab7648eb4b741927a7d85b800d5f
+      internalID: 1551616432
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_6
+      rect:
+        serializedVersion: 2
+        x: 4674
+        y: 6957
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 762fbefe5a864564aa5ee15bcdea3840
+      internalID: -600365856
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_7
+      rect:
+        serializedVersion: 2
+        x: 7011
+        y: 6866
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43c8cfaab29edc849a2b26a952a3f88c
+      internalID: 267606599
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4647
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 781f80aee1f47634cb22055d889efd72
+      internalID: 2129665681
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_9
+      rect:
+        serializedVersion: 2
+        x: 2337
+        y: 4658
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cd74f8c5b7642644dbb6c936c1ccb82e
+      internalID: -1083530174
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_10
+      rect:
+        serializedVersion: 2
+        x: 4674
+        y: 4760
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b5ceab0ca572d7f4d8c6c04ad9b14513
+      internalID: 1552005505
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_11
+      rect:
+        serializedVersion: 2
+        x: 7011
+        y: 4786
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 08e682fca005bad42a6dcfc9bdbba2e3
+      internalID: 1809905659
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2391
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d922b5fe3bd18fb4baf916a139c0817d
+      internalID: 2003217350
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_13
+      rect:
+        serializedVersion: 2
+        x: 2337
+        y: 2412
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00e8eec3a948d434fbd3b75d77481bed
+      internalID: -292573570
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_14
+      rect:
+        serializedVersion: 2
+        x: 4674
+        y: 2562
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cc8dcca7cc07fb44aa021befdd072ec1
+      internalID: 438413935
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_15
+      rect:
+        serializedVersion: 2
+        x: 7011
+        y: 2680
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bbc69c08546d77c4fa0eb233c9a7ba5f
+      internalID: 935355173
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 155
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 37673efbfe5a9fa4293ba73e30d72b18
+      internalID: -1123135679
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_17
+      rect:
+        serializedVersion: 2
+        x: 2338
+        y: 156
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6611589250f25f2429f7fb1e735c1f86
+      internalID: -651311442
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_18
+      rect:
+        serializedVersion: 2
+        x: 4690
+        y: 151
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 155c0565bed40ae46a0930a1702f5eaa
+      internalID: -659377281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-2_19
+      rect:
+        serializedVersion: 2
+        x: 7011
+        y: 163
+        width: 1815
+        height: 1815
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 567bd18f0d15b7a4f96fdb9e59cda06f
+      internalID: -1663662417
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Height-Tiles-2_10: 1552005505
+      Height-Tiles-2_2: -180840889
+      Height-Tiles-2_3: -283850609
+      Height-Tiles-2_0: 1289144425
+      Height-Tiles-2_17: -651311442
+      Height-Tiles-2_18: -659377281
+      Height-Tiles-2_14: 438413935
+      Height-Tiles-2_6: -600365856
+      Height-Tiles-2_19: -1663662417
+      Height-Tiles-2_5: 1551616432
+      Height-Tiles-2_16: -1123135679
+      Height-Tiles-2_9: -1083530174
+      Height-Tiles-2_7: 267606599
+      Height-Tiles-2_15: 935355173
+      Height-Tiles-2_13: -292573570
+      Height-Tiles-2_11: 1809905659
+      Height-Tiles-2_12: 2003217350
+      Height-Tiles-2_4: 1207092807
+      Height-Tiles-2_1: -1972010219
+      Height-Tiles-2_8: 2129665681
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

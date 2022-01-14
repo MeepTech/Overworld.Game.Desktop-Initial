@@ -14,20 +14,20 @@ TagManager:
   - 
   - 
   - 
+  - World Background
   - 
   - 
   - 
   - 
   - 
   - 
+  - Grounded Entities
   - 
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Flying Entities
   - 
   - 
   - 
@@ -38,6 +38,54 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 80481313
+    locked: 0
+  - name: -2
+    uniqueID: 164422699
+    locked: 0
+  - name: -1.5
+    uniqueID: 1422305483
+    locked: 0
+  - name: -1
+    uniqueID: 2954846969
+    locked: 0
+  - name: -0.5
+    uniqueID: 1424008883
+    locked: 0
+  - name: 0
+    uniqueID: 3419044437
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: 0.5
+    uniqueID: 937027611
+    locked: 0
+  - name: 1
+    uniqueID: 1571692019
+    locked: 0
+  - name: 1.5
+    uniqueID: 3082544931
+    locked: 0
+  - name: 2
+    uniqueID: 1799456641
+    locked: 0
+  - name: 2.5
+    uniqueID: 3445511667
+    locked: 0
+  - name: 3
+    uniqueID: 4281867207
+    locked: 0
+  - name: 3.5
+    uniqueID: 3493306451
+    locked: 0
+  - name: 4
+    uniqueID: 273113151
+    locked: 0
+  - name: 4.5
+    uniqueID: 437132377
+    locked: 0
+  - name: 5
+    uniqueID: 788789147
     locked: 0
