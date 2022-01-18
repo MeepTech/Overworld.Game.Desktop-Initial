@@ -50,7 +50,7 @@ namespace SpiritWorlds.Controllers {
     void Awake() {
       rectTransform = GetComponent<RectTransform>();
       TabbedMenuController tabbedMenuController = GetComponent<TabbedMenuController>();
-      foreach(MenuTabController menuTab in tabbedMenuController.tabs) {
+      foreach(MenuTabController menuTab in tabbedMenuController.Tabs) {
         menuTab.onClick = tabIsActive => {
           if(!isSliding) {
             if(isSlidOpen) {

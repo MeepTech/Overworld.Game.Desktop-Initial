@@ -1,0 +1,1027 @@
+fileFormatVersion: 2
+guid: 85fee4ad9c806f2448e9296e6567e8e4
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 11
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMasterTextureLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 833
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 8334
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d46814ad0ad9f24cad7f82b788201f1
+      internalID: -1507136565
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_1
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 8334
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 48e358360f8781a45acfc371af75643e
+      internalID: -805291801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_2
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 8334
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 718710b1c681e4f4faa81ec460886ee6
+      internalID: -1447459422
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_3
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 8334
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ecaa203512dc4924e99e8a2ef6db213f
+      internalID: 158849310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 7501
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 676c91db5c2033a4d8e1fade78b9b182
+      internalID: -333932083
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_5
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 7501
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 33e36843af03954448e4b4cab8945d3a
+      internalID: 1949922210
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_6
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 7501
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c884053c2e911374b8f8300398247eb7
+      internalID: -185442944
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_7
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 7501
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 844ad6d888b8b2d42ab2bac2d48ba21f
+      internalID: 1583215959
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 6668
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f8af98f649796347845b29b8b63def8
+      internalID: -2006356191
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_9
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 6668
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f8c1a0c1315fd88488a3032388be2ce5
+      internalID: -2074385744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_10
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 6668
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7be69b7114eb18c40883ec40f38a1ae2
+      internalID: 814964389
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_11
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 6668
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ec6ad9c379c584e4fb85690a02292b7a
+      internalID: 1949294090
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_12
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5835
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d8a142a0ddebd444ca485997064fc449
+      internalID: 1882669256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_13
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 5835
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ec9bc3afbe89da49bb200f17ea7bd7d
+      internalID: 1453948805
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_14
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 5835
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c1d80b9d0a3d5494bbeb377fa55daab7
+      internalID: 1144630881
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_15
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 5835
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 70c7849351db0f24a8a7b54724ea6145
+      internalID: 346481806
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 5002
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a39e17407fda49439464988dade0939
+      internalID: 1349400667
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_17
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 5002
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7c375b6149ef5204c83c2a3f1f2dd519
+      internalID: 1212695282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_18
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 5002
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 956bbd62d44ed56459fec179895dc883
+      internalID: 1926301441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_19
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 5002
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: da7c06569ad57bc49bcd1a734c26a469
+      internalID: -578744511
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4169
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 25cf8a03e6c7f25478f14ccb9d06848f
+      internalID: 1229965070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_21
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 4169
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6e1c710a5c5a514eacf8579ac4501a9
+      internalID: -1516499259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_22
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 4169
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5d924cffa30f5ac428311fb1147c8de5
+      internalID: -1081815224
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_23
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 4169
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d37475e4f39345942a740c026a3b4493
+      internalID: 372718074
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 3336
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c3e089c17e1edce47a80a198a12c053f
+      internalID: -1850204622
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_25
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 3336
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1cc2b6b65417f34ba34d8299165e12a
+      internalID: 1049024561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_26
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 3336
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f99ebf423d53ee46bddec1979b727a1
+      internalID: 1359962771
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_27
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 3336
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a252d3dd6ac48c48bc616e9a3b4c089
+      internalID: 1567863578
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_28
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2503
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ee2567324a1976d4784d31fa3e3f2865
+      internalID: 1274529610
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_29
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 2503
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 647647170eff31248981f176998dc6fd
+      internalID: 1638752047
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_30
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 2503
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c52928fb2fa5cfc42a81d1e53be7d891
+      internalID: -386356057
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_31
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 2503
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27155d679cc27d84cb9bcf5dbe2173d6
+      internalID: 334971700
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_32
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1670
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4406554eb072dee45ad00987bccbca80
+      internalID: -159003499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_33
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 1670
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bf89f5c3cd12934e9df178d7bc73c16
+      internalID: -489320441
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_34
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 1670
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1d437b77de04c1241afb0e8ae7cb1992
+      internalID: 1276672931
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_35
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 1670
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a37ed0d002662dd4fa874503c2ad118b
+      internalID: -458110739
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 837
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5226f7e4481ea9b47a1b630765ebb26c
+      internalID: -1532631656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_37
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 837
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a85e700be3e3df4598e720c5a29587d
+      internalID: -434540530
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_38
+      rect:
+        serializedVersion: 2
+        x: 1666
+        y: 837
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 13087a1d5f8b70b49bcad0f7c0c7de81
+      internalID: 1623603985
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_39
+      rect:
+        serializedVersion: 2
+        x: 2499
+        y: 837
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7e23ab4004657e4ebdd7e823038d2f1
+      internalID: -1840264490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Height-Tiles-with-steps_40
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 4
+        width: 833
+        height: 833
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 39380eea440ea51499e762501d5dfc5c
+      internalID: 949509991
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      Height-Tiles-with-steps_21: -1516499259
+      Height-Tiles-with-steps_31: 334971700
+      Height-Tiles-with-steps_10: 814964389
+      Height-Tiles-with-steps_33: -489320441
+      Height-Tiles-with-steps_16: 1349400667
+      Height-Tiles-with-steps_2: -1447459422
+      Height-Tiles-with-steps_23: 372718074
+      Height-Tiles-with-steps_18: 1926301441
+      Height-Tiles-with-steps_27: 1567863578
+      Height-Tiles-with-steps_1: -805291801
+      Height-Tiles-with-steps_5: 1949922210
+      Height-Tiles-with-steps_15: 346481806
+      Height-Tiles-with-steps_42: 664465976
+      Height-Tiles-with-steps_26: 1359962771
+      Height-Tiles-with-steps_9: -2074385744
+      Height-Tiles-with-steps_32: -159003499
+      Height-Tiles-with-steps_13: 1453948805
+      Height-Tiles-with-steps_29: 1638752047
+      Height-Tiles-with-steps_20: 1229965070
+      Height-Tiles-with-steps_24: -1850204622
+      Height-Tiles-with-steps_34: 1276672931
+      Height-Tiles-with-steps_4: -333932083
+      Height-Tiles-with-steps_0: -1507136565
+      Height-Tiles-with-steps_3: 158849310
+      Height-Tiles-with-steps_12: 1882669256
+      Height-Tiles-with-steps_19: -578744511
+      Height-Tiles-with-steps_14: 1144630881
+      Height-Tiles-with-steps_35: -458110739
+      Height-Tiles-with-steps_11: 1949294090
+      Height-Tiles-with-steps_28: 1274529610
+      Height-Tiles-with-steps_6: -185442944
+      Height-Tiles-with-steps_22: -1081815224
+      Height-Tiles-with-steps_25: 1049024561
+      Height-Tiles-with-steps_38: 1623603985
+      Height-Tiles-with-steps_36: -1532631656
+      Height-Tiles-with-steps_30: -386356057
+      Height-Tiles-with-steps_41: -1507809372
+      Height-Tiles-with-steps_37: -434540530
+      Height-Tiles-with-steps_17: 1212695282
+      Height-Tiles-with-steps_7: 1583215959
+      Height-Tiles-with-steps_39: -1840264490
+      Height-Tiles-with-steps_40: 949509991
+      Height-Tiles-with-steps_8: -2006356191
+      Height-Tiles-with-steps_43: 1402613175
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

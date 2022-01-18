@@ -1,75 +1,6 @@
 using UnityEngine;
 
 [RequireComponent(typeof(WorldController))]
-public class WorldDragAndSrollControllerScript : MonoBehaviour {
-
-  #region Unity Inspector Set
-
-  /// <summary>
-  /// TODO: should be a user setting.
-  /// </summary>
-  [Tooltip("The speed of the drag hand.")]
-  [SerializeField]
-  float _dragSpeed
-    = 1f;
-
-  [SerializeField]
-  WorldController _worldController;
-
-  #endregion
-
-  /// <summary>
-  /// If the camera is locked on to the current user's player-character.
-  /// </summary>
-  public bool CameraIsLockedOnCharacter {
-    get;
-    private set;
-  }
-
-  /// <summary>
-  /// If player is currently dragging the view in this frame
-  /// </summary>
-  public bool IsDragging {
-    get;
-    private set;
-  }
-
-  /// <summary>
-  /// If the player was dragging the view the last frame
-  /// </summary>
-  public bool WasDragging {
-    get;
-    private set;
-  }
-
-  Vector3? _dragFromPosition;
-
-  void Update() {
-    if(_worldController.AllowDragging || _worldController.IsInEditMode) {
-      WasDragging = IsDragging;
-      if(Input.GetMouseButtonDown(1)) {
-        _dragFromPosition = Input.mousePosition;
-        return;
-      }
-      if(Input.GetMouseButton(1)) {
-        if(Input.mousePosition != _dragFromPosition.Value) {
-          IsDragging = true;
-        }
-      } else {
-        IsDragging = false;
-      }
-
-      if(IsDragging) {
-        Vector3 moveDiff = Camera.main.ScreenToViewportPoint(Input.mousePosition - _dragFromPosition.Value);
-        Vector3 move = new(moveDiff.x * _dragSpeed, 0, moveDiff.y * _dragSpeed);
-
-        Camera.main.transform.Translate(move, Space.World);
-      }
-    }
-  }
-}
-
-[RequireComponent(typeof(WorldController))]
 public class WorldZoomControllerScript : MonoBehaviour {
 
   /// <summary>
@@ -82,14 +13,14 @@ public class WorldZoomControllerScript : MonoBehaviour {
   /// How fast the scrollwheel should move the camera when zooming in.
   /// </summary>
   [SerializeField]
-  float _zoomInLarpSpeed
+  float _zoomInLerpSpeed
     = 0.05f;
 
   /// <summary>
   /// How fast the scrollwheel should move the camera when zooming in.
   /// </summary>
   [SerializeField]
-  float _zoomOutLarpSpeed
+  float _zoomOutLerpSpeed
     = 0.01f;
 
   WorldController _worldController;
@@ -100,21 +31,46 @@ public class WorldZoomControllerScript : MonoBehaviour {
 
   // Update is called once per frame
   void Update() {
+    /// scroll can be prevented in a tool by overriding the middle mouse button.
+    if(_worldController.IsInEditMode
+      && (_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.OverridenButtons?.Contains(KeyCode.Mouse2) ?? false)
+    ) {
+      return;
+    }
+
+    ZoomUpdateLogic();
+  }
+
+  /// <summary>
+  /// the update logic needed to zoom in and out.
+  /// </summary>
+  public void ZoomUpdateLogic() {
     bool zoomedIn = false;
     bool zoomedOut = false;
     if(!_worldController.MouseIsOverUI) {
-      if(Input.GetAxis("Mouse ScrollWheel") < 0) {
-        Camera.main.orthographicSize += _zoomSpeed;
-        zoomedOut = true;
-      }
-      if(Input.GetAxis("Mouse ScrollWheel") > 0 && Camera.main.orthographicSize > 0) {
-        Camera.main.orthographicSize -= _zoomSpeed;
-        zoomedIn = true;
-        if(Camera.main.orthographicSize < 0) {
-          Camera.main.orthographicSize = 0.1f;
+      /// scroll out
+      if(Camera.main.orthographicSize < _worldController.World.Options.ZoomLimit.min || _worldController.IsInEditMode) {
+        if(Input.GetAxis("Mouse ScrollWheel") < 0) {
+          Camera.main.orthographicSize += _zoomSpeed;
+          zoomedOut = true;
         }
       }
 
+      /// scroll in
+      if(Camera.main.orthographicSize > 0 && Camera.main.orthographicSize > _worldController.World.Options.ZoomLimit.min) {
+        if(Input.GetAxis("Mouse ScrollWheel") > 0) {
+          Camera.main.orthographicSize -= _zoomSpeed;
+          zoomedIn = true;
+          if(Camera.main.orthographicSize < _worldController.World.Options.ZoomLimit.min) {
+            Camera.main.orthographicSize = _worldController.World.Options.ZoomLimit.min;
+          }
+          if(Camera.main.orthographicSize <= 0) {
+            Camera.main.orthographicSize = 0.1f;
+          }
+        }
+      }
+
+      /// edit mode lerps toward the mouse on scroll!
       if(_worldController.IsInEditMode && zoomedIn || zoomedOut) {
         Camera.main.transform.position = Vector3.Lerp(
           Camera.main.transform.position,
@@ -123,7 +79,7 @@ public class WorldZoomControllerScript : MonoBehaviour {
             Camera.main.transform.position.y,
             _worldController.TileSelector.HoveredTileLocation.y
           ),
-          zoomedIn ? _zoomInLarpSpeed : _zoomOutLarpSpeed
+          zoomedIn ? _zoomInLerpSpeed : _zoomOutLerpSpeed
         );
       }
     }

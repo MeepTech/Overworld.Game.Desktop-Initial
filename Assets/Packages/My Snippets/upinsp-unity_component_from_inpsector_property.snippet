@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>Unity Inpsector Set Component Property</Title>
+      <Author>Meep.Tech</Author>
+      <Description>Uses the inspector to set a get-only property for a component or value</Description>
+      <Shortcut>upinsp</Shortcut>
+    </Header>
+    <Snippet>
+      <Code Language="CSharp">
+        <![CDATA[public $ComponentType$ $Name$ => _$Name$;[SerializeField] $ComponentType$ _$Name$;]]>
+      </Code>
+      <Declarations>
+        <Literal>
+          <ID>ComponentType</ID>
+          <ToolTip>The type of unity component or object</ToolTip>
+          <Default>Transform</Default>
+        </Literal>
+        <Literal>
+          <ID>Name</ID>
+          <ToolTip>The variable name</ToolTip>
+          <Default>Component</Default>
+        </Literal>
+      </Declarations>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>

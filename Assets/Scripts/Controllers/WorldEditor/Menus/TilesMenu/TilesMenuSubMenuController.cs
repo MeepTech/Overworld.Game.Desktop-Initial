@@ -68,6 +68,7 @@ public class TilesMenuSubMenuController : MonoBehaviour {
       // set up tooltip if applicable
       if(!string.IsNullOrWhiteSpace(tileType.Description)) {
         var tooltip = option.GetComponent<Tooltip>();
+        tooltip.enabled = true;
         tooltip.Title = tileType.Id.Name;
         tooltip.Text = tileType.Description;
       }

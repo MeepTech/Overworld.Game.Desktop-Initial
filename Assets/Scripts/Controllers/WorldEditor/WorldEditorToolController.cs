@@ -29,14 +29,22 @@ public class WorldEditorToolController : MonoBehaviour {
   string _currentTool;
 #endif
 
+  void Update() {
+    if(!_worldEditor.WorldController.MouseIsOverUI) {
+      CurrentlyEnabledTool?.WhileEquipedDo(_worldEditor);
+    }
+  }
+
   /// <summary>
   /// Called to enable a tool in the editor
   /// </summary>
   /// <param name="tool"></param>
   public void EnableTool(WorldEditorTool tool) {
+    //CurrentlyEnabledTool?.OnDisable(_worldEditor);
     CurrentlyEnabledTool?.FromMenu?
       .OnToolDissabled(CurrentlyEnabledTool);
     CurrentlyEnabledTool = tool;
+    //CurrentlyEnabledTool.OnEnable(_worldEditor);
   }
 
   /// <summary>
@@ -44,6 +52,7 @@ public class WorldEditorToolController : MonoBehaviour {
   /// </summary>
   public void DissableEnabledTool(WorldEditorTool tool) {
     if(tool == CurrentlyEnabledTool) {
+      //CurrentlyEnabledTool.OnDisable(_worldEditor);
       CurrentlyEnabledTool = null;
     }
   }

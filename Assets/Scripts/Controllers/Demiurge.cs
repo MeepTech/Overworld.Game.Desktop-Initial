@@ -5,15 +5,31 @@ using Overworld.Data;
 using Overworld.Script;
 using UnityEngine;
 
+/// <summary>
+/// the procreator script.
+/// This is the first script executed in a loaded world.
+/// </summary>
 [DefaultExecutionOrder(-100)]
 public class Demiurge : MonoBehaviour {
 
-public Universe Universe {
+  /// <summary>
+  /// The parent world editor controller.
+  /// </summary>
+  public WorldController WorldController
+    => _worldController;
+  [SerializeField] WorldController _worldController;
+
+  /// <summary>
+  /// The established X-Bam Universe.
+  /// Default Universe can also be used.
+  /// </summary>
+  public Universe Universe {
     get;
     private set;
   }
 
   void Awake() {
+    // Configure Settings
     Loader.Settings settings = new() {
 #if DEBUG
       FatalOnCannotInitializeType = true,
@@ -46,15 +62,15 @@ public Universe Universe {
         ),
       ModelsMustOptInToEfCoreUsingAttribute = true
     };
+
+    /// Load Archetypes
     Loader loader = new(settings);
     loader.Initialize(
       Universe = new Universe(loader, "Overworld")
     );
-  }
 
-  // Start is called before the first frame update
-  void Start() {
-    World world = new() {
+    /// Set up World
+    WorldController.World = new() {
       OwsContext = new Ows.Program.ContextData(
         commands: new() {
           {
@@ -63,8 +79,11 @@ public Universe Universe {
           }
         }
       )
-    };/*
+    };
+  }
 
+  // Start is called before the first frame update
+  void Start() {/*
    Ows.Program test = world.OwsInterpreter.Build(@"
       IF-NOT : TRUE: GO-TO : SKIP_SET_ON_FALSE
       SET: TEST TO TRUE

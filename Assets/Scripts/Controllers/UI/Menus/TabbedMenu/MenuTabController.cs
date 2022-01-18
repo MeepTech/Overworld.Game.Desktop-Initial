@@ -180,7 +180,7 @@ namespace SpiritWorlds.Controllers {
     /// <param name="eventData"></param>
     public override void OnPointerClick(PointerEventData eventData) {
       onClick?.Invoke(contents.activeSelf);
-      parentMenu.disableAllTabsExcept(id);
+      parentMenu.TabCallback(id);
       enable();
     }
 

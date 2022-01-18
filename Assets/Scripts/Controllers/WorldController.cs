@@ -1,24 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Overworld.Data;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 [DefaultExecutionOrder(-99)]
 public class WorldController : MonoBehaviour {
-
-  // TODO: this should be a worldsettings scriptableobject that can be saved as a json.
-  #region World Settings
-
-  public int TileWidthInPixels
-    = 32;
-
-  /// <summary>
-  /// Allow players to drag the screen in this world.
-  /// Always enabled in editor mode.
-  /// </summary>
-  public bool AllowDragging
-    = true;
-
-  #endregion
 
   /// <summary>
   /// The parent world editor controller.
@@ -53,6 +39,7 @@ public class WorldController : MonoBehaviour {
   [SerializeField]
   Transform _entitiesParent;
 
+  #region Game State
 
   /// <summary>
   /// If this world is in edit mode
@@ -77,6 +64,27 @@ public class WorldController : MonoBehaviour {
   public static Overworld.Data.User CurrentUser {
     get;
   }
+
+  #endregion
+
+  #region World State
+
+  /// <summary>
+  /// The world data
+  /// </summary>
+  public World World {
+    get;
+    internal set;
+  }
+
+  /// <summary>
+  /// The key of the active board froe the current user
+  /// </summary>
+  public string ActiveBoardKey {
+    get;
+  } = TileBoardsController.BaseTileBackgroundsBoardKey;
+
+  #endregion
 
   void Update() {
     _mouseIsOverUI = IsPointerOverUIElement();

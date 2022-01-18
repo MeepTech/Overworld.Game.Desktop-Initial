@@ -40,8 +40,8 @@ public class WorldEditorController : MonoBehaviour {
   /// <summary>
   /// All porters, indexed by which type they port
   /// </summary>
-  public IReadOnlyDictionary<System.Type, IPorter> Porters
-    => _porters; readonly Dictionary<System.Type, IPorter> _porters
+  public IReadOnlyDictionary<System.Type, IArchetypePorter> Porters
+    => _porters; readonly Dictionary<System.Type, IArchetypePorter> _porters
       = new();
 
   bool _initialized 

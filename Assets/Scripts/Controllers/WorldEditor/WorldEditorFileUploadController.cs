@@ -1,4 +1,5 @@
 ﻿using B83.Win32;
+using Meep.Tech.Data;
 using Overworld.Data;
 using System;
 using System.Collections.Generic;
@@ -21,12 +22,12 @@ class WorldEditorFileUploadController : MonoBehaviour {
   void OnUploadFiles(List<string> aPathNames, POINT aDropPoint) {
     Dictionary<string, object> options = new() {
       {
-        IPorter.NoPackageName,
+        IArchetypePorter.NoPackageName,
         true
       },
       {
         Tile.Porter.PixelsPerTileOption,
-        _worldEditor.WorldController.TileWidthInPixels
+        _worldEditor.WorldController.World.Options.TileWidthInPixels
       }
     };
 
@@ -38,9 +39,9 @@ class WorldEditorFileUploadController : MonoBehaviour {
       if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || _worldEditor.WorldEditorEditorMainMenu.ActiveOptions.ImportTilemapsAsBackgroundsInPlace) {
         options.Add(
           Overworld.Data.Tile.Porter.InPlaceTileCallbackOption,
-          new Action<Vector2Int, UnityEngine.Tilemaps.Tile>((locationInMap, tile) =>
+          new Action<Vector2Int, Tile.Type>((locationInMap, tileType) =>
             _worldEditor.WorldController.TileBoards.CurrentDominantTileBoardForUser
-              .SetTile((Vector3Int)(locationInMap + _worldEditor.WorldController.TileSelector.SelectedTileLocation), tile))
+              .SetTile(locationInMap + _worldEditor.WorldController.TileSelector.SelectedTileLocation, tileType))
         );
       }
 
@@ -88,22 +89,26 @@ class WorldEditorFileUploadController : MonoBehaviour {
   }
 
   public static IEnumerable<TArchetype> ImportTypes<TArchetype>(WorldEditorController worldEditor, List<string> fileNames, Dictionary<string, object> options)
-    where TArchetype : Meep.Tech.Data.Archetype, IPortable  
+    where TArchetype : Meep.Tech.Data.Archetype, IPortableArchetype  
   {
     Overworld.Data.IO.ArchetypePorter<TArchetype> porter = (Overworld.Data.IO.ArchetypePorter<TArchetype>)worldEditor.Porters[typeof(TArchetype)];
+    IEnumerable<TArchetype> @return = Enumerable.Empty<TArchetype>();
     if(fileNames.Count > 1) {
-      return porter.ImportAndBuildNewArchetypeFromFiles(fileNames.ToArray(), options);
+      @return = porter.ImportAndBuildNewArchetypeFromFiles(fileNames.ToArray(), options);
     } else if(fileNames.Count == 1) {
       if(Path.GetExtension(fileNames[0]).ToLower() == ".png") {
-        return porter.ImportAndBuildNewArchetypeFromFile(fileNames[0], options);
+        @return = porter.ImportAndBuildNewArchetypeFromFile(fileNames[0], options);
       } else if(Path.GetExtension(fileNames[0]).ToLower() == ".zip") {
         throw new NotImplementedException($".Zip file support Not yet implimented.");
-      } else if(Path.GetFileName(fileNames[0]).ToLower() == IPorter.ConfigFileName) {
-        return porter.ImportAndBuildNewArchetypeFromFiles(fileNames.ToArray(), options);
+      } else if(Path.GetFileName(fileNames[0]).ToLower() == IArchetypePorter.ConfigFileName) {
+        @return = porter.ImportAndBuildNewArchetypeFromFiles(fileNames.ToArray(), options);
       } else
         throw new NotSupportedException();
     } else
       throw new ArgumentException($"No files provided");
+
+    @return.Select(porter.SerializeArchetypeToModFolder);
+    return @return;
   }
 
   #region Drag and Drop

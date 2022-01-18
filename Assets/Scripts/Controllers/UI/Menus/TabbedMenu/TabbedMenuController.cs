@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 namespace SpiritWorlds.Controllers {
@@ -38,7 +39,7 @@ namespace SpiritWorlds.Controllers {
     /// <summary>
     /// The tabs
     /// </summary>
-    public MenuTabController[] tabs {
+    public MenuTabController[] Tabs {
       get;
       private set;
     }
@@ -49,9 +50,9 @@ namespace SpiritWorlds.Controllers {
     public MenuTabController enabledTab {
       get {
         if(MenuSlider != null && MenuSlider.isSlidOpen) {
-          return tabs.First(tab => tab.isEnabled);
+          return Tabs.First(tab => tab.isEnabled);
         } else if(MenuSlider is null) {
-          return tabs.First(tab => tab.isEnabled);
+          return Tabs.First(tab => tab.isEnabled);
         }
 
         return null;
@@ -64,10 +65,10 @@ namespace SpiritWorlds.Controllers {
     /// </summary>
     void Awake() {
       int tabIndex = 0;
-      tabs = new MenuTabController[TabData.Length];
+      Tabs = new MenuTabController[TabData.Length];
       Transform tabArea = transform.GetChild(0).GetChild(0);
       foreach(TabDataMap tabData in TabData) {
-        tabs[tabIndex] = MenuTabController.Make(
+        Tabs[tabIndex] = MenuTabController.Make(
           TabPrefab,
           tabArea,
           this,
@@ -81,16 +82,24 @@ namespace SpiritWorlds.Controllers {
     }
 
     /// <summary>
+    /// Optional callback on tab changed.
+    /// </summary>
+    public Action<int> OnTabChanged;
+
+    /// <summary>
     /// callback to tell all tabs except one to disable when another is clicked.
     /// </summary>
     /// <param name="id"></param>
-    public void disableAllTabsExcept(int id) {
-      foreach(MenuTabController tab in tabs) {
+    internal void TabCallback(int id) {
+      // disable all tabs except the clicked one:
+      foreach(MenuTabController tab in Tabs) {
         if (tab.id != id) {
           tab.disable();
         }
       }
+      OnTabChanged?.Invoke(id);
     }
+
 
     /// <summary>
     /// Set the content into the correct place in the hireracthy

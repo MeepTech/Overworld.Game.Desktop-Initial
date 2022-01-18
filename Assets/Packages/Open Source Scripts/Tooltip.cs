@@ -62,7 +62,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
   Vector2 _offset;
 
   // Start is called before the first frame update
-  void Start() {
+  void OnEnable() {
     _canvas = GetComponentInParent<Canvas>();
     _tooltip = Instantiate(_tooltipPrefab, _canvas.transform);
     _tooltip.pivot = new Vector2(0, 1);

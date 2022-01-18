@@ -1,3 +1,4 @@
+using Overworld.Data;
 using UnityEngine;
 
 public class SelectedTileController : MonoBehaviour {
@@ -25,6 +26,26 @@ public class SelectedTileController : MonoBehaviour {
     get => _mouseLocation;
   } [SerializeField, ReadOnly]
   Vector3 _mouseLocation;
+
+  /// <summary>
+  /// The currently selected tile
+  /// </summary>
+  public Tile? SelectedTile
+    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser._boardKey, out var foundBoard)
+      ? foundBoard[SelectedTileLocation]
+      : _worldController.World.Boards.TryGetValue(TileBoardsController.BaseTileBackgroundsBoardKey, out foundBoard)
+        ? foundBoard[SelectedTileLocation]
+        : null;
+
+  /// <summary>
+  /// The current hovered tile
+  /// </summary>
+  public Tile? HoveredTile
+    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser._boardKey, out var foundBoard)
+      ? foundBoard[HoveredTileLocation]
+      : _worldController.World.Boards.TryGetValue(TileBoardsController.BaseTileBackgroundsBoardKey, out foundBoard)
+        ? foundBoard[HoveredTileLocation]
+        : null;
 
   #region Unity Inspector Set
 

@@ -25,7 +25,7 @@ public class WorldEditorGeneralToolButtonController : MonoBehaviour {
       _backgroundImage.enabled = true;
     }
 
-    if(_backgroundImage.sprite == null || _backgroundImage.sprite.texture.imageContentsHash != sprite.texture.imageContentsHash) {
+    if(_backgroundImage.sprite == null || _backgroundImage.sprite != sprite) {
       _backgroundImage.sprite = sprite;
     }
   }
