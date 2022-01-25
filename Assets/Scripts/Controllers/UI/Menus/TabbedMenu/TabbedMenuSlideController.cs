@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SpiritWorlds.Controllers {
+namespace Overworld.Utilities {
 
   /// <summary>
   /// Adds up/down slide functionality to a tabbed menu controller when the open tab is clicked

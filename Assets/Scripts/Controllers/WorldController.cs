@@ -72,7 +72,7 @@ public class WorldController : MonoBehaviour {
   /// <summary>
   /// The world data
   /// </summary>
-  public World World {
+  public Overworld.Game.World World {
     get;
     internal set;
   }

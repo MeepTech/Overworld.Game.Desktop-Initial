@@ -1,4 +1,4 @@
-﻿using SpiritWorlds.Controllers;
+﻿using Overworld.Utilities;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -106,10 +106,12 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
           out Vector2 tooltipScreenTarget
         );
 
+        // TODO: these offsets need to be fixed and tested especially for the top of the screen.
         // flip to below, if it's going to go above the screen
-        if(_tooltip.pivot.y == 0 && Input.mousePosition.y + 10 + _tooltip.rect.height >= _max.y) {
-          _offset.ReplaceY(_offset.y - _hoverOffset.y  * 2);
-          _tooltip.pivot = new Vector2(_tooltip.pivot.x, 1);
+        if(tooltipScreenTarget.y + 10 + _tooltip.rect.height >= _max.y) {
+          //_offset.ReplaceY(_offset.y - _hoverOffset.y  * 2);
+          _offset = _offset.ReplaceY(_offset.y - _hoverOffset.y  * 2 - _tooltip.rect.height);
+          //_tooltip.pivot = new Vector2(_tooltip.pivot.x, 1);
           _horizontalLayoutGroup.childAlignment 
             = _horizontalLayoutGroup.childAlignment == TextAnchor.UpperLeft 
               || _horizontalLayoutGroup.childAlignment == TextAnchor.LowerLeft
@@ -119,7 +121,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
         // flip to below if it's above already and would go off the screen
         if(_tooltip.pivot.y == 1 && tooltipScreenTarget.y - _tooltip.rect.height <= 0) {
-          _offset.ReplaceY(_offset.y + _hoverOffset.y * 2);
+          _offset = _offset.ReplaceY(_offset.y + _hoverOffset.y * 2);
           _tooltip.pivot = new Vector2(_tooltip.pivot.x, 0);
           _horizontalLayoutGroup.childAlignment
             = _horizontalLayoutGroup.childAlignment == TextAnchor.UpperLeft
@@ -129,7 +131,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         }
 
         if(_tooltip.pivot.x == 0 && tooltipScreenTarget.x + _tooltip.rect.width >= _max.x) {
-          _offset.ReplaceX(_offset.x - _hoverOffset.x * 2);
+          _offset = _offset.ReplaceX(_offset.x - _hoverOffset.x * 2);
           _tooltip.pivot = new Vector2(1, _tooltip.pivot.y);
           _horizontalLayoutGroup.childAlignment
             = _horizontalLayoutGroup.childAlignment == TextAnchor.UpperLeft
@@ -139,7 +141,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
         }
 
         if(_tooltip.pivot.x == 1 && tooltipScreenTarget.x - _tooltip.rect.width <= 0) {
-          _offset.ReplaceX(_offset.x + _hoverOffset.x * 2);
+          _offset = _offset.ReplaceX(_offset.x + _hoverOffset.x * 2);
           _tooltip.pivot = new Vector2(0, _tooltip.pivot.y);
           _horizontalLayoutGroup.childAlignment
             = _horizontalLayoutGroup.childAlignment == TextAnchor.UpperLeft

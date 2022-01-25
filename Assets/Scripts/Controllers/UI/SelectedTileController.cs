@@ -31,7 +31,7 @@ public class SelectedTileController : MonoBehaviour {
   /// The currently selected tile
   /// </summary>
   public Tile? SelectedTile
-    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser._boardKey, out var foundBoard)
+    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser.BoardKey, out var foundBoard)
       ? foundBoard[SelectedTileLocation]
       : _worldController.World.Boards.TryGetValue(TileBoardsController.BaseTileBackgroundsBoardKey, out foundBoard)
         ? foundBoard[SelectedTileLocation]
@@ -41,7 +41,7 @@ public class SelectedTileController : MonoBehaviour {
   /// The current hovered tile
   /// </summary>
   public Tile? HoveredTile
-    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser._boardKey, out var foundBoard)
+    => _worldController.World.Boards.TryGetValue(_worldController.TileBoards.CurrentDominantTileBoardForUser.BoardKey, out var foundBoard)
       ? foundBoard[HoveredTileLocation]
       : _worldController.World.Boards.TryGetValue(TileBoardsController.BaseTileBackgroundsBoardKey, out foundBoard)
         ? foundBoard[HoveredTileLocation]
@@ -55,10 +55,10 @@ public class SelectedTileController : MonoBehaviour {
   [SerializeField]
   GameObject HoveredTileIndicator;
 
-  [SerializeField]
-  WorldController _worldController;
-
   #endregion
+
+  WorldController _worldController
+    => Demiurge.Self.WorldController;
 
   // Update is called once per frame
   void Update() {

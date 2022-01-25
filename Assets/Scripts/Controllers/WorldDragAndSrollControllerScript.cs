@@ -13,8 +13,13 @@ public class WorldDragAndSrollControllerScript : MonoBehaviour {
   float _dragSpeed
     = 1f;
 
+  /// <summary>
+  /// TODO: should be a user setting.
+  /// </summary>
+  [Tooltip("Invert the dragging controls.")]
   [SerializeField]
-  WorldController _worldController;
+  bool _invertDrag
+    = false;
 
   #endregion
 
@@ -45,9 +50,10 @@ public class WorldDragAndSrollControllerScript : MonoBehaviour {
   Vector3? _dragFromPosition;
 
   void Update() {
-    if(_worldController.World.Options.AllowDragging || _worldController.IsInEditMode) {
+    WorldController worldController = Demiurge.Self.WorldController;
+    if(worldController.World.Options.AllowDragging || worldController.IsInEditMode) {
       /// drag can be prevented in a tool by overriding the right click button
-      if(_worldController.IsInEditMode && (_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.OverridenButtons?.Contains(KeyCode.Mouse1) ?? false)) {
+      if(worldController.IsInEditMode && (worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.HotKeys?.Contains(KeyCode.Mouse1) ?? false)) {
         return;
       }
 
@@ -74,7 +80,7 @@ public class WorldDragAndSrollControllerScript : MonoBehaviour {
 
     if(IsDragging) {
       Vector3 moveDiff = Camera.main.ScreenToViewportPoint(Input.mousePosition - _dragFromPosition.Value);
-      Vector3 move = new(moveDiff.x * _dragSpeed, 0, moveDiff.y * _dragSpeed);
+      Vector3 move = new Vector3(moveDiff.x * _dragSpeed, 0, moveDiff.y * _dragSpeed) * (_invertDrag ? -1 : 1);
 
       Camera.main.transform.Translate(move, Space.World);
     }

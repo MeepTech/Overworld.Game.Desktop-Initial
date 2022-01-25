@@ -3,8 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using Meep.Tech.Data;
 
+[DefaultExecutionOrder(10)]
 [RequireComponent(typeof(WorldController))]
 public class WorldEditorController : MonoBehaviour {
+
+  /// <summary>
+  /// The parent world controller.
+  /// </summary>
+  public WorldController WorldController
+    => Demiurge.Self.WorldController;
 
   #region Unity Investigator Game Level Settings
 
@@ -23,11 +30,11 @@ public class WorldEditorController : MonoBehaviour {
       WorldEditorToolController _toolController;
 
   /// <summary>
-  /// The parent world editor controller.
+  /// The controller for the selected tiles display
   /// </summary>
-  public WorldController WorldController
-    => _worldController;
-  [SerializeField] WorldController _worldController;
+  public WorldEditorTilesSelectorGridController TilesSelectionController
+    => _tilesSelectionController; [SerializeField]
+  WorldEditorTilesSelectorGridController _tilesSelectionController;
 
   /// <summary>
   /// Objects to toggle off when not in world edit mode.
@@ -47,20 +54,24 @@ public class WorldEditorController : MonoBehaviour {
   bool _initialized 
     = false;
 
-  void Awake() {
-    if(!_initialized) {
-      _initialize();
+  void Start() {
+    if(WorldController.IsInEditMode) {
+      _activateEditMode();
     }
   }
 
-  void OnEnable() {
+  void OnDisable() {
+    _deActivateEditMode();
+  }
+
+  void _activateEditMode() {
     if(!_initialized) {
       _initialize();
     }
     _worldEditModeObjects.ForEach(gameObj => gameObj.SetActive(true));
   }
 
-  void OnDisable() {
+  void _deActivateEditMode() {
     _worldEditModeObjects?.ForEach(gameObj => gameObj?.SetActive(false));
   }
 

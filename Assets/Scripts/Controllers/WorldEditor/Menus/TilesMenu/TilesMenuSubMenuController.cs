@@ -5,6 +5,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A sub menu of the tiles editor menu
+/// </summary>
 [RequireComponent(typeof(RectTransform))]
 [RequireComponent(typeof(ToggleGroup))]
 [RequireComponent(typeof(GridLayoutGroup))]

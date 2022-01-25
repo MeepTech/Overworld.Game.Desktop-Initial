@@ -1,4 +1,4 @@
-﻿using SpiritWorlds.Controllers;
+﻿using Overworld.Utilities;
 using UnityEngine;
 
 [RequireComponent(typeof(TabbedMenuController))]
@@ -8,9 +8,7 @@ public partial class WorldEditorMainMenuController : MonoBehaviour {
   /// The parent world controller
   /// </summary>
   public WorldController WorldController
-    => _world;
-  [SerializeField]
-  WorldController _world;
+    => Demiurge.Self.WorldController;
 
   /// <summary>
   /// The main tabbed menu controller of the world editor

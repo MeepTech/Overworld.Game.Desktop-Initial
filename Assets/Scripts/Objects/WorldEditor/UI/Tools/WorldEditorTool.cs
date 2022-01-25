@@ -9,7 +9,7 @@ public class WorldEditorTool : ScriptableObject {
   /// The buttons this overrides if any.
   /// Uses of these keys and mouse buttons should be ignored in the overworld while the tool is enabled.
   /// </summary>
-  public virtual HashSet<KeyCode> OverridenButtons {
+  public virtual HashSet<KeyCode> HotKeys {
     get;
   } = new HashSet<KeyCode>();
 

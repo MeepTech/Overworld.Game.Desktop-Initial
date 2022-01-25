@@ -33,7 +33,7 @@ public class WorldZoomControllerScript : MonoBehaviour {
   void Update() {
     /// scroll can be prevented in a tool by overriding the middle mouse button.
     if(_worldController.IsInEditMode
-      && (_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.OverridenButtons?.Contains(KeyCode.Mouse2) ?? false)
+      && (_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.HotKeys?.Contains(KeyCode.Mouse2) ?? false)
     ) {
       return;
     }

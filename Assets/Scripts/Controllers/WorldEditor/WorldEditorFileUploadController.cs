@@ -41,7 +41,7 @@ class WorldEditorFileUploadController : MonoBehaviour {
           Overworld.Data.Tile.Porter.InPlaceTileCallbackOption,
           new Action<Vector2Int, Tile.Type>((locationInMap, tileType) =>
             _worldEditor.WorldController.TileBoards.CurrentDominantTileBoardForUser
-              .SetTile(locationInMap + _worldEditor.WorldController.TileSelector.SelectedTileLocation, tileType))
+              .UpdateTile(locationInMap + _worldEditor.WorldController.TileSelector.SelectedTileLocation, tileType))
         );
       }
 

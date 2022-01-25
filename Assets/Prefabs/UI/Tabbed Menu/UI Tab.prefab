@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2658783998538774418}
   - component: {fileID: 2658783998538774419}
   - component: {fileID: 4235288820776712891}
+  - component: {fileID: 9074973363073989121}
   m_Layer: 5
   m_Name: UI Tab
   m_TagString: Untagged
@@ -94,6 +95,24 @@ MonoBehaviour:
   EnabledTabBackground: {fileID: 21300000, guid: fb69f11a7c202194da26176470431def, type: 3}
   DisabledTabBackground: {fileID: 21300000, guid: 586c7a457893bc1419e47bd19661f756, type: 3}
   TabbedContentContainer: {fileID: 0}
+--- !u!114 &9074973363073989121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2658783998538774417}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e664c0b3d37d18a40afd836876df4eb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsActive: 1
+  _mouseHoverTimeRequired: 1.5
+  _hoverOffset: {x: 10, y: 10}
+  _tooltipPrefab: {fileID: 4359160924774393536, guid: 03d02f998ac60104798e575ab5583a58, type: 3}
+  _title: 
+  _text: 
 --- !u!1 &4025502404430126866
 GameObject:
   m_ObjectHideFlags: 0

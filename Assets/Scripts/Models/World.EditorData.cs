@@ -1,7 +1,7 @@
 ﻿using Meep.Tech.Data;
 using System.Collections.Generic;
 
-namespace Overworld.Data {
+namespace Overworld.Game {
 
   public partial class World {
 

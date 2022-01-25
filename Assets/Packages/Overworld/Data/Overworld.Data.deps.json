@@ -9,7 +9,7 @@
     ".NETStandard,Version=v2.1/": {
       "Overworld.Data/1.0.0": {
         "dependencies": {
-          "Meep.Tech.ECSBAM": "1.0.0",
+          "Meep.Tech.Data": "1.0.0",
           "UnityEditor.CoreModule": "0.0.0.0",
           "UnityEditor": "0.0.0.0",
           "UnityEngine.AnimationModule": "0.0.0.0",
@@ -299,14 +299,14 @@
           }
         }
       },
-      "Meep.Tech.ECSBAM/1.0.0": {
+      "Meep.Tech.Data/1.0.0": {
         "dependencies": {
           "CompareNETObjects": "4.74.0",
           "Microsoft.EntityFrameworkCore": "3.1.0",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
-          "Meep.Tech.ECSBAM.dll": {}
+          "Meep.Tech.Data.dll": {}
         }
       },
       "UnityEditor.CoreModule/0.0.0.0": {
@@ -1114,7 +1114,7 @@
       "path": "system.threading.tasks.extensions/4.5.2",
       "hashPath": "system.threading.tasks.extensions.4.5.2.nupkg.sha512"
     },
-    "Meep.Tech.ECSBAM/1.0.0": {
+    "Meep.Tech.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

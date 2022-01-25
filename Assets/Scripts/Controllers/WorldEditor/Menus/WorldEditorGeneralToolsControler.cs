@@ -3,12 +3,12 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// The tools pannel that shows for all world editor menus; tiles, entities etc
+/// </summary>
 public class WorldEditorGeneralToolsControler : MonoBehaviour, IWorldEditorToolContainerMenu {
 
   #region Unity Inspector Set
-
-  [SerializeField]
-  WorldEditorController _worldEditor;
 
   [SerializeField]
   WorldEditorGeneralToolButtonController _buttonPrefab;
@@ -18,6 +18,8 @@ public class WorldEditorGeneralToolsControler : MonoBehaviour, IWorldEditorToolC
 
   #endregion
 
+  WorldEditorController _worldEditor
+    => Demiurge.Self.WorldController.WorldEditor;
   Dictionary<string, (WorldEditorGeneralToolButtonController controller, WorldEditorTool data)> _buttons
     = new();
   RectTransform _rectTransform;
@@ -32,6 +34,7 @@ public class WorldEditorGeneralToolsControler : MonoBehaviour, IWorldEditorToolC
 
   // Start is called before the first frame update
   void Start() {
+    /// Set up each provided tool as a button
     foreach(WorldEditorTool tool in _tools) {
       WorldEditorGeneralToolButtonController toolOption = Instantiate(_buttonPrefab, transform);
       _buttons.Add(tool.Name, (toolOption, tool));

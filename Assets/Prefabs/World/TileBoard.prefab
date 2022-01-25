@@ -382,6 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4a002164a3d55b4f9dbe5873fd556a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _heightMapChunkSize: {x: 10, y: 10}
   _worldController: {fileID: 0}
   _boardKey: __baseTileBackgrounds_
   _tilemap: {fileID: 6710420873018397544}

@@ -2,6 +2,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// A tile menu tile type item
+/// </summary>
 [RequireComponent(typeof(Toggle))]
 public class TilesEditorMenuOptionController : MonoBehaviour {
 

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace SpiritWorlds.Controllers {
+namespace Overworld.Utilities {
 
   [DefaultExecutionOrder(9999)]
   public class TabbedMenuController : MonoBehaviour {
@@ -76,6 +76,7 @@ namespace SpiritWorlds.Controllers {
           tabData.Contents,
           tabData.Name,
           tabIndex++ == DefaultTabIndex,
+          tabData.Tooltip,
           tabData.Icon
         );
       }
@@ -132,6 +133,12 @@ namespace SpiritWorlds.Controllers {
       /// </summary>
       [SerializeField]
       public GameObject Contents;
+
+      /// <summary>
+      /// Optional tooltip
+      /// </summary>
+      [SerializeField]
+      public string Tooltip;
     }
   }
 }

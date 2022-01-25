@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEditor;
 using UnityEngine.UI;
 
-namespace SpiritWorlds.Controllers {
+namespace Overworld.Utilities {
 
   /// <summary>
   /// controls menu tabs
@@ -90,10 +90,17 @@ namespace SpiritWorlds.Controllers {
       GameObject contents,
       string title,
       bool isSelected,
+      string tooltip = null,
       Sprite icon = null
     ) {
       MenuTabController menuTab = Instantiate(prefab, tabArea) as MenuTabController;
       menuTab.initialize(tabID, parentMenu, contents, title, icon, isSelected);
+      if(tooltip is not null) {
+       Tooltip tooltipObject =  menuTab.GetComponent<Tooltip>();
+        tooltipObject.enabled = true;
+        tooltipObject.Title = title;
+        tooltipObject.Text = tooltip;
+      }
 
       return menuTab;
     }

@@ -27,7 +27,7 @@ public class TileBoardsController : MonoBehaviour {
 
   void Awake() {
     foreach(TileBoardController tileBoard in GetComponentsInChildren<TileBoardController>()) {
-      _boards.Add(tileBoard._boardKey, tileBoard);
+      _boards.Add(tileBoard.BoardKey, tileBoard);
     }
     _dominantBoardKey = BaseTileBackgroundsBoardKey;
   }
