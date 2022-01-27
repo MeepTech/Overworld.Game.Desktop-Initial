@@ -31,6 +31,7 @@ public partial class WorldEditorToolController : MonoBehaviour {
     }
   } [SerializeField, ReadOnly]
   WorldEditorTool _currentlyEnabledTool;
+  WorldEditorTool _tempHiddenTool;
 
 #if UNITY_EDITOR
   [SerializeField, ReadOnly]
@@ -60,6 +61,18 @@ public partial class WorldEditorToolController : MonoBehaviour {
 #endif
     ) {
       UndoAction();
+    }
+
+    /// While space is held down with any other tool being active, we switch to the selection tool:
+    if(CurrentlyEnabledTool is not null && Input.GetKeyDown(KeyCode.Space)) {
+      _tempHiddenTool = CurrentlyEnabledTool;
+      _currentlyEnabledTool = SelectionData;
+    } else if(CurrentlyEnabledTool is not null && Input.GetKeyUp(KeyCode.Space)) {
+      _currentlyEnabledTool = _tempHiddenTool;
+      _tempHiddenTool = null;
+    } else if(_tempHiddenTool is not null && !Input.GetKey(KeyCode.Space)) {
+      _currentlyEnabledTool = _tempHiddenTool;
+      _tempHiddenTool = null;
     }
   }
 

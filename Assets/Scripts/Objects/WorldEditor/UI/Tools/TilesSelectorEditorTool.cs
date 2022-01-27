@@ -9,6 +9,7 @@ public class TilesSelectorEditorTool : WorldEditorTool {
 
   public override HashSet<KeyCode> HotKeys 
     => new() {
+      KeyCode.Space,
       KeyCode.Mouse0,
       KeyCode.LeftShift,
       KeyCode.RightShift,
@@ -30,9 +31,6 @@ public class TilesSelectorEditorTool : WorldEditorTool {
   Vector2Int?
     _currentSelectedTile
       = null;
-
-  bool _inOverrideMode
-    = false;
 
   bool _altDrawModeEnabled
     = false;
@@ -100,13 +98,9 @@ public class TilesSelectorEditorTool : WorldEditorTool {
             _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
           }
         } // if not clicking alt and not in override mode
-        else if(!_inOverrideMode) {
+        else {
           _stickySelect = true;
           _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
-        } // in override mode, non alt shift clicks act like normal clicks
-        else if(_inOverrideMode) {
-          _specialSetToEnabled = true;
-          _stickySelect = false;
         }
 
         /// Control keeps the items in sticky select
@@ -183,10 +177,6 @@ public class TilesSelectorEditorTool : WorldEditorTool {
         }
       ));
     } // if the mouse isn't being pressed and we missed the mouse button up:
-    /*else {
-      _onSelectDone(editor);
-      ClearMetaSettings();
-    }*/
 
     /// Escape clears the current selection:
     if(Input.GetKeyDown(KeyCode.Escape)) {
@@ -195,6 +185,10 @@ public class TilesSelectorEditorTool : WorldEditorTool {
   }
 
   void _dismissCurrentSelection(WorldEditorController editor) {
+    if(!_selectedTiles.Any()) {
+      return;
+    }
+
     var previousTilesSelected = _selectedTiles.ToArray();
 
     _selectedTiles.Clear();

@@ -90,16 +90,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Meep.Tech.Data.Archetype.ToKeyStringConverter`1">
-            <summary>
-            Used to convert an Archetype to a general string for storage
-            </summary>
-        </member>
-        <member name="T:Meep.Tech.Data.Archetype.ToKeyStringConverter">
-            <summary>
-            Used to convert an Archetype to a general string for storage
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype.ConfigureModel(Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel)">
             <summary>
             Function that gets called by default in builders.
@@ -704,16 +694,6 @@
             Build the model with the builder.
             </summary>
         </member>
-        <member name="T:Meep.Tech.Data.Archetype`2.ToKeyStringConverter">
-            <summary>
-            Used to convert an Archetype to a general string for storage
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.ToKeyStringConverter.#ctor">
-            <summary>
-            <inheritdoc/>
-            </summary>
-        </member>
         <member name="T:Meep.Tech.Data.Archetype`2.Collection">
             <summary>
             A Collection of Archetypes.
@@ -1042,6 +1022,11 @@
             <summary>
             If all archetypes have been initialized and the loader is finished.
             Once this is true, you cannot modify archetypes or their collections anymore.
+            </summary>
+        </member>
+        <member name="P:Meep.Tech.Data.Configuration.Loader.Failures">
+            <summary>
+            Types that failed to initialize and their exceptions.
             </summary>
         </member>
         <member name="F:Meep.Tech.Data.Configuration.Loader._assemblyTypesToBuild">
@@ -1392,6 +1377,11 @@
             </summary>
             <summary>
             The base class for modular data holders for models and archetypes
+            </summary>
+        </member>
+        <member name="T:Meep.Tech.Data.IComponent`1.BuilderFactory">
+            <summary>
+            General Base Builder Factory for Components.
             </summary>
         </member>
         <member name="P:Meep.Tech.Data.IComponent`1.BuilderFactory.Key">
@@ -1996,11 +1986,6 @@
             Get a component if this has that given component
             </summary>
         </member>
-        <member name="T:Meep.Tech.Data.IReadableComponentStorage.ComponentsToJsonCollectionValueConverter">
-            <summary>
-            Used to convert a collection of components to and from a json array
-            </summary>
-        </member>
         <member name="T:Meep.Tech.Data.IReadableComponentStorage.ComponentsToJsonConverter">
             <summary>
             Used to convert a collection of components to and from a json array
@@ -2431,22 +2416,6 @@
             <summary>
             Marks a model property field as the Archetype field.
             Used for serialization methods
-            </summary>
-        </member>
-        <member name="T:Meep.Tech.Data.UseCustomConverterAttribute">
-            <summary>
-            Can be used to set a custom converter for a field on an Ecsbam Model.
-            You can use the functions in ModelBuilderExtensions to set this up on your DbContext
-            </summary>
-        </member>
-        <member name="P:Meep.Tech.Data.UseCustomConverterAttribute.CustomConverterType">
-            <summary>
-            The custom type converter
-            </summary>
-        </member>
-        <member name="P:Meep.Tech.Data.UseCustomConverterAttribute.CustomConverter">
-            <summary>
-            The custom converter to use.
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.BuilderExtensions.GetParam``1(Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel.Builder.Param,``0)">

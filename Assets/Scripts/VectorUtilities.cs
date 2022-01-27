@@ -16,6 +16,18 @@ namespace Overworld.Utilities {
     /// <summary>
     /// Quick inline for turning vec2 into vec3 with Y = 0;
     /// </summary>
+    public static Vector3 X_0_Y(this Vector2 vector2)
+      => new(vector2.x, 0, vector2.y);
+
+    /// <summary>
+    /// Quick inline for turning vec2 into vec3 with z = 0;
+    /// </summary>
+    public static Vector3 X_Y_0(this Vector2 vector2)
+      => new(vector2.x, vector2.y, 0);
+
+    /// <summary>
+    /// Quick inline for turning vec2 into vec3 with Y = 0;
+    /// </summary>
     public static Vector3Int X_0_Y(this Vector2Int vector2)
       => new(vector2.x, 0, vector2.y);
 
@@ -35,6 +47,18 @@ namespace Overworld.Utilities {
     /// Quick inline for turning vec3 into vec2 using x,y
     /// </summary>
     public static Vector2Int X_Y(this Vector3Int vector3)
+      => new(vector3.x, vector3.y);
+
+    /// <summary>
+    /// Quick inline for turning vec3 into vec2 using x,z;
+    /// </summary>
+    public static Vector2 X_Z(this Vector3 vector3)
+      => new(vector3.x, vector3.z);
+
+    /// <summary>
+    /// Quick inline for turning vec3 into vec2 using x,y
+    /// </summary>
+    public static Vector2 X_Y(this Vector3 vector3)
       => new(vector3.x, vector3.y);
 
     /// <summary>
