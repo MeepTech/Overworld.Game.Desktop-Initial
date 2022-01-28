@@ -7,19 +7,12 @@ namespace Overworld.Controllers.SimpleUx {
   /// <summary>
   /// An in game controller for a simple ux field.
   /// </summary>
-  public interface ISimpleUxFieldController {
+  public interface ISimpleUxFieldController : ISimpleUxElementController {
 
     /// <summary>
     /// The display type of this field
     /// </summary>
     public DisplayType DisplayType {
-      get;
-    }
-
-    /// <summary>
-    /// The parent view controller
-    /// </summary>
-    SimpleUxViewController View {
       get;
     }
 
@@ -37,11 +30,6 @@ namespace Overworld.Controllers.SimpleUx {
     GameObject FieldTitle {
       get;
     }
-
-    /// <summary>
-    /// Used to initialize this contorller for a view and set of field data
-    /// </summary>
-    void IntializeFor(UxDataField dataField);
 
     /// <summary>
     /// Get the current in game value of this simple Ux Field

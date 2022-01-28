@@ -39,14 +39,8 @@ namespace Overworld.Controllers.SimpleUx {
       protected set;
     }
 
-    public void IntializeFor(UxDataField dataField) {
-      if(dataField.Type != DisplayType) {
-        FieldData = dataField;
-      } else throw new System.NotSupportedException($"SimpleUx Field Controller of type {GetType().Name} cannot handle display type of {dataField.Type}. The controller requires a field of type {DisplayType}");
-      _initializeTooltip();
-      _intializeForFieldData();
-      _addOnChangeListener(dataField);
-    }
+    public IUxViewElement Element 
+      => FieldData;
 
     /// <summary>
     /// Used to initialize the field for the applied FieldData.
@@ -66,7 +60,7 @@ namespace Overworld.Controllers.SimpleUx {
       if(!FieldData.TryToSetValue(GetCurrentValue(), out string message)) {
         Debug.LogError(message);
       } else {
-        View.OnUpdated(original);
+        View._onUpdated(original);
       }
     }
 
@@ -85,13 +79,24 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Can add extra logic when this field specifically is updated.
     /// </summary>
-    protected internal virtual void OnThisFieldUpdated(UxDataField originalFieldData) {}
+    protected internal virtual void _onThisFieldUpdated(UxDataField originalFieldData) {}
 
     /// <summary>
     /// Called when any other field in the view is updated, including this one.
+    /// updatedElement may also be null (this happens when the view first finishes initializing).
     /// </summary>
-    protected internal virtual void OnViewUpdated(UxView view, IUxViewElement updatedElement = null) {
+    protected internal virtual void _onOtherFieldUpdated(UxView view, IUxViewElement updatedElement = null) {
       _updateFieldEnabledState();
+    }
+
+    internal void _intializeFor(UxDataField dataField) {
+      if(dataField.Type != DisplayType) {
+        FieldData = dataField;
+      } else
+        throw new System.NotSupportedException($"SimpleUx Field Controller of type {GetType().Name} cannot handle display type of {dataField.Type}. The controller requires a field of type {DisplayType}");
+      _initializeTooltip();
+      _intializeForFieldData();
+      _addOnChangeListener(dataField);
     }
 
     /// <summary>
@@ -99,10 +104,11 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     internal void _updateFieldEnabledState() {
       /// check if the field should still be enabled:
-      if(FieldData.Enable is not null && !FieldData.Enable(FieldData, View.View)) {
-        _setFieldEnabled(false);
-      } else
-        _setFieldEnabled(true);
+      if(FieldData.Enable is not null)
+        if (!FieldData.Enable(FieldData, View.View)) {
+          _setFieldEnabled(false);
+        } else
+          _setFieldEnabled(true);
     }
 
     void _initializeTooltip() {
