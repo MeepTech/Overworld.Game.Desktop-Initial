@@ -90,10 +90,11 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     internal void _intializeFor(UxDataField dataField) {
-      if(dataField.Type != DisplayType) {
+      if(dataField.Type == DisplayType) {
         FieldData = dataField;
       } else
         throw new System.NotSupportedException($"SimpleUx Field Controller of type {GetType().Name} cannot handle display type of {dataField.Type}. The controller requires a field of type {DisplayType}");
+      
       _initializeTooltip();
       _intializeForFieldData();
       _addOnChangeListener(dataField);

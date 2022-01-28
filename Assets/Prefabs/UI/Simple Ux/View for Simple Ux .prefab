@@ -635,7 +635,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed6c737f9a0b0e045b2acc208d52e48a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: {fileID: 8173001257887221646}
+  _target: {fileID: 8173001257887221646}
 --- !u!1 &8173001257887221647
 GameObject:
   m_ObjectHideFlags: 0
@@ -649,6 +649,7 @@ GameObject:
   - component: {fileID: 8173001257887221641}
   - component: {fileID: 8173001257887221642}
   - component: {fileID: 8173001257887221877}
+  - component: {fileID: 8932078105295353554}
   m_Layer: 5
   m_Name: 'View for Simple Ux '
   m_TagString: Untagged
@@ -693,6 +694,7 @@ MonoBehaviour:
   _pannelTabController: {fileID: -313652489778216495, guid: 6b3a47a01c90253429c364a76bd59009, type: 3}
   _fieldControllers:
   - {fileID: 8604433133875709625, guid: b7c90423d85a67e47a5274fe5da4f3bd, type: 3}
+  - {fileID: 8624792821894850638, guid: 44a46e069d6e07d46a89b856e85d7059, type: 3}
   _mainViewTitleText: {fileID: 8173001257109621886}
   _pannelTabsArea: {fileID: 8173001256653607136}
   _pannelsArea: {fileID: 8173001256991130983}
@@ -734,3 +736,16 @@ MonoBehaviour:
   Target: {fileID: 8173001257887221646}
   MinimumDimmensions: {x: 250, y: 120}
   MaximumDimmensions: {x: 1200, y: 800}
+--- !u!114 &8932078105295353554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8173001257887221647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdf5ec869f0dbc84fb98cdee0d104221, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _target: {fileID: 8173001257887221646}

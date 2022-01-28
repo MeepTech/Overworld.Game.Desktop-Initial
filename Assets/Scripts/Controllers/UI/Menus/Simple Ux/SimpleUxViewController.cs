@@ -41,9 +41,9 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// The controller prefabs for each type of Simple Ux Field.
     /// </summary>
-    public IReadOnlyDictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> FieldControllerPrefabs
-      => _prefabs ??= _fieldControllers.ToDictionary(controller => controller.DisplayType);
-    Dictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> _prefabs;
+    public static IReadOnlyDictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> FieldControllerPrefabs
+      => _prefabs;
+    static Dictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> _prefabs;
 
     /// <summary>
     /// The view this is controlling
@@ -74,6 +74,13 @@ namespace Overworld.Controllers.SimpleUx {
     [SerializeField, ReadOnly] // for display in inspector for debugging
     internal string _activePannelKey
       = null;
+
+    /// <summary>
+    /// Setup
+    /// </summary>
+    public void Awake() {
+      _prefabs ??= _fieldControllers.ToDictionary(controller => controller.DisplayType);
+    }
 
     /// <summary>
     /// Initialize this view for the view data.
@@ -138,13 +145,10 @@ namespace Overworld.Controllers.SimpleUx {
       UxPannel.Tab tabData, 
       UxPannel pannelData
     ) {
-      SimpleUxPannelTabController simpleUxPannelTabController = Instantiate(_pannelTabController);
-      SimpleUxPannelController simpleUxPannelController = Instantiate(_pannelController);
+      SimpleUxPannelTabController simpleUxPannelTabController = Instantiate(_pannelTabController, _pannelTabsArea);
+      SimpleUxPannelController simpleUxPannelController = Instantiate(_pannelController, _pannelsArea);
       _pannels.Add(tabData.Key, simpleUxPannelController);
       _pannelTabs.Add(tabData.Key, simpleUxPannelTabController);
-
-      simpleUxPannelTabController.transform.parent = _pannelTabsArea;
-      simpleUxPannelController.transform.parent = _pannelsArea;
 
       simpleUxPannelTabController.View = this;
       simpleUxPannelTabController._intializeFor(tabData);
@@ -152,7 +156,7 @@ namespace Overworld.Controllers.SimpleUx {
       simpleUxPannelController._intializeFor(pannelData);
 
       /// if we don't have one, this becomes the active pannel
-      if(_activePannelKey is null) {
+      if(string.IsNullOrWhiteSpace(_activePannelKey)) {
         _activePannelKey = tabData.Key;
       }
 

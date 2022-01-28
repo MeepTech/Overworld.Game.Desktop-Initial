@@ -56,7 +56,8 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     internal SimpleUxFieldController _addField(UxDataField fieldData) {
-      SimpleUxFieldController field = Instantiate(View.FieldControllerPrefabs[fieldData.Type]);
+      SimpleUxFieldController field = Instantiate(SimpleUxViewController.FieldControllerPrefabs[fieldData.Type], transform);
+      field.View = View;
       View._fields.Add(field);
       field._intializeFor(fieldData);
 
@@ -65,6 +66,7 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal SimpleUxTitleController _addInColumnHeader(UxTitle titleData) {
       SimpleUxTitleController header = Instantiate(_inColumnHeaderController, transform);
+      header.View = View;
       header.IsTopTitleForColumn = false;
       header._initializeFor(titleData);
 
