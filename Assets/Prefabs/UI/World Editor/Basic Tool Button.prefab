@@ -309,9 +309,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsActive: 1
+  TooltipStylePrefab: {fileID: 4359160924774393536, guid: 03d02f998ac60104798e575ab5583a58, type: 3}
   _mouseHoverTimeRequired: 1.5
   _hoverOffset: {x: 20, y: 20}
-  _tooltipPrefab: {fileID: 4359160924774393536, guid: 03d02f998ac60104798e575ab5583a58, type: 3}
   _title: ...
   _text: ...
 --- !u!1 &6263869865110093904

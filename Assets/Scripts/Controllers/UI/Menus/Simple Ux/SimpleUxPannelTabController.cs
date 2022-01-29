@@ -28,6 +28,7 @@ namespace Overworld.Controllers.SimpleUx {
       => Tab;
 
     public void _intializeFor(UxPannel.Tab tabData) {
+      // TODO: add tooltip.
       _key = tabData.Key;
       _titleText.text = tabData.Name;
       _tabButton.onClick.AddListener(() 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Overworld.Controllers.SimpleUx {
   public class SimpleUxPannelController : MonoBehaviour, ISimpleUxElementController {
@@ -10,6 +11,21 @@ namespace Overworld.Controllers.SimpleUx {
     [SerializeField]
     [UnityEngine.Tooltip("The prefab for a column")]
     SimpleUxColumnController _columnPrefab;
+
+    [SerializeField]
+    [UnityEngine.Tooltip("The rect transform of the pannel")]
+    internal RectTransform _rectTransform;
+
+    [SerializeField]
+    [UnityEngine.Tooltip("The rect transform of the column area")]
+    internal RectTransform _columnArea;
+
+    [SerializeField]
+    [UnityEngine.Tooltip("The horizontal layout group of the root panel object")]
+    internal HorizontalLayoutGroup _horizontalLayoutGroup;
+
+    internal LayoutElement _columnAreaLayout => __columnAreaLayout
+      ??= _columnArea.GetComponent<LayoutElement>(); LayoutElement __columnAreaLayout;
 
     public SimpleUxViewController View {
       get;
@@ -27,7 +43,7 @@ namespace Overworld.Controllers.SimpleUx {
     public IUxViewElement Element
       => Pannel;
 
-    List<SimpleUxColumnController> _columns;
+    internal List<SimpleUxColumnController> _columns;
 
     internal void _intializeFor(UxPannel pannelData) {
       Pannel = pannelData;
@@ -35,9 +51,10 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     internal SimpleUxColumnController _addColumn(UxColumn columnData) {
-      SimpleUxColumnController column = Instantiate(_columnPrefab, transform);
+      SimpleUxColumnController column = Instantiate(_columnPrefab, _columnArea);
       _columns.Add(column);
       column.View = View;
+      column.Pannel = this;
       column._intializeFor(columnData);
 
       if(_columns.Count > 1) {

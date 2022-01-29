@@ -7,7 +7,7 @@ namespace Overworld.Controllers.SimpleUx {
   /// <summary>
   /// An in game controller for a simple ux field.
   /// </summary>
-  public interface ISimpleUxFieldController : ISimpleUxElementController {
+  public interface ISimpleUxFieldController : ISimpleUxColumnChildElementController {
 
     /// <summary>
     /// The display type of this field

@@ -42,6 +42,11 @@ namespace Overworld.Controllers.SimpleUx {
     public IUxViewElement Element 
       => FieldData;
 
+    public SimpleUxColumnController Column {
+      get;
+      internal set;
+    }
+
     /// <summary>
     /// Used to initialize the field for the applied FieldData.
     /// </summary>
@@ -115,6 +120,7 @@ namespace Overworld.Controllers.SimpleUx {
     void _initializeTooltip() {
       if(!string.IsNullOrWhiteSpace(FieldData.Tooltip)) {
         Tooltip tooltip = FieldTitle.AddComponent<Tooltip>();
+        tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
         tooltip.Text = FieldData.Tooltip;
       }
     }

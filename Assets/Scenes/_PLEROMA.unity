@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 1322206861}
   - component: {fileID: 1322206862}
   - component: {fileID: 1322206863}
+  - component: {fileID: 1322206864}
   m_Layer: 0
   m_Name: MONAD
   m_TagString: Untagged
@@ -224,3 +225,17 @@ MonoBehaviour:
   - {fileID: 1623603985, guid: 85fee4ad9c806f2448e9296e6567e8e4, type: 3}
   - {fileID: -1840264490, guid: 85fee4ad9c806f2448e9296e6567e8e4, type: 3}
   - {fileID: 949509991, guid: 85fee4ad9c806f2448e9296e6567e8e4, type: 3}
+--- !u!114 &1322206864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322206860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd6e636114774ad40a870a9c52b0e1fd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultViewPrefab: {fileID: 5384031553125305029, guid: 9dd340f6e2b5ff5498525eceea1b2ab1, type: 3}
+  _defaultTooltipStylePrefab: {fileID: 4359160924774393536, guid: 03d02f998ac60104798e575ab5583a58, type: 3}

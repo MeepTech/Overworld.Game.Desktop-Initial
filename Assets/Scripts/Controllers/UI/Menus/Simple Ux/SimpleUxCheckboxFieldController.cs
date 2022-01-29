@@ -45,7 +45,7 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     protected override void _setFieldEnabled(bool toEnabled = true) {
-      _toggle.interactable = !FieldData.IsReadOnly && !toEnabled;
+      _toggle.interactable = !FieldData.IsReadOnly && toEnabled;
     }
   }
 }

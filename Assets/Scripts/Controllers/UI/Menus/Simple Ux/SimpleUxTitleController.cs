@@ -2,11 +2,16 @@
 using UnityEngine;
 
 namespace Overworld.Controllers.SimpleUx {
-  public class SimpleUxTitleController : MonoBehaviour,  ISimpleUxElementController {
+  public class SimpleUxTitleController : MonoBehaviour, ISimpleUxColumnChildElementController {
     [SerializeField]
     TMPro.TextMeshProUGUI _titleText;
 
     public SimpleUxViewController View {
+      get;
+      internal set;
+    }
+
+    public SimpleUxColumnController Column {
       get;
       internal set;
     }

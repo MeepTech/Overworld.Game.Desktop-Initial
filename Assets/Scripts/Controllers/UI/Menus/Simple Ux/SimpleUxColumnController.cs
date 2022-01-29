@@ -1,6 +1,9 @@
-﻿using Overworld.Ux.Simple;
+﻿using Overworld.Utilities;
+using Overworld.Ux.Simple;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Overworld.Controllers.SimpleUx {
 
@@ -21,6 +24,11 @@ namespace Overworld.Controllers.SimpleUx {
     internal UnityEngine.UI.Image _backgroundImage;
 
     #endregion
+
+    public SimpleUxPannelController Pannel {
+      get;
+      internal set;
+    }
 
     public SimpleUxViewController View {
       get;
@@ -43,6 +51,12 @@ namespace Overworld.Controllers.SimpleUx {
       private set;
     }
 
+    /// <summary>
+    /// The rows of items in this column
+    /// </summary>
+    internal List<ISimpleUxElementController> _rows
+      = new();
+
     public IUxViewElement Element 
       => Column;
 
@@ -52,6 +66,7 @@ namespace Overworld.Controllers.SimpleUx {
         Title = Instantiate(_columnTitleController, transform);
         Title.IsTopTitleForColumn = true;
         Title._initializeFor(column.Title);
+        Title.Column = this;
       }
     }
 
@@ -60,6 +75,8 @@ namespace Overworld.Controllers.SimpleUx {
       field.View = View;
       View._fields.Add(field);
       field._intializeFor(fieldData);
+      field.Column = this;
+      _rows.Add(field);
 
       return field;
     }
@@ -69,12 +86,20 @@ namespace Overworld.Controllers.SimpleUx {
       header.View = View;
       header.IsTopTitleForColumn = false;
       header._initializeFor(titleData);
+      header.Column = this;
+      _rows.Add(header);
 
       return header;
     }
 
     internal SimpleUxFieldController _addRow(UxRow rowData) {
       throw new NotImplementedException();
+    }
+
+    internal void _setHeight(float height) {
+      //Pannel._columnArea.sizeDelta = Pannel._columnArea.sizeDelta.ReplaceY(height);
+      //Pannel._columnAreaLayout.preferredHeight = height;
+      //Pannel._columnAreaLayout.minHeight = height;
     }
   }
 }

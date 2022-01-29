@@ -12,6 +12,8 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
   public bool IsActive 
     = true;
 
+  public RectTransform TooltipStylePrefab;
+
   [SerializeField]
   float _mouseHoverTimeRequired
     = 2f;
@@ -19,9 +21,6 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
   [SerializeField]
   Vector2 _hoverOffset
     = new(20, 20);
-
-  [SerializeField]
-  RectTransform _tooltipPrefab;
 
   public string Title {
     get => _title;
@@ -64,7 +63,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
   // Start is called before the first frame update
   void OnEnable() {
     _canvas = GetComponentInParent<Canvas>();
-    _tooltip = Instantiate(_tooltipPrefab, _canvas.transform);
+    _tooltip = Instantiate(TooltipStylePrefab, _canvas.transform);
     _tooltip.pivot = new Vector2(0, 1);
     _tooltip.gameObject.SetActive(false);
 
