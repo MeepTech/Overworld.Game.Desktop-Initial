@@ -13,6 +13,13 @@ namespace Overworld.Controllers.SimpleUx {
     SimpleUxColumnController Column {
       get;
     }
+
+    /// <summary>
+    /// The height this takes up in the column
+    /// </summary>
+    float ItemHeight {
+      get;
+    }
   }
 
   public interface ISimpleUxElementController {

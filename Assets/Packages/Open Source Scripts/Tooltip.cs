@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// From: https://answers.unity.com/questions/1253570/creating-a-tooltip-when-hovering-over-a-ui-button.html
+/// Modifed by Meep, original taken from: https://answers.unity.com/questions/1253570/creating-a-tooltip-when-hovering-over-a-ui-button.html
 /// </summary>
 public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 
@@ -51,6 +51,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
   #endregion
 
   Vector3 _min, _max;
+  bool _initialized;
   Canvas _canvas;
   RectTransform _tooltip;
   TMPro.TextMeshProUGUI _textUi;
@@ -62,12 +63,22 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
   // Start is called before the first frame update
   void OnEnable() {
+    if(!_initialized) {
+      _tryToInitialize();
+    }
+  }
+
+  void _tryToInitialize() {
+    if(!IsActive || TooltipStylePrefab is null) {
+      return;
+    }
+
     _canvas = GetComponentInParent<Canvas>();
     _tooltip = Instantiate(TooltipStylePrefab, _canvas.transform);
     _tooltip.pivot = new Vector2(0, 1);
     _tooltip.gameObject.SetActive(false);
 
-    _horizontalLayoutGroup 
+    _horizontalLayoutGroup
       = _tooltip.GetComponent<HorizontalLayoutGroup>();
     TMPro.TextMeshProUGUI[] textUiElements
       = _tooltip.GetComponentsInChildren<TMPro.TextMeshProUGUI>();
@@ -84,11 +95,16 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler 
 
     _min = new Vector3(0, 0, 0);
     _max = new Vector3(Camera.main.pixelWidth, Camera.main.pixelHeight, 0);
+    _initialized = true;
   }
 
   // Update is called once per frame
   void Update() {
     if(IsActive) {
+      if(!_initialized) {
+        _tryToInitialize();
+      }
+
       if(_mousedOver) {
         _mouseOverTime += Time.deltaTime;
         if(_mouseOverTime >= _mouseHoverTimeRequired) {

@@ -17,10 +17,10 @@ namespace Overworld.Controllers.SimpleUx {
     [SerializeField]
     Image _toggleBackground;
 
-    public override UxDataField.DisplayType DisplayType
-      => UxDataField.DisplayType.Toggle;
+    public override DataField.DisplayType DisplayType
+      => DataField.DisplayType.Toggle;
 
-    public override GameObject FieldTitle
+    public override GameObject _titleObject
       => _titleTextField.gameObject;
 
     public override object GetCurrentValue()
@@ -36,7 +36,7 @@ namespace Overworld.Controllers.SimpleUx {
       }
     }
 
-    protected override void _addOnChangeListener(UxDataField dataField) {
+    protected override void _addOnChangeListener(DataField dataField) {
       _toggle.onValueChanged.AddListener(_ => OnFieldChanged());
     }
 

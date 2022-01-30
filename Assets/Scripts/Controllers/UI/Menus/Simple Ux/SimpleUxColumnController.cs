@@ -46,7 +46,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// The column this represents
     /// </summary>
-    public UxColumn Column {
+    public Column Column {
       get;
       private set;
     }
@@ -60,7 +60,7 @@ namespace Overworld.Controllers.SimpleUx {
     public IUxViewElement Element 
       => Column;
 
-    internal void _intializeFor(UxColumn column) {
+    internal void _intializeFor(Column column) {
       Column = column;
       if(column.Title is not null) {
         Title = Instantiate(_columnTitleController, transform);
@@ -70,7 +70,7 @@ namespace Overworld.Controllers.SimpleUx {
       }
     }
 
-    internal SimpleUxFieldController _addField(UxDataField fieldData) {
+    internal SimpleUxFieldController _addField(DataField fieldData) {
       SimpleUxFieldController field = Instantiate(SimpleUxViewController.FieldControllerPrefabs[fieldData.Type], transform);
       field.View = View;
       View._fields.Add(field);
@@ -81,7 +81,7 @@ namespace Overworld.Controllers.SimpleUx {
       return field;
     }
 
-    internal SimpleUxTitleController _addInColumnHeader(UxTitle titleData) {
+    internal SimpleUxTitleController _addInColumnHeader(Title titleData) {
       SimpleUxTitleController header = Instantiate(_inColumnHeaderController, transform);
       header.View = View;
       header.IsTopTitleForColumn = false;
@@ -92,7 +92,7 @@ namespace Overworld.Controllers.SimpleUx {
       return header;
     }
 
-    internal SimpleUxFieldController _addRow(UxRow rowData) {
+    internal SimpleUxFieldController _addRow(Row rowData) {
       throw new NotImplementedException();
     }
 

@@ -1,6 +1,5 @@
 ﻿using Overworld.Ux.Simple;
 using UnityEngine;
-using static Overworld.Ux.Simple.UxDataField;
 
 namespace Overworld.Controllers.SimpleUx {
 
@@ -12,14 +11,14 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// The display type of this field
     /// </summary>
-    public DisplayType DisplayType {
+    public DataField.DisplayType DisplayType {
       get;
     }
 
     /// <summary>
     /// The field data this is controlling.
     /// </summary>
-    UxDataField FieldData {
+    DataField FieldData {
       get;
     }
 
@@ -27,7 +26,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// The gamobject that represents the field's title.
     /// Used for tooltip hover.
     /// </summary>
-    GameObject FieldTitle {
+    SimpleUxTitleController Title {
       get;
     }
 

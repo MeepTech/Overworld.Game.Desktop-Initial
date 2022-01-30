@@ -931,14 +931,16 @@ MonoBehaviour:
   _fieldControllers:
   - {fileID: 8604433133875709625, guid: b7c90423d85a67e47a5274fe5da4f3bd, type: 3}
   - {fileID: 8624792821894850638, guid: 44a46e069d6e07d46a89b856e85d7059, type: 3}
+  - {fileID: 508672166366138844, guid: 3e6cd2ca68128d94bb40767d76844fcc, type: 3}
   _rectTransform: {fileID: 8173001257887221646}
   _resizeHandler: {fileID: 8173001257887221877}
   _mainViewTitleText: {fileID: 8173001257109621886}
   _pannelTabsArea: {fileID: 8173001256653607136}
   _pannelsArea: {fileID: 8173001256991130983}
   _closeButton: {fileID: 8362625441394118595}
-  ShouldShowCloseButton: 1
   _activePannelKey: 
+  ShouldShowCloseButton: 1
+  IsPersistent: 1
 --- !u!222 &8173001257887221641
 CanvasRenderer:
   m_ObjectHideFlags: 0

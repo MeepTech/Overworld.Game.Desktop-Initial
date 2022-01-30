@@ -16,8 +16,8 @@ namespace Overworld.Controllers.SimpleUx {
       internal set;
     }
 
-    public UxPannel.Tab Tab
-      => View.View.GetTab(_key);
+    public Pannel.Tab Tab
+      => View.Data.GetTab(_key);
 
     internal string _key {
       get;
@@ -27,12 +27,20 @@ namespace Overworld.Controllers.SimpleUx {
     public IUxViewElement Element 
       => Tab;
 
-    public void _intializeFor(UxPannel.Tab tabData) {
-      // TODO: add tooltip.
+    internal void _intializeFor(Pannel.Tab tabData) {
       _key = tabData.Key;
       _titleText.text = tabData.Name;
+
+      // listener for active tab changing
       _tabButton.onClick.AddListener(() 
         => View._setActiveTab(Tab));
+
+      // add tootltip
+      if(!string.IsNullOrWhiteSpace(tabData.Tooltip)) {
+        Tooltip tooltip = _titleText.gameObject.AddComponent<Tooltip>();
+        tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
+        tooltip.Text = tabData.Tooltip;
+      }
     }
   }
 }

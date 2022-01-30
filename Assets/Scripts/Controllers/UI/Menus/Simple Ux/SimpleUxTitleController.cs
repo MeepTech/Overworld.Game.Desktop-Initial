@@ -16,10 +16,16 @@ namespace Overworld.Controllers.SimpleUx {
       internal set;
     }
 
+    public virtual float ItemHeight
+      => _rectTransfrom.sizeDelta.y;
+
+    RectTransform _rectTransfrom
+      => __rectTransfrom ??= GetComponent<RectTransform>(); RectTransform __rectTransfrom;
+
     /// <summary>
     /// The title this represents
     /// </summary>
-    public UxTitle Title {
+    public Title Title {
       get;
       private set;
     }
@@ -35,9 +41,16 @@ namespace Overworld.Controllers.SimpleUx {
     public IUxViewElement Element 
       => Title;
 
-    internal void _initializeFor(UxTitle titleData) {
+    internal void _initializeFor(Title titleData) {
       Title = titleData;
       _titleText.text = (IsTopTitleForColumn ? "///" : "//") + titleData.Text;
+
+      // add tootltip
+      if(!string.IsNullOrWhiteSpace(titleData.Tooltip)) {
+        Tooltip tooltip = _titleText.gameObject.AddComponent<Tooltip>();
+        tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
+        tooltip.Text = titleData.Tooltip;
+      }
     }
   }
 }

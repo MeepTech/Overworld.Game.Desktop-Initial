@@ -3,68 +3,93 @@ using Overworld.Ux.Simple;
 using UnityEngine;
 
 public class Test_SimpleUx : MonoBehaviour {
+  SimpleUxViewController _view;
 
   // Start is called before the first frame update
   void Start() {
     var testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
-    var testModel = new UxViewBuilder("Test")
-      .AddField(new UxTextField("Test Text"))
-      .AddField(new UxToggleField("Test Toggle"))
-      .AddField(new UxToggleField("Test Toggle", dataKey: "toggle2"))
+    var testModel = new ViewBuilder("Test")
+      .AddField(new TextField("Test Text"))
+      .AddHeader(new Title("Test Header"))
+      .AddField(new ToggleField("Test Toggle"))
+      .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
     .Build();
 
     testView.InitializeFor(testModel);
 
     testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
-    testModel = new UxViewBuilder("Test2")
-      .AddField(new UxTextField("Test Text"))
-      .AddField(new UxToggleField("Test Toggle"))
-      .StartNewColumn(new UxTitle("Test Col", "Tooltip for test col title"))
-      .AddField(new UxToggleField("Test Toggle", dataKey: "toggle2"))
+    testModel = new ViewBuilder("Test2")
+      .AddField(new TextField("Test Text"))
+      .AddField(new ToggleField("Test Toggle"))
+      .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
+      .AddField(new TextField("text description", value: "this is just some text", isReadOnly: true))
+      .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
     .Build();
 
     testView.InitializeFor(testModel);
 
     testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
-    testModel = new UxViewBuilder("Test3")
-      .AddField(new UxTextField("Test Text"))
-      .AddField(new UxToggleField("Test Toggle"))
-      .StartNewColumn(new UxTitle("Test Col", "Tooltip for test col title"))
-      .AddField(new UxToggleField("Test Toggle", dataKey: "toggle2"))
-      .StartNewPannel(new UxPannel.Tab("pannel 2", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Pannel Field"))
+    testModel = new ViewBuilder("Test smol")
+      .AddField(new TextField("Test Text"))
     .Build();
 
     testView.InitializeFor(testModel);
 
     testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
-    testModel = new UxViewBuilder("Test4")
-      .AddField(new UxTextField("Test Text"))
-      .AddField(new UxToggleField("Test Toggle"))
-      .StartNewColumn(new UxTitle("Test Col", "Tooltip for test col title"))
-      .AddField(new UxToggleField("Test Toggle", dataKey: "toggle2"))
-      .StartNewPannel(new UxPannel.Tab("pannel 3", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Pannel Field"))
-      .StartNewPannel(new UxPannel.Tab("pannel 4", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Pannel Field2"))
-      .StartNewPannel(new UxPannel.Tab("pannel 5", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Pannel Field3"))
-      .StartNewPannel(new UxPannel.Tab("pannel 6", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Pannel Field4"))
-      .StartNewPannel(new UxPannel.Tab("pannel 7", tooltip: "pannel 2 tooltip"))
-      .AddField(new UxTextField("Other Field5"))
-      .AddField(new UxTextField("Other Field6"))
-      .AddField(new UxTextField("Other Field7"))
-      .AddField(new UxTextField("Other Field8"))
-      .AddField(new UxTextField("Other Field9"))
-      .AddField(new UxTextField("Other Field10"))
-      .AddField(new UxTextField("Other Pannel Field11"))
-      .AddField(new UxTextField("Other Pannel Field543"))
-      .AddField(new UxTextField("Other Pannel Field556"))
-      .AddField(new UxTextField("Other Pannel Field5t"))
-      .AddField(new UxTextField("Other Pannel Field5gfdh"))
+    testModel = new ViewBuilder("Test3")
+      .AddField(new TextField("Test Text"))
+      .AddField(new ToggleField("Test Toggle"))
+      .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
+      .AddHeader(new Title("Test Header"))
+      .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
+      .StartNewPannel(new Pannel.Tab("pannel 2", tooltip: "pannel 2 tooltip"))
+      .AddField(new TextField("Other Pannel Field"))
     .Build();
 
     testView.InitializeFor(testModel);
+
+    testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
+    testModel = new ViewBuilder("Test4")
+          .AddField(new TextField("Test Text"))
+          .AddField(new TextField("text description", value: "this is just some text. and more and more and more and more and more and more and more and more ", isReadOnly: true))
+          .AddField(new ToggleField("Test Toggle"))
+          .AddField(new RangeSliderField("Test Slider", 0, 1))
+          .AddField(new RangeSliderField("Test Slider 1", 0.5f, 1.4f))
+          .AddField(new RangeSliderField("Test Slider clamped", 0, 1, true))
+        .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
+          .AddField(new ReadOnlyTextField("this is just some text  and more and more and more and more and more and more and more and more"))
+          .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
+      .StartNewPannel(new Pannel.Tab("pannel 3", tooltip: "pannel 2 tooltip"))
+          .AddField(new TextField("text description", value: "this is just some text. andre and more ", isReadOnly: true))
+          .AddField(new TextField("Other Pannel Field"))
+          .AddField(new TextField("text description", value: "this is just some text. and more nd more and more and more and more andnd more and more and more and more andand more and more and more and more and more and more and more ", isReadOnly: true))
+      .StartNewPannel(new Pannel.Tab("pannel 4", tooltip: "pannel 2 tooltip"))
+          .AddField(new ReadOnlyTextField("this is just some text. andre and more "))
+          .AddField(new ToggleField("Test Toggle 5"))
+          .AddField(new ReadOnlyTextField("this is just some text. and more nd more and more and more and more andnd more and more and more and more andand more and more and more and more and more and more and more "))
+      .StartNewPannel(new Pannel.Tab("pannel 5", tooltip: "pannel 2 tooltip"))
+          .AddField(new TextField("Other Pannel Field3"))
+      .StartNewPannel(new Pannel.Tab("pannel 6", tooltip: "pannel 2 tooltip"))
+          .AddField(new TextField("Other Pannel Field4"))
+      .StartNewPannel(new Pannel.Tab("pannel 7", tooltip: "pannel 2 tooltip"))
+          .AddField(new TextField("Other Field5"))
+          .AddField(new TextField("Other Field6"))
+          .AddField(new TextField("Other Field7"))
+          .AddField(new TextField("Other Field8"))
+          .AddField(new TextField("Other Field9"))
+          .AddField(new TextField("Other Field10"))
+          .AddField(new TextField("Other Pannel Field11"))
+          .AddField(new TextField("Other Pannel Field543"))
+          .AddField(new TextField("Other Pannel Field556"))
+          .AddField(new TextField("Other Pannel Field5t"))
+          .AddField(new TextField("Other Pannel Field5gfdh"))
+    .Build();
+
+    _view = testView;
+    testView.InitializeFor(testModel);
+  }
+
+  void Update() {
+    Debug.Log(_view?.Data?.GetFieldValue("Test Toggle"));
   }
 }

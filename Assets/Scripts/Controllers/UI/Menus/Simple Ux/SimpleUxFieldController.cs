@@ -21,11 +21,20 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     public static readonly Color InvalidFieldInputBackgroundColor = new(255, 192, 203, 150);
 
-    public abstract GameObject FieldTitle {
+    /// <summary>
+    /// The object for the title of this field.
+    /// </summary>
+    protected GameObject TitleObject
+      => Title.gameObject;
+    
+    /// <summary>
+    /// The title of this field.
+    /// </summary>
+    public abstract SimpleUxTitleController Title {
       get;
     }
 
-    public abstract UxDataField.DisplayType DisplayType {
+    public abstract DataField.DisplayType DisplayType {
       get;
     }
 
@@ -34,7 +43,7 @@ namespace Overworld.Controllers.SimpleUx {
       internal set;
     }
 
-    public UxDataField FieldData {
+    public DataField FieldData {
       get;
       protected set;
     }
@@ -47,6 +56,12 @@ namespace Overworld.Controllers.SimpleUx {
       internal set;
     }
 
+    public virtual float ItemHeight 
+      => _rectTransfrom.sizeDelta.y;
+
+    RectTransform _rectTransfrom 
+      => __rectTransfrom ??= GetComponent<RectTransform>(); RectTransform __rectTransfrom;
+
     /// <summary>
     /// Used to initialize the field for the applied FieldData.
     /// </summary>
@@ -55,13 +70,13 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Used to attach OnFieldChanged to a listener.
     /// </summary>
-    protected abstract void _addOnChangeListener(UxDataField dataField);
+    protected abstract void _addOnChangeListener(DataField dataField);
 
     /// <summary>
     /// Should be called when the field is changed.
     /// </summary>
     protected virtual void OnFieldChanged() {
-      UxDataField original = FieldData.Copy();
+      DataField original = FieldData.Copy();
       if(!FieldData.TryToSetValue(GetCurrentValue(), out string message)) {
         Debug.LogError(message);
       } else {
@@ -84,17 +99,17 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Can add extra logic when this field specifically is updated.
     /// </summary>
-    protected internal virtual void _onThisFieldUpdated(UxDataField originalFieldData) {}
+    protected internal virtual void _onThisFieldUpdated(DataField originalFieldData) {}
 
     /// <summary>
     /// Called when any other field in the view is updated, including this one.
     /// updatedElement may also be null (this happens when the view first finishes initializing).
     /// </summary>
-    protected internal virtual void _onOtherFieldUpdated(UxView view, IUxViewElement updatedElement = null) {
+    protected internal virtual void _onOtherFieldUpdated(View view, IUxViewElement updatedElement = null) {
       _updateFieldEnabledState();
     }
 
-    internal void _intializeFor(UxDataField dataField) {
+    internal void _intializeFor(DataField dataField) {
       if(dataField.Type == DisplayType) {
         FieldData = dataField;
       } else
@@ -111,7 +126,7 @@ namespace Overworld.Controllers.SimpleUx {
     internal void _updateFieldEnabledState() {
       /// check if the field should still be enabled:
       if(FieldData.Enable is not null)
-        if (!FieldData.Enable(FieldData, View.View)) {
+        if (!FieldData.Enable(FieldData, View.Data)) {
           _setFieldEnabled(false);
         } else
           _setFieldEnabled(true);
@@ -119,7 +134,7 @@ namespace Overworld.Controllers.SimpleUx {
 
     void _initializeTooltip() {
       if(!string.IsNullOrWhiteSpace(FieldData.Tooltip)) {
-        Tooltip tooltip = FieldTitle.AddComponent<Tooltip>();
+        Tooltip tooltip = TitleObject.AddComponent<Tooltip>();
         tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
         tooltip.Text = FieldData.Tooltip;
       }

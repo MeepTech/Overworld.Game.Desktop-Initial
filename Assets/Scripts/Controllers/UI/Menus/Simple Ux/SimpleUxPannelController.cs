@@ -35,7 +35,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// The pannel this represents
     /// </summary>
-    public UxPannel Pannel {
+    public Pannel Pannel {
       get;
       private set;
     }
@@ -45,12 +45,12 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal List<SimpleUxColumnController> _columns;
 
-    internal void _intializeFor(UxPannel pannelData) {
+    internal void _intializeFor(Pannel pannelData) {
       Pannel = pannelData;
       _columns = new();
     }
 
-    internal SimpleUxColumnController _addColumn(UxColumn columnData) {
+    internal SimpleUxColumnController _addColumn(Column columnData) {
       SimpleUxColumnController column = Instantiate(_columnPrefab, _columnArea);
       _columns.Add(column);
       column.View = View;

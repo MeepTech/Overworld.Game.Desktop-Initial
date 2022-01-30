@@ -15,6 +15,13 @@ namespace Overworld.Controllers.SimpleUx {
   /// </summary>
   public class SimpleUxViewController : MonoBehaviour {
 
+    /// <summary>
+    /// The controller prefabs for each type of Simple Ux Field.
+    /// </summary>
+    public static IReadOnlyDictionary<Ux.Simple.DataField.DisplayType, SimpleUxFieldController> FieldControllerPrefabs
+      => _prefabs;
+    static Dictionary<Ux.Simple.DataField.DisplayType, SimpleUxFieldController> _prefabs;
+
     #region Unity Inspector Set Fields
 
     [Header("Element Prefabs")]
@@ -47,11 +54,11 @@ namespace Overworld.Controllers.SimpleUx {
     #endregion
 
     /// <summary>
-    /// The controller prefabs for each type of Simple Ux Field.
+    /// The currently active pannel's index
     /// </summary>
-    public static IReadOnlyDictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> FieldControllerPrefabs
-      => _prefabs;
-    static Dictionary<Ux.Simple.UxDataField.DisplayType, SimpleUxFieldController> _prefabs;
+    [SerializeField, ReadOnly] // for display in inspector for debugging
+    internal string _activePannelKey
+      = null;
 
     /// <summary>
     /// If this view should show it's close button.
@@ -60,40 +67,42 @@ namespace Overworld.Controllers.SimpleUx {
       = true;
 
     /// <summary>
+    /// If this view's data should be kept after it's closed.
+    /// If this is false, this view will reset it's data on close.
+    /// </summary>
+    public bool IsPersistent 
+      = true;
+
+    /// <summary>
+    /// If this view is currently open and displayed to the user
+    /// </summary>
+    public bool IsOpen 
+      => gameObject.activeSelf;
+
+    /// <summary>
     /// The view this is controlling
     /// </summary>
-    public UxView View {
+    public View Data {
       get;
       private set;
     }
 
     /// <summary>
-    /// Pannels
+    /// The unique id of this view
     /// </summary>
+    public string Id {
+      get;
+    } = new Guid().ToString();
+
     internal OrderedDictionary<string, SimpleUxPannelController> _pannels;
-
-    /// <summary>
-    /// Pannel controllers
-    /// </summary>
     internal OrderedDictionary<string, SimpleUxPannelTabController> _pannelTabs;
-
-    /// <summary>
-    /// Fields
-    /// </summary>
     internal List<SimpleUxFieldController> _fields;
-
-    /// <summary>
-    /// The currently active pannel's index
-    /// </summary>
-    [SerializeField, ReadOnly] // for display in inspector for debugging
-    internal string _activePannelKey
-      = null;
-
     float _tallestPannelHeight;
     int _mostColumnsInAPannel;
     bool _dimensionsAreDirty;
     bool _waitedWhileDirty;
     Vector2 _minDimensions;
+    internal int _waitingOnDirtyChildren;
 
     /// <summary>
     /// Setup
@@ -104,100 +113,81 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     void Update() {
-      if(_dimensionsAreDirty && _waitedWhileDirty) {
+      /// if we have dirty dimensions from initialization, and have waited a frame for the recttransforms to init:
+      if(_dimensionsAreDirty && _waitedWhileDirty && _waitingOnDirtyChildren <= 0) {
+        // find the tallest pannel height we want (limited to 5 fields)
+        // this also resizes the columns and pannels themselves
         _tallestPannelHeight = Math.Max(
             _getTallestPannelHeight(),
             _pannelTabs.Count() * _pannelTabController.GetComponent<RectTransform>().sizeDelta.y
           );
 
+        // deactivate inactie pannels
         _pannels.Values.ForEach(pannel => {
-          //pannel._horizontalLayoutGroup.enabled = false;
           if(pannel.Pannel.Key.Key != _activePannelKey) {
             pannel.gameObject.SetActive(false);
           }
         });
+
+        //and resize the view and set the min dimensions to the largest pannel value within reason we found before.
         _resizeHandler.MinimumDimmensions = new Vector2(
-          _minDimensions.x + (_pannels.Count > 1 ? 66 : 0) + (170 * (_mostColumnsInAPannel - 1)),
+          // this uses the most columns in a pannel to determine how wide the window should be, and how narrow it can get
+          _minDimensions.x + (_pannels.Count > 1 ? 103 : 53) + (180 * (_mostColumnsInAPannel - 1)),
           _minDimensions.y + _tallestPannelHeight
-        //Math.Max(_minDimensions.x, 150 + (_pannels.Count > 1 ? 66 : 0) + (150 * (_mostColumnsInAPannel - 1))),
-        //Math.Max(_minDimensions.y, _tallestPannelHeight)
         );
         _rectTransform.sizeDelta
           = _resizeHandler.MinimumDimmensions;
 
         _dimensionsAreDirty = false;
         _waitedWhileDirty = false;
-      } else if(_dimensionsAreDirty) {
-        _pannels.Values.ForEach(pannel => { 
-          //pannel._horizontalLayoutGroup.childControlHeight = true; 
-          //pannel._horizontalLayoutGroup.childControlWidth = true; 
-        });
+      } // we wait one frame while dimensions are dirty to make sure everything intis properly.
+      // TODO: is this still needed using the values in the sizeDelta since they are preset?
+      else if(_dimensionsAreDirty) {
         _waitedWhileDirty = true;
       }
-    }
-
-    private float _getTallestPannelHeight() {
-      return _pannels.Values.Select(
-        pannel => {
-          float maxColumnHeight = 0;
-          float maxPannelHeight = pannel._columns.Select(column => {
-            return column._rows.Append(column.Title);
-          }).Max(rows => {
-          var column = (rows.First() as ISimpleUxColumnChildElementController).Column;
-            float _maxPannelHeight = 0;
-            float _maxColumnHeight = 0;
-            int rowNumber = 0;
-            foreach(ISimpleUxColumnChildElementController row in rows) {
-              float rowHeight = ((row as MonoBehaviour)
-                ?.GetComponent<RectTransform>()
-                ?.sizeDelta.y
-                  ?? 0) + 5;
-              if (rowNumber < 7) {
-                _maxPannelHeight += rowHeight;
-              }
-              _maxColumnHeight+= rowHeight;
-              rowNumber++;
-            }
-
-            maxColumnHeight = maxColumnHeight < _maxColumnHeight ? _maxColumnHeight : maxColumnHeight;
-            return _maxPannelHeight;
-          });
-
-          pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);
-          return maxPannelHeight;
-        }).Max();
     }
 
     /// <summary>
     /// Initialize this view for the view data.
     /// </summary>
-    public void InitializeFor(UxView model) {
-      /// TODO: a view manager should register it for it's Ux view uuid if the view has a cache on close setting.
-      View = model;
+    public void InitializeFor(View model) {
+      /// init variables
+      Data = model;
       _pannels = new();
       _pannelTabs = new();
       _fields = new();
-      _mainViewTitleText.text = "+" + model.MainTitle;
-      if(ShouldShowCloseButton) {
-        _closeButton.gameObject.SetActive(true);
-        _closeButton.onClick.AddListener(() => {
-          gameObject.SetActive(false);
-        });
+
+      /// Register
+      SimpleUxViewsController.Current._addView(this);
+
+      /// main title text and tootltip
+      _mainViewTitleText.text = "+" + model.MainTitle.Text;
+      if(!string.IsNullOrWhiteSpace(model.MainTitle.Tooltip)) {
+        Tooltip tooltip = _mainViewTitleText.gameObject.AddComponent<Tooltip>();
+        tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
+        tooltip.Text = model.MainTitle.Tooltip;
       }
 
-      foreach((UxPannel.Tab tabData, UxPannel pannelData) in model) {
+      /// show close button?
+      if(ShouldShowCloseButton) {
+        _closeButton.gameObject.SetActive(true);
+        _closeButton.onClick.AddListener(() => Close());
+      }
+
+      /// build the sub controllers and set up pannels, columns, etc
+      foreach((Pannel.Tab tabData, Pannel pannelData) in model) {
         SimpleUxPannelController pannel = _addPannel(
           tabData,
           pannelData
         );
-        foreach(UxColumn columnData in pannelData) {
+        foreach(Column columnData in pannelData) {
           SimpleUxColumnController column = pannel._addColumn(columnData);
           foreach(IUxViewElement element in columnData) {
-            if(element is UxRow rowData) {
+            if(element is Row rowData) {
               throw new NotImplementedException();
-            } else if(element is UxDataField fieldData) {
+            } else if(element is DataField fieldData) {
               SimpleUxFieldController field = column._addField(fieldData);
-            } else if(element is UxTitle inColumnHeader) {
+            } else if(element is Title inColumnHeader) {
               column._addInColumnHeader(inColumnHeader);
             } else
               throw new NotSupportedException($"Unknown Simple Ux Element: {element.GetType().FullName}");
@@ -205,8 +195,17 @@ namespace Overworld.Controllers.SimpleUx {
         }
       }
 
+      /// update all fields initally
       _updateAllFieldsForChangesIn(null);
+      /// set to update dimensions and finish initialization on the next update
       _dimensionsAreDirty = true;
+    }
+
+    /// <summary>
+    /// Close this view
+    /// </summary>
+    public void Close() {
+      gameObject.SetActive(false);
     }
 
     /// <summary>
@@ -214,19 +213,15 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     /// <param name="originalData">The element before it was edited.</param>
     internal void _onUpdated(IUxViewElement originalData) {
-      if(originalData is UxDataField uxField) {
-        _updateAllFieldsForChangesIn(uxField);
+      if(originalData is DataField Field) {
+        _updateAllFieldsForChangesIn(Field);
       }
-    }
-
-    void _updateAllFieldsForChangesIn(UxDataField uxField) {
-      _fields.ForEach(field => field._onOtherFieldUpdated(View, uxField));
     }
 
     /// <summary>
     /// Set the active tab
     /// </summary>
-    internal void _setActiveTab(UxPannel.Tab tab) {
+    internal void _setActiveTab(Pannel.Tab tab) {
       _pannels[_activePannelKey].gameObject.SetActive(false);
       _activePannelKey = tab.Key;
       _pannels[_activePannelKey].gameObject.SetActive(true);
@@ -236,8 +231,8 @@ namespace Overworld.Controllers.SimpleUx {
     /// Add a pannel to this Ux
     /// </summary>
     SimpleUxPannelController _addPannel(
-      UxPannel.Tab tabData, 
-      UxPannel pannelData
+      Pannel.Tab tabData, 
+      Pannel pannelData
     ) {
       SimpleUxPannelTabController simpleUxPannelTabController = Instantiate(_pannelTabController, _pannelTabsArea);
       SimpleUxPannelController simpleUxPannelController = Instantiate(_pannelController, _pannelsArea);
@@ -263,6 +258,43 @@ namespace Overworld.Controllers.SimpleUx {
       _mostColumnsInAPannel = Math.Max(pannelData.Count(), _mostColumnsInAPannel);
 
       return simpleUxPannelController;
+    }
+
+    void _updateAllFieldsForChangesIn(DataField Field) {
+      _fields.ForEach(field => field._onOtherFieldUpdated(Data, Field));
+    }
+
+    /// <summary>
+    /// Gets the tallest pannel height within a limit of 5 fields.
+    /// Also sets pannel height to their own max, and column height to their own max.
+    /// </summary>
+    float _getTallestPannelHeight() {
+      return _pannels.Values.Select(
+        pannel => {
+          float maxColumnHeight = 0;
+          float maxPannelHeight = pannel._columns.Select(column => {
+            return column._rows.Append(column.Title);
+          }).Max(rows => {
+            var column = (rows.First() as ISimpleUxColumnChildElementController).Column;
+            float _maxPannelHeight = 0;
+            float _maxColumnHeight = 0;
+            int rowNumber = 0;
+            foreach(ISimpleUxColumnChildElementController row in rows) {
+              float rowHeight = row?.ItemHeight ?? 0;
+              if (rowNumber < 5) {
+                _maxPannelHeight += rowHeight;
+              }
+              _maxColumnHeight+= rowHeight;
+              rowNumber++;
+            }
+
+            maxColumnHeight = maxColumnHeight < _maxColumnHeight ? _maxColumnHeight : maxColumnHeight;
+            return _maxPannelHeight;
+          });
+
+          pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);
+          return maxPannelHeight + 23;
+        }).Max();
     }
   }
 }
