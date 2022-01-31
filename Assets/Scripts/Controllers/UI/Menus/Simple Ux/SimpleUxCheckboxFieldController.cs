@@ -17,17 +17,19 @@ namespace Overworld.Controllers.SimpleUx {
     [SerializeField]
     Image _toggleBackground;
 
+    /*public override float ItemHeight
+      => Mathf.Max(InputFieldMinHeight, Mathf.Abs(Title.RectTransform.parent.GetComponent<RectTransform>().rect.height));*/
+
     public override DataField.DisplayType DisplayType
       => DataField.DisplayType.Toggle;
 
-    public override GameObject _titleObject
-      => _titleTextField.gameObject;
+    public override SimpleUxTitleController Title
+      => _title ??= _titleTextField.GetComponent<SimpleUxTitleController>(); SimpleUxTitleController _title;
 
     public override object GetCurrentValue()
       => _toggle.isOn;
 
     protected override void _intializeForFieldData() {
-      _titleTextField.text = ": " + FieldData.Name;
       if(FieldData.IsReadOnly) {
         _toggle.interactable = false;
         var newColors = _toggle.colors;
@@ -35,6 +37,9 @@ namespace Overworld.Controllers.SimpleUx {
         _toggle.colors = newColors;
       }
     }
+
+    protected override string GetTitleText()
+      => ": " + FieldData.Name;
 
     protected override void _addOnChangeListener(DataField dataField) {
       _toggle.onValueChanged.AddListener(_ => OnFieldChanged());

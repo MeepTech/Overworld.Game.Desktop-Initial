@@ -23,6 +23,10 @@ namespace Overworld.Controllers.SimpleUx {
     [UnityEngine.Tooltip("The component for the background image")]
     internal UnityEngine.UI.Image _backgroundImage;
 
+    [SerializeField]
+    [UnityEngine.Tooltip("where elements in this column are added")]
+    internal RectTransform _elementsArea;
+
     #endregion
 
     public SimpleUxPannelController Pannel {
@@ -63,15 +67,15 @@ namespace Overworld.Controllers.SimpleUx {
     internal void _intializeFor(Column column) {
       Column = column;
       if(column.Title is not null) {
-        Title = Instantiate(_columnTitleController, transform);
+        Title = Instantiate(_columnTitleController, _elementsArea);
+        Title.Column = this;
         Title.IsTopTitleForColumn = true;
         Title._initializeFor(column.Title);
-        Title.Column = this;
       }
     }
 
     internal SimpleUxFieldController _addField(DataField fieldData) {
-      SimpleUxFieldController field = Instantiate(SimpleUxViewController.FieldControllerPrefabs[fieldData.Type], transform);
+      SimpleUxFieldController field = Instantiate(SimpleUxViewController.FieldControllerPrefabs[fieldData.Type], _elementsArea);
       field.View = View;
       View._fields.Add(field);
       field._intializeFor(fieldData);
@@ -82,11 +86,11 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     internal SimpleUxTitleController _addInColumnHeader(Title titleData) {
-      SimpleUxTitleController header = Instantiate(_inColumnHeaderController, transform);
+      SimpleUxTitleController header = Instantiate(_inColumnHeaderController, _elementsArea);
       header.View = View;
+      header.Column = this;
       header.IsTopTitleForColumn = false;
       header._initializeFor(titleData);
-      header.Column = this;
       _rows.Add(header);
 
       return header;

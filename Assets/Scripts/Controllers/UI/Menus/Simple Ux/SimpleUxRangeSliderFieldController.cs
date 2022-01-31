@@ -23,14 +23,13 @@ namespace Overworld.Controllers.SimpleUx {
     public override DataField.DisplayType DisplayType
       => DataField.DisplayType.RangeSlider;
 
-    public override GameObject _titleObject
-      => _titleTextField.gameObject;
+    public override SimpleUxTitleController Title
+      => _title ??= _titleTextField.GetComponent<SimpleUxTitleController>(); SimpleUxTitleController _title;
 
     public override object GetCurrentValue()
       => _valueIndicator?.text;
 
     protected override void _intializeForFieldData() {
-      _titleTextField.text = FieldData.Name + ":";
       if(FieldData is RangeSliderField rangeSliderData) {
         _slider.minValue = rangeSliderData.ValidRange.min;
         _slider.maxValue = rangeSliderData.ValidRange.max;

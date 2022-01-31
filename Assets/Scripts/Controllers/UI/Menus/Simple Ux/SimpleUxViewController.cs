@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Overworld.Controllers.SimpleUx {
 
@@ -118,7 +119,7 @@ namespace Overworld.Controllers.SimpleUx {
         // find the tallest pannel height we want (limited to 5 fields)
         // this also resizes the columns and pannels themselves
         _tallestPannelHeight = Math.Max(
-            _getTallestPannelHeight(),
+            _calculateTallestPannelHeight(),
             _pannelTabs.Count() * _pannelTabController.GetComponent<RectTransform>().sizeDelta.y
           );
 
@@ -140,6 +141,7 @@ namespace Overworld.Controllers.SimpleUx {
 
         _dimensionsAreDirty = false;
         _waitedWhileDirty = false;
+        LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
       } // we wait one frame while dimensions are dirty to make sure everything intis properly.
       // TODO: is this still needed using the values in the sizeDelta since they are preset?
       else if(_dimensionsAreDirty) {
@@ -268,7 +270,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// Gets the tallest pannel height within a limit of 5 fields.
     /// Also sets pannel height to their own max, and column height to their own max.
     /// </summary>
-    float _getTallestPannelHeight() {
+    float _calculateTallestPannelHeight() {
       return _pannels.Values.Select(
         pannel => {
           float maxColumnHeight = 0;
@@ -276,20 +278,20 @@ namespace Overworld.Controllers.SimpleUx {
             return column._rows.Append(column.Title);
           }).Max(rows => {
             var column = (rows.First() as ISimpleUxColumnChildElementController).Column;
-            float _maxPannelHeight = 0;
-            float _maxColumnHeight = 0;
-            int rowNumber = 0;
-            foreach(ISimpleUxColumnChildElementController row in rows) {
+            column?._elementsArea.ForceUpdateRectTransforms();
+            float columnHeight = column?._elementsArea.rect.height ?? 0;
+            /*foreach(ISimpleUxColumnChildElementController row in rows) {
+              row?.RectTransform.ForceUpdateRectTransforms();
               float rowHeight = row?.ItemHeight ?? 0;
               if (rowNumber < 5) {
                 _maxPannelHeight += rowHeight;
               }
               _maxColumnHeight+= rowHeight;
               rowNumber++;
-            }
+            }*/
 
-            maxColumnHeight = maxColumnHeight < _maxColumnHeight ? _maxColumnHeight : maxColumnHeight;
-            return _maxPannelHeight;
+            maxColumnHeight = maxColumnHeight < columnHeight ? columnHeight : maxColumnHeight;
+            return Math.Min(500, columnHeight);
           });
 
           pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);

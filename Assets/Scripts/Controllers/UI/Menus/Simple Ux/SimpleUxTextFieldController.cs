@@ -28,15 +28,15 @@ namespace Overworld.Controllers.SimpleUx {
     public override DataField.DisplayType DisplayType
       => DataField.DisplayType.Text;
 
-    public override GameObject _titleObject
-      => _titleTextField.gameObject;
+    public override SimpleUxTitleController Title
+      => _title ??= _titleTextField.GetComponent<SimpleUxTitleController>(); SimpleUxTitleController _title;
 
-    public override float ItemHeight 
+    /*public override float ItemHeight 
       => _itemHeight ?? base.ItemHeight;
-    float? _itemHeight;
+    float? _itemHeight;*/
 
-    RectTransform _rectTransform 
-      => __rectTransform ??= GetComponent<RectTransform>(); RectTransform __rectTransform;
+    /*RectTransform _rectTransform 
+      => __rectTransform ??= GetComponent<RectTransform>(); RectTransform __rectTransform;*/
 
     bool _sizeIsDirty;
     bool _waitedWhileDirty;
@@ -46,7 +46,6 @@ namespace Overworld.Controllers.SimpleUx {
 
     protected override void _intializeForFieldData() {
       _inputTextController.text = FieldData.Value as string;
-      _titleTextField.text = !string.IsNullOrWhiteSpace(FieldData.Name) ? FieldData.Name + ":" : null;
       if(FieldData.IsReadOnly) {
         _inputTextField.color = Color.white;
         _inputTextBackground.enabled = false;
@@ -55,13 +54,9 @@ namespace Overworld.Controllers.SimpleUx {
         _inputTextController.lineType = TMPro.TMP_InputField.LineType.MultiLineNewline;
         _sizeIsDirty = true;
 
-        _rectTransform.pivot = _rectTransform.pivot.ReplaceY(1);
-        _rectTransform.anchorMin = new Vector2(0, 1);
-        _rectTransform.anchorMax = new Vector2(1, 1);
-
-        if(_titleTextField.text is null) {
-          _titleObject.SetActive(false);
-        }
+        RectTransform.pivot = RectTransform.pivot.ReplaceY(1);
+        RectTransform.anchorMin = new Vector2(0, 1);
+        RectTransform.anchorMax = new Vector2(1, 1);
         _inputTextController.readOnly = true;
         _inputTextController.isRichTextEditingAllowed = false;
       } else {
@@ -72,11 +67,11 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     void Update() {
-      if(_sizeIsDirty && _waitedWhileDirty) {
+      /*if(_sizeIsDirty && _waitedWhileDirty) {
         _inputTextController.textComponent.ForceMeshUpdate();
         _itemHeight = _inputTextController.textComponent.preferredHeight;
         float localMin = 56;
-        if(_titleTextField.text is null) {
+        if(!TitleObject.activeSelf) {
           float titleHeight = _inputTextField.rectTransform.rect.height;
           _itemHeight -= titleHeight;
           localMin -= titleHeight;
@@ -90,7 +85,7 @@ namespace Overworld.Controllers.SimpleUx {
       } else if(_sizeIsDirty) {
         View._waitingOnDirtyChildren++;
         _waitedWhileDirty = true;
-      }
+      }*/
     }
 
     protected override void _addOnChangeListener(DataField dataField) {

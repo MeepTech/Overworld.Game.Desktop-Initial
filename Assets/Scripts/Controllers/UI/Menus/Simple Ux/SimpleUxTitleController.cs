@@ -17,9 +17,9 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     public virtual float ItemHeight
-      => _rectTransfrom.sizeDelta.y;
+      => RectTransform.sizeDelta.y;
 
-    RectTransform _rectTransfrom
+    public RectTransform RectTransform
       => __rectTransfrom ??= GetComponent<RectTransform>(); RectTransform __rectTransfrom;
 
     /// <summary>
@@ -43,7 +43,9 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal void _initializeFor(Title titleData) {
       Title = titleData;
-      _titleText.text = (IsTopTitleForColumn ? "///" : "//") + titleData.Text;
+      _titleText.text = Column is not null 
+        ? (IsTopTitleForColumn ? "///" : "//") + titleData.Text 
+        : titleData.Text;
 
       // add tootltip
       if(!string.IsNullOrWhiteSpace(titleData.Tooltip)) {

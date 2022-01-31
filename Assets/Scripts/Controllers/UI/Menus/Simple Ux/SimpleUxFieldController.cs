@@ -1,5 +1,4 @@
 ﻿using Overworld.Ux.Simple;
-using System;
 using UnityEngine;
 
 namespace Overworld.Controllers.SimpleUx {
@@ -10,6 +9,12 @@ namespace Overworld.Controllers.SimpleUx {
   /// To impliment this properly there should be a call to OnFieldChanged() in the child class somewhere.
   /// </summary>
   public abstract class SimpleUxFieldController : MonoBehaviour, ISimpleUxFieldController {
+
+    /// <summary>
+    /// The base height of the field without the title.
+    /// </summary>
+    [SerializeField]
+    protected int InputFieldMinHeight;
 
     /// <summary>
     /// The default background color for the input of the field when it's value is valid
@@ -56,11 +61,13 @@ namespace Overworld.Controllers.SimpleUx {
       internal set;
     }
 
-    public virtual float ItemHeight 
-      => _rectTransfrom.sizeDelta.y;
+    public virtual float ItemHeight
+      => Mathf.Max(InputFieldMinHeight, Mathf.Abs(RectTransform.parent.GetComponent<RectTransform>().rect.height));
 
-    RectTransform _rectTransfrom 
-      => __rectTransfrom ??= GetComponent<RectTransform>(); RectTransform __rectTransfrom;
+    public RectTransform RectTransform
+      => _rectTransfrom ??= GetComponent<RectTransform>();
+
+    RectTransform _rectTransfrom;
 
     /// <summary>
     /// Used to initialize the field for the applied FieldData.
@@ -116,6 +123,7 @@ namespace Overworld.Controllers.SimpleUx {
         throw new System.NotSupportedException($"SimpleUx Field Controller of type {GetType().Name} cannot handle display type of {dataField.Type}. The controller requires a field of type {DisplayType}");
       
       _initializeTooltip();
+      _initializeTitle();
       _intializeForFieldData();
       _addOnChangeListener(dataField);
     }
@@ -139,5 +147,21 @@ namespace Overworld.Controllers.SimpleUx {
         tooltip.Text = FieldData.Tooltip;
       }
     }
+
+    void _initializeTitle() {
+      // set up the title if we have one
+      if(!string.IsNullOrWhiteSpace(FieldData.Name)) {
+        Title._initializeFor(new Title(GetTitleText(), FieldData.Tooltip));
+      } // hide if no title 
+      else {
+        TitleObject.SetActive(false);
+      }
+    }
+
+    /// <summary>
+    /// Used to get the title text from the field data.
+    /// </summary>
+    protected virtual string GetTitleText()
+      => FieldData.Name + ":";
   }
 }

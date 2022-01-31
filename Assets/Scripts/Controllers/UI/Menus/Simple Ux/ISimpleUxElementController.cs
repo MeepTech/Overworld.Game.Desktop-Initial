@@ -1,4 +1,5 @@
 ﻿using Overworld.Ux.Simple;
+using UnityEngine;
 
 namespace Overworld.Controllers.SimpleUx {
 
@@ -11,6 +12,13 @@ namespace Overworld.Controllers.SimpleUx {
     /// The column this is part of
     /// </summary>
     SimpleUxColumnController Column {
+      get;
+    }
+
+    /// <summary>
+    /// The rectransform.
+    /// </summary>
+    RectTransform RectTransform {
       get;
     }
 
