@@ -104,6 +104,8 @@ namespace Overworld.Controllers.SimpleUx {
     bool _waitedWhileDirty;
     Vector2 _minDimensions;
     internal int _waitingOnDirtyChildren;
+    bool _dirtyPannel;
+    int _dirtyPannelWaited;
 
     /// <summary>
     /// Setup
@@ -126,6 +128,7 @@ namespace Overworld.Controllers.SimpleUx {
         // deactivate inactie pannels
         _pannels.Values.ForEach(pannel => {
           if(pannel.Pannel.Key.Key != _activePannelKey) {
+            pannel.gameObject.SetActive(true);
             pannel.gameObject.SetActive(false);
           }
         });
@@ -141,11 +144,28 @@ namespace Overworld.Controllers.SimpleUx {
 
         _dimensionsAreDirty = false;
         _waitedWhileDirty = false;
-        LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
+        _dirtyPannel = true;
+        //LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
       } // we wait one frame while dimensions are dirty to make sure everything intis properly.
       // TODO: is this still needed using the values in the sizeDelta since they are preset?
       else if(_dimensionsAreDirty) {
         _waitedWhileDirty = true;
+      }
+
+      /// when pannel is changed, sometimes it needs to flash the items to update their position correctly.
+      if(_dirtyPannel) {
+        //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
+        _dirtyPannelWaited++;
+      }
+      if(_dirtyPannel && _dirtyPannelWaited > 1) {
+        _pannels[_activePannelKey].gameObject.SetActive(false);
+      }
+
+      if(_dirtyPannel && _dirtyPannelWaited > 2) {
+        _pannels[_activePannelKey].gameObject.SetActive(true);
+        //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
+        _dirtyPannel = false;
+        _dirtyPannelWaited = 0;
       }
     }
 
@@ -227,7 +247,8 @@ namespace Overworld.Controllers.SimpleUx {
       _pannels[_activePannelKey].gameObject.SetActive(false);
       _activePannelKey = tab.Key;
       _pannels[_activePannelKey].gameObject.SetActive(true);
-      _pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
+      //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
+      _dirtyPannel = true;
     }
 
     /// <summary>
@@ -279,7 +300,7 @@ namespace Overworld.Controllers.SimpleUx {
             return column._rows.Append(column.Title);
           }).Max(rows => {
             var column = (rows.First() as ISimpleUxColumnChildElementController).Column;
-            column?._elementsArea.ForceUpdateRectTransforms();
+            //column?._elementsArea.ForceUpdateRectTransforms();
             float columnHeight = column?._elementsArea.rect.height ?? 0;
 
             maxColumnHeight = maxColumnHeight < columnHeight ? columnHeight : maxColumnHeight;

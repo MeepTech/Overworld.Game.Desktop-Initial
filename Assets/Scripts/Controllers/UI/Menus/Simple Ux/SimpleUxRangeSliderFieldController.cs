@@ -12,6 +12,9 @@ namespace Overworld.Controllers.SimpleUx {
     TMPro.TextMeshProUGUI _titleTextField;
 
     [SerializeField]
+    Sprite _disabledKnob;
+
+    [SerializeField]
     TMPro.TextMeshProUGUI _valueIndicator;
 
     [SerializeField]
@@ -47,13 +50,14 @@ namespace Overworld.Controllers.SimpleUx {
         _slider.maxValue = 1f;
       }
 
-      //_valueIndicator.text = FieldData.Value.ToString();
+      _valueIndicator.text = FieldData.Value?.ToString() ?? "NULL";
 
       if(FieldData.IsReadOnly) {
         _slider.interactable = false;
         var newColors = _slider.colors;
-        //_valueIndicator.color = Color.grey + Color.blue + Color.white;
+        _valueIndicator.color = Color.grey + Color.blue + Color.white;
         newColors.disabledColor = Color.blue;
+        _sliderKnob.sprite = _disabledKnob;
         _slider.colors = newColors;
       }
     }
@@ -72,7 +76,7 @@ namespace Overworld.Controllers.SimpleUx {
 
     protected override void OnFieldChanged() {
       base.OnFieldChanged();
-      //_valueIndicator.text = FieldData.Value.ToString();
+      _valueIndicator.text = FieldData.Value.ToString();
     }
   }
 }

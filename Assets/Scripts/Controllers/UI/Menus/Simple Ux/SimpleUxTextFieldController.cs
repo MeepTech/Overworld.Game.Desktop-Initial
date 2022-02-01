@@ -68,7 +68,8 @@ namespace Overworld.Controllers.SimpleUx {
 
     void Update() {
       /*if(_sizeIsDirty && _waitedWhileDirty) {
-        _inputTextController.textComponent.ForceMeshUpdate();
+        _inputTextController.textComponent.
+      MeshUpdate();
         _itemHeight = _inputTextController.textComponent.preferredHeight;
         float localMin = 56;
         if(!TitleObject.activeSelf) {
