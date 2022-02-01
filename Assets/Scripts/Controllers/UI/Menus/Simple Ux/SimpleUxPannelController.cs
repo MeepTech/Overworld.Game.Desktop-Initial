@@ -52,10 +52,10 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal SimpleUxColumnController _addColumn(Column columnData) {
       SimpleUxColumnController column = Instantiate(_columnPrefab, _columnArea);
-      _columns.Add(column);
       column.View = View;
       column.Pannel = this;
       column._intializeFor(columnData);
+      _columns.Add(column);
 
       if(_columns.Count > 1) {
         column._backgroundImage.enabled = true;

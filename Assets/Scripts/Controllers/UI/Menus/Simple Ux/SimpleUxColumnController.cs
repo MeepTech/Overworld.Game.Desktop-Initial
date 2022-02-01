@@ -27,6 +27,10 @@ namespace Overworld.Controllers.SimpleUx {
     [UnityEngine.Tooltip("where elements in this column are added")]
     internal RectTransform _elementsArea;
 
+    [SerializeField]
+    [UnityEngine.Tooltip("the column's scroll rect")]
+    ScrollRect _scrollRect;
+
     #endregion
 
     public SimpleUxPannelController Pannel {
@@ -66,6 +70,7 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal void _intializeFor(Column column) {
       Column = column;
+      _scrollRect.viewport = Pannel._columnArea;
       if(column.Title is not null) {
         Title = Instantiate(_columnTitleController, _elementsArea);
         Title.Column = this;
@@ -77,10 +82,10 @@ namespace Overworld.Controllers.SimpleUx {
     internal SimpleUxFieldController _addField(DataField fieldData) {
       SimpleUxFieldController field = Instantiate(SimpleUxViewController.FieldControllerPrefabs[fieldData.Type], _elementsArea);
       field.View = View;
-      View._fields.Add(field);
-      field._intializeFor(fieldData);
       field.Column = this;
+      field._intializeFor(fieldData);
       _rows.Add(field);
+      View._fields.Add(field);
 
       return field;
     }
@@ -98,12 +103,6 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal SimpleUxFieldController _addRow(Row rowData) {
       throw new NotImplementedException();
-    }
-
-    internal void _setHeight(float height) {
-      //Pannel._columnArea.sizeDelta = Pannel._columnArea.sizeDelta.ReplaceY(height);
-      //Pannel._columnAreaLayout.preferredHeight = height;
-      //Pannel._columnAreaLayout.minHeight = height;
     }
   }
 }

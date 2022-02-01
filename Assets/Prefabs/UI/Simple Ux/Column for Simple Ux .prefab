@@ -75,10 +75,10 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -10, y: 0}
-  m_Pivot: {x: 0.5, y: 1}
+  m_SizeDelta: {x: 208, y: 0}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &6229565365893820779
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -328,6 +328,7 @@ MonoBehaviour:
   _inColumnHeaderController: {fileID: 4032122096361232514, guid: 28416df36b851f14e9e8672181685635, type: 3}
   _backgroundImage: {fileID: 1014948321255699775}
   _elementsArea: {fileID: 4648766826885216180}
+  _scrollRect: {fileID: 7223341215849894094}
 --- !u!222 &4875798511388964871
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -391,11 +392,11 @@ MonoBehaviour:
   m_Inertia: 1
   m_DecelerationRate: 0.135
   m_ScrollSensitivity: 25
-  m_Viewport: {fileID: 4648766826885216180}
+  m_Viewport: {fileID: 0}
   m_HorizontalScrollbar: {fileID: 0}
   m_VerticalScrollbar: {fileID: 1315071903592863194}
   m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 2
+  m_VerticalScrollbarVisibility: 1
   m_HorizontalScrollbarSpacing: 0
   m_VerticalScrollbarSpacing: 0
   m_OnValueChanged:
@@ -563,8 +564,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 381685618792746911}
   m_HandleRect: {fileID: 7661774022746493921}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.99999976
+  m_Value: 0
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

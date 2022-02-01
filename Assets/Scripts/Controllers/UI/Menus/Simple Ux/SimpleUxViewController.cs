@@ -280,15 +280,6 @@ namespace Overworld.Controllers.SimpleUx {
             var column = (rows.First() as ISimpleUxColumnChildElementController).Column;
             column?._elementsArea.ForceUpdateRectTransforms();
             float columnHeight = column?._elementsArea.rect.height ?? 0;
-            /*foreach(ISimpleUxColumnChildElementController row in rows) {
-              row?.RectTransform.ForceUpdateRectTransforms();
-              float rowHeight = row?.ItemHeight ?? 0;
-              if (rowNumber < 5) {
-                _maxPannelHeight += rowHeight;
-              }
-              _maxColumnHeight+= rowHeight;
-              rowNumber++;
-            }*/
 
             maxColumnHeight = maxColumnHeight < columnHeight ? columnHeight : maxColumnHeight;
             return Math.Min(500, columnHeight);
