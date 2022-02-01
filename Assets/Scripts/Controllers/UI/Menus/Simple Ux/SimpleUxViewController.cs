@@ -227,6 +227,7 @@ namespace Overworld.Controllers.SimpleUx {
       _pannels[_activePannelKey].gameObject.SetActive(false);
       _activePannelKey = tab.Key;
       _pannels[_activePannelKey].gameObject.SetActive(true);
+      _pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
     }
 
     /// <summary>
@@ -282,7 +283,7 @@ namespace Overworld.Controllers.SimpleUx {
             float columnHeight = column?._elementsArea.rect.height ?? 0;
 
             maxColumnHeight = maxColumnHeight < columnHeight ? columnHeight : maxColumnHeight;
-            return Math.Min(500, columnHeight);
+            return Math.Min(350, columnHeight);
           });
 
           pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);
