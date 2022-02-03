@@ -7,18 +7,23 @@ public class Test_SimpleUx : MonoBehaviour {
 
   // Start is called before the first frame update
   void Start() {
-    var testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
     var testModel = new ViewBuilder("Test")
-      .AddField(new TextField("Test Text"))
-      .AddHeader(new Title("Test Header"))
-      .AddField(new ToggleField("Test Toggle"))
-      .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
+          .AddField(new TextField("Test Text"))
+          .AddHeader(new Title("Test Header"))
+          .AddField(new ToggleField("Test Toggle"))
+          .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
+      .StartNewPannel(new("Pannel 2"))
+          .AddField(new ReadOnlyTextField("this is just some text  and more and more and more and more and more and more and more and more"))
+          .AddField(new RangeSliderField("Test Slider", 0.5f, 1.4f))
+        .StartNewColumn()
+          .AddField(new TextField("Test Text 2"))
+          .AddField(new TextField("Test Text 3"))
+          .AddField(new TextField("Test Text 4"))
     .Build();
 
-    testView.InitializeFor(testModel);
+    _view = SimpleUxViewWindowsManager.Current.OpenView(testModel);
 
-    testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
-    testModel = new ViewBuilder("Test2")
+    /*testModel = new ViewBuilder("Test2")
       .AddField(new TextField("Test Text"))
       .AddField(new ToggleField("Test Toggle"))
       .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
@@ -26,16 +31,14 @@ public class Test_SimpleUx : MonoBehaviour {
       .AddField(new ToggleField("Test Toggle", dataKey: "toggle2"))
     .Build();
 
-    testView.InitializeFor(testModel);
+    SimpleUxViewWindowsManager.Current.OpenView(testModel);
 
-    testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
     testModel = new ViewBuilder("Test smol")
       .AddField(new TextField("Test Text"))
     .Build();
 
-    testView.InitializeFor(testModel);
+    SimpleUxViewWindowsManager.Current.OpenView(testModel);
 
-    testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
     testModel = new ViewBuilder("Test3")
       .AddField(new TextField("Test Text"))
       .AddField(new ToggleField("Test Toggle"))
@@ -46,9 +49,8 @@ public class Test_SimpleUx : MonoBehaviour {
       .AddField(new TextField("Other Pannel Field"))
     .Build();
 
-    testView.InitializeFor(testModel);
+    SimpleUxViewWindowsManager.Current.OpenView(testModel);
 
-    testView = Instantiate(SimpleUxGlobalManager.DefaultViewPrefab, transform);
     testModel = new ViewBuilder("Test4")
           .AddField(new TextField("Test  ff f f f Text"))
           .AddField(new TextField("text description", value: "this is just some text. and more and more and more and more and more and more and more and more ", isReadOnly: true))
@@ -76,7 +78,7 @@ public class Test_SimpleUx : MonoBehaviour {
           .AddField(new TextField("Other Field5"))
           .AddField(new TextField("Other Field6"))
           .AddField(new TextField("Other ff f f f f ff f f f f f f  f f f f f f f Field7"))
-          .AddField(new TextField("Other Field8"))
+          .AddField(new TextField("Other Field84"))
           .AddField(new TextField("Other Field9"))
           .AddField(new TextField("Other Field10"))
           .AddField(new TextField("Other Pannel Field11"))
@@ -87,7 +89,7 @@ public class Test_SimpleUx : MonoBehaviour {
         .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
           .AddField(new TextField("Other Fisdfgeld5"))
           .AddField(new TextField("Other Fsdfguuield6"))
-          .AddField(new TextField("Other fdfgf f f f f uff f f f f f f  f f f f f f f Field7"))
+          .AddField(new TextField("Other fdfgf f f f f uff f f f f f f  f f f f fgfgf f f Field7"))
           .AddField(new TextField("Other Field8"))
           .AddField(new TextField("Other Fdfgigsdfeld9"))
           .AddField(new TextField("Other Fidsfgtyukyukseld10"))
@@ -98,7 +100,7 @@ public class Test_SimpleUx : MonoBehaviour {
           .AddField(new TextField("Other dfgsdfgPannel Field5gfdh"))
           .AddField(new TextField("Other gsdfgsdfgField5"))
           .AddField(new TextField("Other Fdfgtyukield6"))
-          .AddField(new TextField("Other fffyukgsdgf f f f f ff f f f f f f  f f f f f f f Field7"))
+          .AddField(new TextField("Other fffyukgsdgf f f f f ff f f f f f f  f f fdfgdfg f f f f Field7"))
           .AddField(new TextField("Other Fdfgsield8"))
           .AddField(new TextField("Other Fisuktdftyuktygeld9"))
           .AddField(new TextField("Other Fisuktydeld10"))
@@ -109,8 +111,7 @@ public class Test_SimpleUx : MonoBehaviour {
           .AddField(new TextField("Otheruk kPannel Fytukiteld5gfdh"))
     .Build();
 
-    _view = testView;
-    testView.InitializeFor(testModel);
+    _view = SimpleUxViewWindowsManager.Current.OpenView(testModel);*/
   }
 
   void Update() {

@@ -26,8 +26,8 @@ public class DraggableHandleForUxMenuController : MonoBehaviour, IDragHandler, I
 
     _target.localPosition 
       = data.position 
-        - new Vector2(Screen.width, Screen.height)/2 
-        - new Vector2(0, _target.rect.height/2-15);
+        - new Vector2(Screen.width, Screen.height) / 2 
+        - new Vector2(0, -15);
   }
 
   public void OnPointerClick(PointerEventData eventData) {

@@ -17,6 +17,12 @@ namespace Overworld.Controllers.SimpleUx {
   public class SimpleUxViewController : MonoBehaviour {
 
     /// <summary>
+    /// The rect transform for the view window.
+    /// </summary>
+    public RectTransform RectTransform
+      => _rectTransform;
+
+    /// <summary>
     /// The controller prefabs for each type of Simple Ux Field.
     /// </summary>
     public static IReadOnlyDictionary<Ux.Simple.DataField.DisplayType, SimpleUxFieldController> FieldControllerPrefabs
@@ -39,8 +45,7 @@ namespace Overworld.Controllers.SimpleUx {
     SimpleUxFieldController[] _fieldControllers;
 
     [Header("View Parts")]
-    [SerializeField]
-    RectTransform _rectTransform;
+    [SerializeField] RectTransform _rectTransform;
     [SerializeField]
     FlexibleResizeHandler _resizeHandler;
     [SerializeField]
@@ -124,7 +129,8 @@ namespace Overworld.Controllers.SimpleUx {
     internal int _waitingOnDirtyChildren;
     bool _dirtyPannel;
     int _dirtyPannelWaited;
-    Stack<HistoricalAction> _history;
+    Stack<HistoricalAction> _history
+      = new();
 
     /// <summary>
     /// Setup
@@ -158,7 +164,7 @@ namespace Overworld.Controllers.SimpleUx {
           _minDimensions.x + (_pannels.Count > 1 ? 103 : 53) + (180 * (_mostColumnsInAPannel - 1)),
           _minDimensions.y + _tallestPannelHeight
         );
-        _rectTransform.sizeDelta
+        RectTransform.sizeDelta
           = _resizeHandler.MinimumDimmensions;
 
         _dimensionsAreDirty = false;
@@ -253,6 +259,42 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     public void Open() {
       gameObject.SetActive(true);
+    }
+
+    /// <summary>
+    /// Move a window to the screen location, centering on the window's center
+    /// </summary>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0 Top right is Max,Max</param>
+    public void MoveToScreenPixelLocation(Vector2 centerOnScreenPixelLocation) {
+      RectTransform.localPosition =
+        centerOnScreenPixelLocation
+          - new Vector2(Screen.width, Screen.height) / 2
+          - new Vector2(0, RectTransform.rect.height / 2);
+    }
+
+    /// <summary>
+    /// Move a window to the screen location, centering on the window's center
+    /// </summary>
+    /// <param name="centerOnScreenPercentLocation">two floats between 0 and 1 representing the location on the game area screen where the window should be centered. Bottom Left is 0,0, Top Right is 1,1</param>
+    public void MoveToScreenPercent(Vector2 centerOnScreenPercentLocation)
+      => MoveToScreenPixelLocation(new Vector2(centerOnScreenPercentLocation.x * Screen.width, centerOnScreenPercentLocation.y * Screen.width));
+
+    /// <summary>
+    /// Move a window to the screen location, centering on it's title
+    /// </summary>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0</param>
+    public void MoveTitleToScreenPercent(Vector2 titletoScreenPercentLocation)
+      => MoveTitleToScreenPixelLocation(new Vector2(titletoScreenPercentLocation.x * Screen.width, titletoScreenPercentLocation.y * Screen.width));
+
+    /// <summary>
+    /// Move a window to the screen location, centering on it's title
+    /// </summary>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0</param>
+    public void MoveTitleToScreenPixelLocation(Vector2 titletoScreenPercentLocation) {
+      RectTransform.localPosition =
+        titletoScreenPercentLocation
+          - new Vector2(Screen.width, Screen.height) / 2
+          - new Vector2(0, -15);
     }
 
     /// <summary>

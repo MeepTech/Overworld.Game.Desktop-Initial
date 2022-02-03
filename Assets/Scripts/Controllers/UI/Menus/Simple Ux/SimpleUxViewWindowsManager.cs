@@ -169,7 +169,7 @@ namespace Overworld.Controllers.SimpleUx {
     #region View and Window Manipulation
 
     /// <summary>
-    /// Display a view to the user
+    /// Display a view to the user as a window
     /// </summary>
     public SimpleUxViewController OpenView(View view, bool isPersistent = true)
       => _displayView(view, isPersistent);
@@ -198,10 +198,37 @@ namespace Overworld.Controllers.SimpleUx {
     public SimpleUxViewController OpenViewInWorldEditorMode(View view, bool isPersistent = true)
       => _displayView(view, isPersistent, true);
 
-    public void MoveWindow(string viewWindowId, Vector2 newScreenLocation) {
-      var window = GetWindow(viewWindowId);
-      window.transform.position =  newScreenLocation;
-    }
+    /// <summary>
+    /// Move a window to the screen location, centering on the window's center
+    /// </summary>
+    /// <param name="viewWindowId"></param>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0 Top right is Max,Max</param>
+    public void MoveWindowToScreenPixelLocation(string viewWindowId, Vector2 centerOnScreenPixelLocation)
+      => GetWindow(viewWindowId).MoveTitleToScreenPixelLocation(centerOnScreenPixelLocation);
+
+    /// <summary>
+    /// Move a window to the screen location, centering on the window's center
+    /// </summary>
+    /// <param name="viewWindowId"></param>
+    /// <param name="centerOnScreenPercentLocation">two floats between 0 and 1 representing the location on the game area screen where the window should be centered. Bottom Left is 0,0, Top Right is 1,1</param>
+    public void MoveWindowToScreenPercent(string viewWindowId, Vector2 centerOnScreenPercentLocation)
+      => GetWindow(viewWindowId).MoveToScreenPercent(centerOnScreenPercentLocation);
+
+    /// <summary>
+    /// Move a window to the screen location, centering on it's title
+    /// </summary>
+    /// <param name="viewWindowId"></param>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0</param>
+    public void MoveWindowTitleToScreenPercent(string viewWindowId, Vector2 titletoScreenPercentLocation)
+      => GetWindow(viewWindowId).MoveTitleToScreenPercent(titletoScreenPercentLocation);
+
+    /// <summary>
+    /// Move a window to the screen location, centering on it's title
+    /// </summary>
+    /// <param name="viewWindowId"></param>
+    /// <param name="centerOnScreenPixelLocation">pixel location on the game area screen where the window should be centered. Bottom Left is 0,0</param>
+    public void MoveWindowTitleToScreenPixelLocation(string viewWindowId, Vector2 titletoScreenPercentLocation)
+      => GetWindow(viewWindowId).MoveTitleToScreenPixelLocation(titletoScreenPercentLocation);
 
     /// <summary>
     /// Hide a view from the user
@@ -299,6 +326,7 @@ namespace Overworld.Controllers.SimpleUx {
           ? _worldEditorViewsCanvas.transform
           : _inGameViewsCanvas.transform
       );
+      newView.MoveToScreenPercent(new Vector2(0.5f, 0.5f));
       newView.IsPersistent = dataIsPersistent;
       newView.InitializeFor(view);
       _trackWindow(newView, dataIsPersistent, inEditor);

@@ -913,7 +913,7 @@ RectTransform:
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 200}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &5384031553125305029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -939,7 +939,6 @@ MonoBehaviour:
   _pannelsArea: {fileID: 8173001256991130983}
   _closeButton: {fileID: 8362625441394118595}
   _activePannelKey: 
-  ShouldShowCloseButton: 1
   IsPersistent: 1
 --- !u!222 &8173001257887221641
 CanvasRenderer:

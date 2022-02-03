@@ -85,7 +85,9 @@ namespace Overworld.Controllers.SimpleUx {
       field.Column = this;
       field._intializeFor(fieldData);
       _rows.Add(field);
-      View._fields.Add(field.FieldData.DataKey, field);
+      if(!fieldData.IsReadOnly) {
+        View._fields.Add(field.FieldData.DataKey.ToLower(), field);
+      }
 
       return field;
     }

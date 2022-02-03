@@ -37,17 +37,11 @@ namespace Overworld.Controllers.SimpleUx {
         _slider.minValue = rangeSliderData.ValidRange.min;
         _slider.maxValue = rangeSliderData.ValidRange.max;
         _slider.wholeNumbers = rangeSliderData.IsClampedToWholeNumbers;
-      } else if(FieldData.Validation is (int minClamped, int maxClamped)) {
-        _slider.wholeNumbers = true;
-        _slider.minValue = minClamped;
-        _slider.maxValue = maxClamped;
-      } else if(FieldData.Validation is (float min, float max)) {
-        _slider.minValue = min;
-        _slider.maxValue = max;
       } // fallback:
       else {
         _slider.minValue = 0f;
         _slider.maxValue = 1f;
+        _slider.wholeNumbers = false;
       }
 
       _refreshCurrentDisplayForCurrentValue(FieldData.Value);
