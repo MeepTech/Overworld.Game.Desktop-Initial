@@ -34,8 +34,8 @@ namespace Overworld.Controllers.SimpleUx {
 
     protected override void _intializeForFieldData() {
       if(FieldData is RangeSliderField rangeSliderData) {
-        _slider.minValue = rangeSliderData.ValidRange.min;
-        _slider.maxValue = rangeSliderData.ValidRange.max;
+        _slider.minValue = (float)rangeSliderData.ValidRange.min;
+        _slider.maxValue = (float)rangeSliderData.ValidRange.max;
         _slider.wholeNumbers = rangeSliderData.IsClampedToWholeNumbers;
       } // fallback:
       else {

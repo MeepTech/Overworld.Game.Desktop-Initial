@@ -40,7 +40,8 @@ namespace Overworld.Objects.Editor {
     = new ();
 
     string _activeBoard
-    = null;
+      = null;
+    View _settingsWindow;
 
     public override void WhileEquipedDo(WorldEditorController editor) {
       if(Input.GetMouseButtonDown(0)) {
@@ -119,6 +120,12 @@ namespace Overworld.Objects.Editor {
       }
     }
 
+    public View GetSettingsWindow()
+      => _settingsWindow ??= new ViewBuilder("Brush Settings")
+        .AddField(new RangeSliderField("Size", 1, 30, clampedToWholeNumbers: true))
+        .AddField(new DropdownSelectField<Shapes>("Shape"))
+      .Build();
+
     static Tile.Type _getSelectedTileType(WorldEditorController editor)
       => editor.WorldEditorEditorMainMenu.TilesMenu.EnabledTileSubMenu?.SelectedTileTypeOption;
 
@@ -134,12 +141,6 @@ namespace Overworld.Objects.Editor {
 
       Selection.activeObject = asset;
     }
-
-    public View GetSettingsWindow()
-      => new ViewBuilder("Brush Settings")
-        .AddField(new RangeSliderField("Size", 1, 30, clampedToWholeNumbers: true))
-        .AddField(new DropdownSelectField<Shapes>("Shape"))
-      .Build();
 #endif
   }
 }

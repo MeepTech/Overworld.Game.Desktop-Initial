@@ -33,8 +33,6 @@ public class FlexibleResizeHandler : MonoBehaviour
     void OnDrag(BaseEventData data)
     {
         PointerEventData ped = (PointerEventData) data;
-        //Target.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, Target.rect.width + ped.delta.x);
-        //Target.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, Target.rect.height + ped.delta.y);
         RectTransform.Edge? horizontalEdge = null;
         RectTransform.Edge? verticalEdge = null;
 
@@ -71,28 +69,6 @@ public class FlexibleResizeHandler : MonoBehaviour
             default:
                 throw new ArgumentOutOfRangeException();
         }
-    /*if (horizontalEdge != null)
-    {
-        if (horizontalEdge == RectTransform.Edge.Right)
-            Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)horizontalEdge, 
-                Screen.width - Target.position.x - Target.pivot.x * Target.rect.width, 
-                Mathf.Clamp(Target.rect.width - ped.delta.x, MinimumDimmensions.x, MaximumDimmensions.x));
-        else 
-            Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)horizontalEdge, 
-                Target.position.x - Target.pivot.x * Target.rect.width, 
-                Mathf.Clamp(Target.rect.width + ped.delta.x, MinimumDimmensions.x, MaximumDimmensions.x));
-    }
-    if (verticalEdge != null)
-    {
-        if (verticalEdge == RectTransform.Edge.Top)
-            Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)verticalEdge, 
-                Screen.height - Target.position.y - Target.pivot.y * Target.rect.height, 
-                Mathf.Clamp(Target.rect.height - ped.delta.y, MinimumDimmensions.y, MaximumDimmensions.y));
-        else 
-            Target.SetInsetAndSizeFromParentEdge((RectTransform.Edge)verticalEdge, 
-                Target.position.y - Target.pivot.y * Target.rect.height, 
-                Mathf.Clamp(Target.rect.height + ped.delta.y, MinimumDimmensions.y, MaximumDimmensions.y));
-    }*/
     if(horizontalEdge != null) {
       if(horizontalEdge == RectTransform.Edge.Right) {
         float newWidth = Mathf.Clamp(Target.sizeDelta.x - ped.delta.x, MinimumDimmensions.x, MaximumDimmensions.x);
@@ -111,13 +87,13 @@ public class FlexibleResizeHandler : MonoBehaviour
     if(verticalEdge != null) {
       if(verticalEdge == RectTransform.Edge.Top) {
         float newHeight = Mathf.Clamp(Target.sizeDelta.y - ped.delta.y, MinimumDimmensions.y, MaximumDimmensions.y);
-        float deltaPosY = -(newHeight - Target.sizeDelta.y) * Target.pivot.y;
+        float deltaPosY =0;// -(newHeight - Target.sizeDelta.y) * Target.pivot.y;
 
         Target.sizeDelta = new Vector2(Target.sizeDelta.x, newHeight);
         Target.anchoredPosition = Target.anchoredPosition + new Vector2(0, deltaPosY);
       } else {
         float newHeight = Mathf.Clamp(Target.sizeDelta.y + ped.delta.y, MinimumDimmensions.y, MaximumDimmensions.y);
-        float deltaPosY = (newHeight - Target.sizeDelta.y) * Target.pivot.y;
+        float deltaPosY =0;// (newHeight - Target.sizeDelta.y) * Target.pivot.y;
 
         Target.sizeDelta = new Vector2(Target.sizeDelta.x, newHeight);
         Target.anchoredPosition = Target.anchoredPosition + new Vector2(0, deltaPosY);
