@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Overworld.Game {
+namespace Overworld.Objects.Models {
 
   /// <summary>
   /// Game//Unity specific constants for the world.

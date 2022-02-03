@@ -53,7 +53,7 @@ public class Test_SimpleUx : MonoBehaviour {
           .AddField(new TextField("Test  ff f f f Text"))
           .AddField(new TextField("text description", value: "this is just some text. and more and more and more and more and more and more and more and more ", isReadOnly: true))
           .AddField(new ToggleField("Test Toggle"))
-          .AddField(new RangeSliderField("Test fff Slider", 0, 1))
+          .AddField(new RangeSliderField("Test Slider", 0, 1))
           .AddField(new RangeSliderField("Test Slider 1", 0.5f, 1.4f))
           .AddField(new RangeSliderField("Test fffffff Slider clamped", 0, 1, true))
         .StartNewColumn(new Title("Test Col", "Tooltip for test col title"))
@@ -114,6 +114,6 @@ public class Test_SimpleUx : MonoBehaviour {
   }
 
   void Update() {
-    Debug.Log(_view?.Data?.GetFieldValue("Test Toggle"));
+    Debug.Log(_view?.Data?.GetFieldValue("Test Slider"));
   }
 }

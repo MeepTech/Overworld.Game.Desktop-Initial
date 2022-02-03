@@ -50,7 +50,7 @@ namespace Overworld.Controllers.SimpleUx {
         _slider.maxValue = 1f;
       }
 
-      _valueIndicator.text = FieldData.Value?.ToString() ?? "NULL";
+      _refreshCurrentDisplayForCurrentValue(FieldData.Value);
 
       if(FieldData.IsReadOnly) {
         _slider.interactable = false;
@@ -75,8 +75,13 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     protected override void OnFieldChanged() {
+      _valueIndicator.text = _slider.value.ToString();
       base.OnFieldChanged();
       _valueIndicator.text = FieldData.Value.ToString();
+    }
+
+    protected override void _refreshCurrentDisplayForCurrentValue(object newValue) {
+      _valueIndicator.text = newValue?.ToString() ?? "NULL";
     }
   }
 }

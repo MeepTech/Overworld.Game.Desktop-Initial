@@ -1,7 +1,11 @@
-﻿public interface IWorldEditorToolContainerMenu {
+﻿using Overworld.Objects.Editor;
 
-  /// <summary>
-  /// Called when a tool is disabled, usually by another tool being enabled.
-  /// </summary>
-  void OnToolDissabled(WorldEditorTool tool);
+namespace Overworld.Controllers.Editor {
+  public interface IWorldEditorToolContainerMenu {
+
+    /// <summary>
+    /// Called when a tool is disabled, usually by another tool being enabled.
+    /// </summary>
+    void OnToolDissabled(WorldEditorTool tool);
+  }
 }

@@ -64,20 +64,32 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// If this view should show it's close button.
     /// </summary>
-    public bool ShouldShowCloseButton 
-      = true;
+    public bool ShouldShowCloseButton {
+      get => _shouldShowCloseButton;
+      set {
+        // to true
+        if(_shouldShowCloseButton = value) {
+          _closeButton.gameObject.SetActive(true);
+          _closeButton.onClick.AddListener(() => Close());
+        } // to false
+        else {
+          _closeButton.gameObject.SetActive(false);
+          _closeButton.onClick.RemoveAllListeners();
+        }
+      }
+    } bool _shouldShowCloseButton;
 
-    /// <summary>
-    /// If this view's data should be kept after it's closed.
-    /// If this is false, this view will reset it's data on close.
-    /// </summary>
-    public bool IsPersistent 
+  /// <summary>
+  /// If this view's data should be kept after it's closed.
+  /// If this is false, this view will reset it's data on close.
+  /// </summary>
+  public bool IsPersistent
       = true;
 
     /// <summary>
     /// If this view is currently open and displayed to the user
     /// </summary>
-    public bool IsOpen 
+    public bool IsOpen
       => gameObject.activeSelf;
 
     /// <summary>
@@ -89,7 +101,13 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     /// <summary>
-    /// The unique id of this view
+    /// Used to revert changes.
+    /// </summary>
+    public HashSet<string> _changedFields
+      = new();
+
+    /// <summary>
+    /// The unique id of this view window
     /// </summary>
     public string Id {
       get;
@@ -97,7 +115,7 @@ namespace Overworld.Controllers.SimpleUx {
 
     internal OrderedDictionary<string, SimpleUxPannelController> _pannels;
     internal OrderedDictionary<string, SimpleUxPannelTabController> _pannelTabs;
-    internal List<SimpleUxFieldController> _fields;
+    internal Dictionary<string, SimpleUxFieldController> _fields;
     float _tallestPannelHeight;
     int _mostColumnsInAPannel;
     bool _dimensionsAreDirty;
@@ -106,6 +124,7 @@ namespace Overworld.Controllers.SimpleUx {
     internal int _waitingOnDirtyChildren;
     bool _dirtyPannel;
     int _dirtyPannelWaited;
+    Stack<HistoricalAction> _history;
 
     /// <summary>
     /// Setup
@@ -145,7 +164,6 @@ namespace Overworld.Controllers.SimpleUx {
         _dimensionsAreDirty = false;
         _waitedWhileDirty = false;
         _dirtyPannel = true;
-        //LayoutRebuilder.ForceRebuildLayoutImmediate(_rectTransform);
       } // we wait one frame while dimensions are dirty to make sure everything intis properly.
       // TODO: is this still needed using the values in the sizeDelta since they are preset?
       else if(_dimensionsAreDirty) {
@@ -154,7 +172,6 @@ namespace Overworld.Controllers.SimpleUx {
 
       /// when pannel is changed, sometimes it needs to flash the items to update their position correctly.
       if(_dirtyPannel) {
-        //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
         _dirtyPannelWaited++;
       }
       if(_dirtyPannel && _dirtyPannelWaited > 1) {
@@ -163,7 +180,6 @@ namespace Overworld.Controllers.SimpleUx {
 
       if(_dirtyPannel && _dirtyPannelWaited > 2) {
         _pannels[_activePannelKey].gameObject.SetActive(true);
-        //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
         _dirtyPannel = false;
         _dirtyPannelWaited = 0;
       }
@@ -179,21 +195,12 @@ namespace Overworld.Controllers.SimpleUx {
       _pannelTabs = new();
       _fields = new();
 
-      /// Register
-      SimpleUxViewsController.Current._addView(this);
-
       /// main title text and tootltip
       _mainViewTitleText.text = "+" + model.MainTitle.Text;
       if(!string.IsNullOrWhiteSpace(model.MainTitle.Tooltip)) {
         Tooltip tooltip = _mainViewTitleText.gameObject.AddComponent<Tooltip>();
         tooltip.TooltipStylePrefab = SimpleUxGlobalManager.DefaultTooltipPrefab;
         tooltip.Text = model.MainTitle.Tooltip;
-      }
-
-      /// show close button?
-      if(ShouldShowCloseButton) {
-        _closeButton.gameObject.SetActive(true);
-        _closeButton.onClick.AddListener(() => Close());
       }
 
       /// build the sub controllers and set up pannels, columns, etc
@@ -224,10 +231,28 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     /// <summary>
+    /// Revert the changes in the forum to their defaults.
+    /// </summary>
+    public void RevertAllChanges() {
+      foreach(string changedfieldKey in _changedFields) {
+        _fields[changedfieldKey].FieldData.ResetValueToDefault();
+        _fields[changedfieldKey]._refreshCurrentValue();
+      }
+      _changedFields.Clear();
+    }
+
+    /// <summary>
     /// Close this view
     /// </summary>
     public void Close() {
       gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Close this view
+    /// </summary>
+    public void Open() {
+      gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -236,6 +261,8 @@ namespace Overworld.Controllers.SimpleUx {
     /// <param name="originalData">The element before it was edited.</param>
     internal void _onUpdated(IUxViewElement originalData) {
       if(originalData is DataField Field) {
+        _history.Push(new HistoricalAction(Data.GetField(Field.DataKey), Field));
+        _changedFields.Add(Field.DataKey);
         _updateAllFieldsForChangesIn(Field);
       }
     }
@@ -247,7 +274,6 @@ namespace Overworld.Controllers.SimpleUx {
       _pannels[_activePannelKey].gameObject.SetActive(false);
       _activePannelKey = tab.Key;
       _pannels[_activePannelKey].gameObject.SetActive(true);
-      //_pannels[_activePannelKey]._rectTransform.ForceUpdateRectTransforms();
       _dirtyPannel = true;
     }
 
@@ -255,7 +281,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// Add a pannel to this Ux
     /// </summary>
     SimpleUxPannelController _addPannel(
-      Pannel.Tab tabData, 
+      Pannel.Tab tabData,
       Pannel pannelData
     ) {
       SimpleUxPannelTabController simpleUxPannelTabController = Instantiate(_pannelTabController, _pannelTabsArea);
@@ -285,7 +311,7 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     void _updateAllFieldsForChangesIn(DataField Field) {
-      _fields.ForEach(field => field._onOtherFieldUpdated(Data, Field));
+      _fields.Values.ForEach(field => field._onOtherFieldUpdated(Data, Field));
     }
 
     /// <summary>
@@ -310,6 +336,21 @@ namespace Overworld.Controllers.SimpleUx {
           pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);
           return maxPannelHeight + 23;
         }).Max();
+    }
+
+    /// <summary>
+    /// A historical action for recording changes to the view.
+    /// </summary>
+    public struct HistoricalAction {
+      public readonly string FieldDataKey; 
+      public readonly object UpdatedValue; 
+      public readonly object OriginalValue; 
+
+      internal HistoricalAction(DataField updatedField, DataField originalField) {
+        FieldDataKey = updatedField.DataKey;
+        UpdatedValue = updatedField.Value;
+        OriginalValue = originalField.Value;
+      }
     }
   }
 }

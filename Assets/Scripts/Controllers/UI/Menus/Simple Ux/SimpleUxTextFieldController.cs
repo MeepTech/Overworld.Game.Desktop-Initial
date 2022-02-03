@@ -31,28 +31,17 @@ namespace Overworld.Controllers.SimpleUx {
     public override SimpleUxTitleController Title
       => _title ??= _titleTextField.GetComponent<SimpleUxTitleController>(); SimpleUxTitleController _title;
 
-    /*public override float ItemHeight 
-      => _itemHeight ?? base.ItemHeight;
-    float? _itemHeight;*/
-
-    /*RectTransform _rectTransform 
-      => __rectTransform ??= GetComponent<RectTransform>(); RectTransform __rectTransform;*/
-
-    bool _sizeIsDirty;
-    bool _waitedWhileDirty;
-
     public override object GetCurrentValue()
       => _inputTextController.text;
 
     protected override void _intializeForFieldData() {
-      _inputTextController.text = FieldData.Value as string;
+      _refreshCurrentDisplayForCurrentValue(FieldData.Value);
       if(FieldData.IsReadOnly) {
         _inputTextField.color = Color.white;
         _inputTextBackground.enabled = false;
         _inputTextPlaceholder.gameObject.SetActive(false);
         _inputTextController.richText = true;
         _inputTextController.lineType = TMPro.TMP_InputField.LineType.MultiLineNewline;
-        _sizeIsDirty = true;
 
         RectTransform.pivot = RectTransform.pivot.ReplaceY(1);
         RectTransform.anchorMin = new Vector2(0, 1);
@@ -66,27 +55,8 @@ namespace Overworld.Controllers.SimpleUx {
       }
     }
 
-    void Update() {
-      /*if(_sizeIsDirty && _waitedWhileDirty) {
-        _inputTextController.textComponent.
-      MeshUpdate();
-        _itemHeight = _inputTextController.textComponent.preferredHeight;
-        float localMin = 56;
-        if(!TitleObject.activeSelf) {
-          float titleHeight = _inputTextField.rectTransform.rect.height;
-          _itemHeight -= titleHeight;
-          localMin -= titleHeight;
-        }
-        _itemHeight *= (3f / 4f);
-        _itemHeight = Mathf.Max(_itemHeight.Value, localMin, 36);
-        _rectTransform.sizeDelta = _rectTransform.sizeDelta.ReplaceY(ItemHeight);
-        View._waitingOnDirtyChildren--;
-        _sizeIsDirty = false;
-        _waitedWhileDirty = false;
-      } else if(_sizeIsDirty) {
-        View._waitingOnDirtyChildren++;
-        _waitedWhileDirty = true;
-      }*/
+    protected override void _refreshCurrentDisplayForCurrentValue(object newValue) {
+      _inputTextController.text = newValue as string;
     }
 
     protected override void _addOnChangeListener(DataField dataField) {

@@ -116,6 +116,23 @@ namespace Overworld.Controllers.SimpleUx {
       _updateFieldEnabledState();
     }
 
+    /// <summary>
+    /// Used to refresh the currently displayed value to the internal one
+    /// </summary>
+    protected abstract void _refreshCurrentDisplayForCurrentValue(object newValue);
+
+    /// <summary>
+    /// Used to refresh the currently displayed value to the internal one
+    /// </summary>
+    internal virtual void _refreshCurrentValue() {
+      var original = GetCurrentValue();
+      var @new = FieldData.Value;
+      if(original != @new) {
+        _refreshCurrentDisplayForCurrentValue(@new);
+        OnFieldChanged();
+      }
+    }
+
     internal void _intializeFor(DataField dataField) {
       if(dataField.Type == DisplayType) {
         FieldData = dataField;

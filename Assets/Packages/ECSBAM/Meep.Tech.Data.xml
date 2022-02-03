@@ -3272,6 +3272,11 @@
             Add an item to a ICollection within a dictionary at the given key
             </summary>
         </member>
+        <member name="M:Meep.Tech.Data.DictionaryExtensions.AddToHashSet``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.HashSet{``1}},``0,``1)">
+            <summary>
+            Add an item to a ICollection within a dictionary at the given key
+            </summary>
+        </member>
         <member name="M:Meep.Tech.Data.DictionaryExtensions.RemoveFromValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.IList{``1}},``0,``1)">
             <summary>
             Remove an item from an ICollection within a dictionary at the given key
@@ -3310,6 +3315,11 @@
         <member name="M:Meep.Tech.Data.DictionaryExtensions.Merge(System.Collections.IDictionary,System.Collections.IDictionary[])">
             <summary>
             Merge dictionaries together, overriding any values with the same key.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.EnumerableExtensions.AsSingleItemEnumerable``1(``0)">
+            <summary>
+            Turn one item into an enumerable contaiing itself.
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">

@@ -30,6 +30,7 @@ namespace Overworld.Controllers.SimpleUx {
       => _toggle.isOn;
 
     protected override void _intializeForFieldData() {
+      _refreshCurrentDisplayForCurrentValue((bool)FieldData.Value);
       if(FieldData.IsReadOnly) {
         _toggle.interactable = false;
         var newColors = _toggle.colors;
@@ -51,6 +52,10 @@ namespace Overworld.Controllers.SimpleUx {
 
     protected override void _setFieldEnabled(bool toEnabled = true) {
       _toggle.interactable = !FieldData.IsReadOnly && toEnabled;
+    }
+
+    protected override void _refreshCurrentDisplayForCurrentValue(object newValue) {
+      _toggle.isOn = (bool)newValue;
     }
   }
 }
