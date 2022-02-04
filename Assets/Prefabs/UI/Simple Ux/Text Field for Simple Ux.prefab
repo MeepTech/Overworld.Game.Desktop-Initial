@@ -271,7 +271,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 79.15385, y: -28}
-  m_SizeDelta: {x: 158.3077, y: 56}
+  m_SizeDelta: {x: 158.3077, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8604433133875709625
 MonoBehaviour:
@@ -285,7 +285,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef5157639de627043b37dcb2d748ee44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputFieldMinHeight: 0
   _titleTextField: {fileID: 2901798030932200275}
   _inputTextController: {fileID: 2901798031757625798}
   _inputTextField: {fileID: 2901798031620990603}
@@ -505,7 +504,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2901798030932200277}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85108090fc76602449196c9c4b5a2807, type: 3}
+  m_Script: {fileID: 11500000, guid: 82bcbe4f8f3a3964aa08c777b296ccf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _titleText: {fileID: 2901798030932200275}

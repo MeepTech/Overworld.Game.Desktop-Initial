@@ -12,10 +12,10 @@ namespace Overworld.Controllers.SimpleUx {
 
     [SerializeField]
 
-    public static SimpleUxViewController DefaultViewPrefab {
+    public static ViewController DefaultViewPrefab {
       get;
       private set;
-    } [SerializeField] SimpleUxViewController _defaultViewPrefab;
+    } [SerializeField] ViewController _defaultViewPrefab;
 
     public static RectTransform DefaultTooltipPrefab {
       get;

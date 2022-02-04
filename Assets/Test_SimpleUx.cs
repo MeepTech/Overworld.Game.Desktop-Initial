@@ -3,7 +3,7 @@ using Overworld.Ux.Simple;
 using UnityEngine;
 
 public class Test_SimpleUx : MonoBehaviour {
-  SimpleUxViewController _view;
+  ViewController _view;
 
   // Start is called before the first frame update
   void Start() {

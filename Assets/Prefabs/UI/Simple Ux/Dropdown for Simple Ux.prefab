@@ -1406,7 +1406,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8993586779640283447}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85108090fc76602449196c9c4b5a2807, type: 3}
+  m_Script: {fileID: 11500000, guid: 82bcbe4f8f3a3964aa08c777b296ccf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _titleText: {fileID: 8993586779640283441}
@@ -1439,6 +1439,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8993586780486890126}
+  - component: {fileID: 7192362141693765843}
   - component: {fileID: 8993586780486890120}
   - component: {fileID: 8993586780486890127}
   - component: {fileID: 7685517501660524228}
@@ -1472,6 +1473,22 @@ RectTransform:
   m_AnchoredPosition: {x: 98, y: 0}
   m_SizeDelta: {x: 196, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7192362141693765843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8993586780486890125}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 15996524df9d45b4ea022e5c11a02d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _titleTextField: {fileID: 8993586779640283441}
+  _dropdownSelectedItemText: {fileID: 2671736417093027535}
+  _dropdown: {fileID: 3453899418591526428}
+  _dropdownBackgroundImage: {fileID: 6061829941024522857}
 --- !u!222 &8993586780486890120
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -40,7 +40,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 32}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &8624792821894850638
 MonoBehaviour:
@@ -54,7 +54,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e89f0879a8ae7b41af9e9f58314ec3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InputFieldMinHeight: 0
   _titleTextField: {fileID: 4275298064970058360}
   _toggle: {fileID: 4275298065853207585}
   _toggleBackground: {fileID: 4275298065693522903}
@@ -349,7 +348,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4275298064970058362}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85108090fc76602449196c9c4b5a2807, type: 3}
+  m_Script: {fileID: 11500000, guid: 82bcbe4f8f3a3964aa08c777b296ccf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _titleText: {fileID: 4275298064970058360}
@@ -510,8 +509,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 105.5, y: 0}
-  m_SizeDelta: {x: 205, y: 0}
+  m_AnchoredPosition: {x: 13, y: 0}
+  m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4275298065853207585
 MonoBehaviour:

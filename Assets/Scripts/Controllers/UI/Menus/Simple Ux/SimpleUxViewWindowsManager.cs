@@ -1,4 +1,5 @@
-﻿using Meep.Tech.Data;
+﻿using Meep.Tech.Collections;
+using Meep.Tech.Data;
 using Overworld.Utility;
 using Overworld.Ux.Simple;
 using System.Collections.Generic;
@@ -21,30 +22,30 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// All of the tracked windows in this manager
     /// </summary>
-    public IEnumerable<SimpleUxViewController> AllWindows
+    public IEnumerable<ViewController> AllWindows
       => _windowsById.Values;
 
     /// <summary>
     /// The views with perminant data (maintained on close), indexed by view's key
     /// </summary>
-    public IReadOnlyDictionary<string, SimpleUxViewController> PersistentWindows
-      => _persistentWindows; Dictionary<string, SimpleUxViewController> _persistentWindows
+    public IReadOnlyDictionary<string, ViewController> PersistentWindows
+      => _persistentWindows; Dictionary<string, ViewController> _persistentWindows
         = new();
 
     /// <summary>
     /// tracked windows with temp data (cleared on close), indexed by their view keys 
     /// </summary>
-    public IReadOnlyDictionary<string, IEnumerable<SimpleUxViewController>> TemporatryWindows
+    public IReadOnlyDictionary<string, IEnumerable<ViewController>> TemporatryWindows
       => _temporatryWindows.ToDictionary(
       windowType => windowType.Key,
       window => window.Value.Values.AsEnumerable()
-    ); Dictionary<string, Dictionary<string, SimpleUxViewController>> _temporatryWindows
+    ); Dictionary<string, Dictionary<string, ViewController>> _temporatryWindows
           = new(); 
 
     Dictionary<string, ICollection<string>> _windowsByTitle
         = new();
 
-    Dictionary<string, SimpleUxViewController> _windowsById
+    Dictionary<string, ViewController> _windowsById
         = new();
 
     HashSet<string> _editorModeWindows;
@@ -66,19 +67,19 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public SimpleUxViewController GetWindow(string viewWindowId)
+    public ViewController GetWindow(string viewWindowId)
       => _windowsById[viewWindowId];
 
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public SimpleUxViewController GetPersistentViewWindow(string viewId)
+    public ViewController GetPersistentViewWindow(string viewId)
       => _persistentWindows[viewId];
 
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public SimpleUxViewController TryToGetWindow(string viewWindowId)
+    public ViewController TryToGetWindow(string viewWindowId)
       => _windowsById.TryGetValue(viewWindowId, out var found)
         ? found
         : null;
@@ -86,13 +87,13 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public bool TryToGetWindow(string viewWindowId, out SimpleUxViewController window)
+    public bool TryToGetWindow(string viewWindowId, out ViewController window)
       => _windowsById.TryGetValue(viewWindowId, out window);
 
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public SimpleUxViewController TryToGetPersistentViewWindow(string viewId)
+    public ViewController TryToGetPersistentViewWindow(string viewId)
       => _persistentWindows.TryGetValue(viewId, out var found)
         ? found
         : null;
@@ -100,7 +101,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Get a window by it's id.
     /// </summary>
-    public bool TryToGetPersistentViewWindow(string viewId, out SimpleUxViewController window)
+    public bool TryToGetPersistentViewWindow(string viewId, out ViewController window)
       => _persistentWindows.TryGetValue(viewId, out window);
 
 
@@ -108,7 +109,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// Try to find all the views with the given chunk of text in their main title.
     /// </summary>
     /// <param name="titleToFind">Not case sensitive, Can find by substring.</param>
-    public IEnumerable<SimpleUxViewController> FindViewsByMainTitle(string titleTextToFind)
+    public IEnumerable<ViewController> FindViewsByMainTitle(string titleTextToFind)
       => _windowsByTitle.Keys.Where(title => title.ToUpper().Contains(titleTextToFind))
           .SelectMany(key => _windowsByTitle[key].Select(key => TryToGetWindow(key)).Where(view => view is not null));
 
@@ -137,7 +138,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Check if the given tracked view is open
     /// </summary>
-    public bool WindowIsOpen(SimpleUxViewController viewWindow)
+    public bool WindowIsOpen(ViewController viewWindow)
       => _windowsById[viewWindow.Id].IsOpen;
 
     /// <summary>
@@ -149,13 +150,13 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Check if the given view is tracked by the view manager
     /// </summary>
-    public bool WindowIsTracked(SimpleUxViewController viewWindow)
+    public bool WindowIsTracked(ViewController viewWindow)
       => _windowsById.ContainsKey(viewWindow.Id);
 
     /// <summary>
     /// Check if the given view is tracked by the view manager
     /// </summary>
-    public bool WindowIsTracked(string viewWindowId, out SimpleUxViewController window)
+    public bool WindowIsTracked(string viewWindowId, out ViewController window)
       => _windowsById.TryGetValue(viewWindowId, out window);
 
     /// <summary>
@@ -171,7 +172,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Display a view to the user as a window
     /// </summary>
-    public SimpleUxViewController OpenView(View view, bool isPersistent = true)
+    public ViewController OpenView(View view, bool isPersistent = true)
       => _displayView(view, isPersistent);
 
     /// <summary>
@@ -183,7 +184,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Display a view to the user
     /// </summary>
-    public void OpenWindow(SimpleUxViewController view)
+    public void OpenWindow(ViewController view)
       => _windowsById[view.Id].Open();
 
     /// <summary>
@@ -195,7 +196,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Display a view to the user
     /// </summary>
-    public SimpleUxViewController OpenViewInWorldEditorMode(View view, bool isPersistent = true)
+    public ViewController OpenViewInWorldEditorMode(View view, bool isPersistent = true)
       => _displayView(view, isPersistent, true);
 
     /// <summary>
@@ -263,7 +264,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Try to Hide a view from the user
     /// </summary>
-    public bool TryToCloseWindow(SimpleUxViewController view)
+    public bool TryToCloseWindow(ViewController view)
       => TryToCloseWindow(view.Id);
 
     /// <summary>
@@ -275,7 +276,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Hide a view from the user
     /// </summary>
-    public void CloseWindow(SimpleUxViewController view)
+    public void CloseWindow(ViewController view)
       => _windowsById[view.Id].Close();
 
     /// <summary>
@@ -298,14 +299,14 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Display a view to the user
     /// </summary>
-    public SimpleUxViewController _displayView(View view, bool dataIsPersistent = true, bool inEditor = false) {
+    public ViewController _displayView(View view, bool dataIsPersistent = true, bool inEditor = false) {
       // do we have a peristent window?
-      if(dataIsPersistent && PersistentWindows.TryGetValue(view.Id, out SimpleUxViewController found)) {
+      if(dataIsPersistent && PersistentWindows.TryGetValue(view.Id, out ViewController found)) {
         found.Open();
         return found;
       } // what about a free temp window? 
       else if(!dataIsPersistent && _temporatryWindows.TryGetValue(view.Id, out var tempWindows)) {
-        SimpleUxViewController foundTemp = tempWindows.FirstOrDefault(
+        ViewController foundTemp = tempWindows.FirstOrDefault(
           temp => temp.Value.IsOpen
         ).Value;
         if(foundTemp is not null) {
@@ -320,12 +321,13 @@ namespace Overworld.Controllers.SimpleUx {
       }
 
       // if we didn't find an existing window, make a new one:
-      SimpleUxViewController newView = Instantiate(
+      ViewController newView = Instantiate(
         SimpleUxGlobalManager.DefaultViewPrefab,
         inEditor
           ? _worldEditorViewsCanvas.transform
           : _inGameViewsCanvas.transform
       );
+      Debug.Log($"Created New {(dataIsPersistent ? "" : "Temp ")}Window: {newView.Id}");
       newView.MoveToScreenPercent(new Vector2(0.5f, 0.5f));
       newView.IsPersistent = dataIsPersistent;
       newView.InitializeFor(view);
@@ -346,7 +348,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Remove a window from this manager's tracking.
     /// </summary>
-    public void StopTrackingWindow(SimpleUxViewController window)
+    public void StopTrackingWindow(ViewController window)
       => _stopTrackingWindow(window.Id);
 
     /// <summary>
@@ -378,7 +380,8 @@ namespace Overworld.Controllers.SimpleUx {
       _editorModeWindows.ForEach(key => _stopTrackingWindow(key));
     }
 
-    void _trackWindow(SimpleUxViewController window, bool dataIsPersistent, bool isEditorMode) {
+    void _trackWindow(ViewController window, bool dataIsPersistent, bool isEditorMode) {
+      Debug.Log($"Started Tracking {(dataIsPersistent ? "" : "Temp ")}Window: {window.Id}");
       if(dataIsPersistent) {
         _persistentWindows.Add(window.Data.Id, window);
       } else {
@@ -413,6 +416,7 @@ namespace Overworld.Controllers.SimpleUx {
         _temporatryWindows.Values.ForEach(values => values.Remove(windowId));
         _windowsByTitle.Values.ForEach(values => values.Remove(windowId));
       }
+      Debug.Log($"No Longer Tracking {((toRemove?.IsPersistent ?? true) ? "" : "Temp ")}Window: {windowId}");
 
       _windowsById.Remove(windowId);
       _editorModeWindows.Remove(windowId);
