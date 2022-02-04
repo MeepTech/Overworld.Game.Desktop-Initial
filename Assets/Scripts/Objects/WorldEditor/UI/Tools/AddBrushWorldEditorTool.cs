@@ -1,8 +1,8 @@
 ﻿using Meep.Tech.Collections;
-using Meep.Tech.Data;
+using Meep.Tech.Collections.Generic;
 using Overworld.Controllers.Editor;
 using Overworld.Data;
-using Overworld.Ux.Simple;
+using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,6 +43,10 @@ namespace Overworld.Objects.Editor {
     string _activeBoard
       = null;
     View _settingsWindow;
+    Shapes _currentShape 
+      = Shapes.Round;
+    int _brushSize 
+      = 1;
 
     public override void WhileEquipedDo(WorldEditorController editor) {
       if(Input.GetMouseButtonDown(0)) {
@@ -123,8 +127,22 @@ namespace Overworld.Objects.Editor {
 
     public View GetSettingsWindow()
       => _settingsWindow ??= new ViewBuilder("Brush Settings")
-        .AddField(new RangeSliderField("Size", 1, 30, clampedToWholeNumbers: true))
-        .AddField(new DropdownSelectField<Shapes>("Shape"))
+        .AddField(new RangeSliderField(
+            name: "Size",
+            min: 1,
+            max: 30,
+            clampedToWholeNumbers: true
+          ) { OnValueChangedListeners = (Action<DataField, double>)((updatedField, _)
+             => this._brushSize = (int)updatedField.Value)
+        })
+        .AddField(new DropdownSelectField<Shapes>(
+            name: "Shape"
+          ) { OnValueChangedListeners = (Action<DataField, List<KeyValuePair<string, object>>>)((updatedField, _)
+            => {
+              this._currentShape
+                = (Shapes)((updatedField as DropdownSelectField)?.Value?.FirstOrDefault().Value ?? 0);
+            })
+          })
       .Build();
 
     static Tile.Type _getSelectedTileType(WorldEditorController editor)

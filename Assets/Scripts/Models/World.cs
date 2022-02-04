@@ -1,6 +1,4 @@
 ﻿using Overworld.Script;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Overworld.Objects.Models {
 

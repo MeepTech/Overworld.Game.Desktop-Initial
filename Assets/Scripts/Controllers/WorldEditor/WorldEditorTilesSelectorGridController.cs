@@ -1,7 +1,5 @@
 using Overworld.Objects.Editor;
 using Overworld.Utilities;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 

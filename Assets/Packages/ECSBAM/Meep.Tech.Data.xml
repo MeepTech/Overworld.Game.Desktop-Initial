@@ -1427,9 +1427,19 @@
             The param collection.
             </summary>
         </member>
+        <member name="P:Meep.Tech.Data.IComponent`1.LiteBuilder.Universe">
+            <summary>
+            The universe this builder is part of
+            </summary>
+        </member>
         <member name="M:Meep.Tech.Data.IComponent`1.LiteBuilder.Build">
             <summary>
             Build the model.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.IComponent`1.LiteBuilder.ForEachParam(System.Action{System.ValueTuple{System.String,System.Object}})">
+            <summary>
+            Do something with each paramter in the builder.
             </summary>
         </member>
         <member name="T:Meep.Tech.Data.IFactory">
@@ -1576,6 +1586,11 @@
         <member name="M:Meep.Tech.Data.IModel.Builder.AsImmutable">
             <summary>
             Just make this immutible.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.IModel.Builder.ForEachParam(System.Action{System.ValueTuple{System.String,System.Object}})">
+            <summary>
+            Do something with each paramter in the builder.
             </summary>
         </member>
         <member name="T:Meep.Tech.Data.IModel.Builder.DoNotBuildThisTypeException">
@@ -3257,64 +3272,14 @@
              - public|private|protected Model()
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.AddToValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.ICollection{``1}},``0,``1)">
-            <summary>
-            Add an item to a ICollection within a dictionary at the given key
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.RemoveFromValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.ICollection{``1}},``0,``1)">
-            <summary>
-            Remove an item from an ICollection within a dictionary at the given key
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.AddToValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.IList{``1}},``0,``1)">
-            <summary>
-            Add an item to a ICollection within a dictionary at the given key
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.AddToHashSet``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.HashSet{``1}},``0,``1)">
-            <summary>
-            Add an item to a ICollection within a dictionary at the given key
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.RemoveFromValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.IList{``1}},``0,``1)">
-            <summary>
-            Remove an item from an ICollection within a dictionary at the given key
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.Append``1(System.Collections.Generic.HashSet{``0},``0)">
-            <summary>
-            Append a value to a dictionary and return the collection
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.Append(System.Collections.Generic.HashSet{System.Func{Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel.IComponent}},System.Func{Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel.IComponent})">
-            <summary>
-            Append a value to a dictionary and return the collection
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.Append``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
-            <summary>
-            Append a value to a dictionary and return the collection
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.DictionaryExtensions.Append``1(System.Collections.Generic.Dictionary{System.String,``0},``0)">
             <summary>
             Append a component to a dictionary and return the collection
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.Merge``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1}[])">
+        <member name="M:Meep.Tech.Data.DictionaryExtensions.Append(System.Collections.Generic.HashSet{System.Func{Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel.IComponent}},System.Func{Meep.Tech.Data.IBuilder,Meep.Tech.Data.IModel.IComponent})">
             <summary>
-            Merge dictionaries together, overriding any values with the same key.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.MergeIn``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.IReadOnlyDictionary{``0,``1}[])">
-            <summary>
-            Merge dictionaries together, overriding any values with the same key.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.DictionaryExtensions.Merge(System.Collections.IDictionary,System.Collections.IDictionary[])">
-            <summary>
-            Merge dictionaries together, overriding any values with the same key.
+            Append a value to a dictionary and return the collection
             </summary>
         </member>
         <member name="T:Meep.Tech.Data.TypeExtensions">
@@ -3345,29 +3310,105 @@
             Tries to cast an object to a given type. First time is expensive
             </summary>
         </member>
-        <member name="M:Meep.Tech.Collections.EnumerableExtensions.AsSingleItemEnumerable``1(``0)">
+        <member name="T:Meep.Tech.Collections.Generic.DelegateCollection`1">
+            <summary>
+            An ordered collection of delegates
+            </summary>
+            <typeparam name="TAction"></typeparam>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DelegateCollection`1.ReDelegate``1(System.Func{`0,``0})">
+            <summary>
+            Change all the delegates and return a new collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.AddToValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.ICollection{``1}},``0,``1)">
+            <summary>
+            Add an item to a ICollection within a dictionary at the given key
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.RemoveFromValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.ICollection{``1}},``0,``1)">
+            <summary>
+            Remove an item from an ICollection within a dictionary at the given key
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.AddToValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.IList{``1}},``0,``1)">
+            <summary>
+            Add an item to a ICollection within a dictionary at the given key
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.AddToHashSet``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.HashSet{``1}},``0,``1)">
+            <summary>
+            Add an item to a ICollection within a dictionary at the given key
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.RemoveFromValueCollection``2(System.Collections.Generic.IDictionary{``0,System.Collections.Generic.IList{``1}},``0,``1)">
+            <summary>
+            Remove an item from an ICollection within a dictionary at the given key
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``1(System.Collections.Generic.HashSet{``0},``0)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``2(System.Collections.Generic.IDictionary{``0,``1},``0,``1)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``2(System.Collections.Generic.Dictionary{``0,``1},``0,``1)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``1(Meep.Tech.Collections.Generic.DelegateCollection{``0},System.String,``0)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``2(Meep.Tech.Collections.Generic.OrderedDictionary{``0,``1},``0,``1)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Append``3(``0,``1,``2)">
+            <summary>
+            Append a value to a dictionary and return the collection
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Merge``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.IDictionary{``0,``1}[])">
+            <summary>
+            Merge dictionaries together, overriding any values with the same key.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.MergeInReadonly``2(System.Collections.Generic.Dictionary{``0,``1},System.Collections.Generic.IReadOnlyDictionary{``0,``1}[])">
+            <summary>
+            Merge dictionaries together, overriding any values with the same key.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.DictionaryExtensions.Merge(System.Collections.IDictionary,System.Collections.IDictionary[])">
+            <summary>
+            Merge dictionaries together, overriding any values with the same key.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Collections.Generic.EnumerableExtensions.AsSingleItemEnumerable``1(``0)">
             <summary>
             Turn one item into an enumerable contaiing itself.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Collections.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
+        <member name="M:Meep.Tech.Collections.Generic.EnumerableExtensions.ForEach``1(System.Collections.Generic.IEnumerable{``0},System.Action{``0})">
             <summary>
             do on each
             </summary>
         </member>
-        <member name="M:Meep.Tech.Collections.EnumerableExtensions.Reverse``1(System.Collections.Generic.IList{``0})">
+        <member name="M:Meep.Tech.Collections.Generic.EnumerableExtensions.Reverse``1(System.Collections.Generic.IList{``0})">
             <summary>
             Reverse the list.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Collections.EnumerableExtensions.Until``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
+        <member name="M:Meep.Tech.Collections.Generic.EnumerableExtensions.Until``1(System.Collections.Generic.IEnumerable{``0},System.Int32)">
             <summary>
             Get the values until the desired index. Not including it.
-            </summary>
-        </member>
-        <member name="T:Meep.Tech.Collections.Generic.IReadOnlyKeyedSet`2">
-            <summary>
-            A Keyed Set, but readonly.
             </summary>
         </member>
         <member name="T:Meep.Tech.Collections.Generic.IOrderedDictionary`2">
@@ -3401,6 +3442,11 @@
              Remove using the key.
              This can help as an alternative to Remove if the key is an int
              </summary>
+        </member>
+        <member name="T:Meep.Tech.Collections.Generic.IReadOnlyKeyedSet`2">
+            <summary>
+            A Keyed Set, but readonly.
+            </summary>
         </member>
         <member name="T:Meep.Tech.Collections.Generic.IReadOnlyOrderedDictionary`2">
             <summary>

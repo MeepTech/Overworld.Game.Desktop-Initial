@@ -1,5 +1,6 @@
 ﻿using Meep.Tech.Data;
-using Overworld.Ux.Simple;
+using Meep.Tech.Collections.Generic;
+using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Overworld.Controllers.SimpleUx {
       => _title ??= _titleTextField.GetComponent<TitleController>(); TitleController _title;
 
     public override object GetCurrentValue()
-      => (FieldData as DropdownSelectField).Options.TryToGetPairAtIndex(_dropdown.value);
+      => (FieldData as DropdownSelectField).Options.TryToGetPairAtIndex(_dropdown.value).AsSingleItemEnumerable().ToList();
 
     protected override void _intializeForFieldData() {
 
@@ -58,8 +59,8 @@ namespace Overworld.Controllers.SimpleUx {
       if(value?.Any() ?? false) {
         int index = (FieldData as DropdownSelectField).Options.IndexOf(value.First().Key);
         _dropdown.value = index;
-      } else
-        throw new ArgumentException($"Value[={newValue}] of type: {newValue?.GetType().FullName ?? "NULL"}, is not a List of KeyValuePair<string, object> with a single entry.");
+      } else if (newValue is not null && value is null)
+        throw new ArgumentException($"Value[={newValue}] of type: {newValue.GetType().FullName}, is not a List of KeyValuePair<string, object> with a single entry.");
     }
 
     protected override void _addOnChangeListener(DataField dataField) {

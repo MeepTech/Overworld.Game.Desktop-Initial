@@ -1,4 +1,4 @@
-﻿using Overworld.Ux.Simple;
+﻿using Simple.Ux.Data;
 using UnityEngine;
 using UnityEngine.UI;
 

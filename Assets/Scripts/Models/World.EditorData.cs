@@ -1,5 +1,5 @@
 ﻿using Meep.Tech.Collections;
-using Meep.Tech.Data;
+using Meep.Tech.Collections.Generic;
 using System.Collections.Generic;
 
 namespace Overworld.Objects.Models {

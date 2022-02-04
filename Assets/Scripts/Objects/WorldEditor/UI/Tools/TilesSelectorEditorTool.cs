@@ -1,14 +1,15 @@
 ﻿using Meep.Tech.Collections;
-using Meep.Tech.Data;
+using Meep.Tech.Collections.Generic;
 using Overworld.Controllers.Editor;
 using Overworld.Utilities;
+using Simple.Ux.Data;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace Overworld.Objects.Editor {
-  public class TilesSelectorEditorTool : WorldEditorTool {
+  public class TilesSelectorEditorTool : WorldEditorTool, IHasAnOpenableSettingsWindow {
 
     public override HashSet<KeyCode> HotKeys
       => new() {
@@ -28,8 +29,8 @@ namespace Overworld.Objects.Editor {
     = null;
 
     internal HashSet<Vector2Int>
-    _selectedTiles
-      = new();
+      _selectedTiles
+        = new();
 
     Vector2Int?
     _currentSelectedTile
@@ -55,13 +56,15 @@ namespace Overworld.Objects.Editor {
         + $"\n\t- Shift+ALT+Click to draw in a square from the last placed tile (can be used to draw lines too). If CTRL is also held it add or subtract."
         + $"\n\t- ESC to clear current selection. Right Click also does if you don't drag the mouse too much.";
 
-    Vector2Int? _rightClickLocation;
 
     /// <summary>
     /// Check if the selection is active
     /// </summary>
     public bool SelectionIsActive
       => _selectedTiles.Any();
+
+    Vector2Int? _rightClickLocation;
+    View _settingsWindow;
 
     /// <summary>
     /// Check if a tile is selected by the tool
@@ -88,7 +91,7 @@ namespace Overworld.Objects.Editor {
         }
       }
 
-      // left click to place
+      // left click to select
       if(Input.GetMouseButtonDown(0)) {
         // This doesn't work when using the selector in override mode. 
         if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) {
@@ -167,6 +170,7 @@ namespace Overworld.Objects.Editor {
               _selectedTiles.Add(previousTile);
               editor.TilesSelectionController.ToggleSelected(this, previousTile, true);
             });
+            _updateTileCount(_selectedTiles.Count);
             Debug.Log($"Undoing selection. Applying {previousTilesSelected.Length} previously selected tiles.");
           },
           editor => {
@@ -176,6 +180,7 @@ namespace Overworld.Objects.Editor {
               _selectedTiles.Add(currentTile);
               editor.TilesSelectionController.ToggleSelected(this, currentTile, true);
             });
+      _updateTileCount(_selectedTiles.Count);
             Debug.Log($"Redoing selection. Re-applying {currentlySelectedTiles.Length} previously un-done selected tiles.");
           }
         ));
@@ -199,6 +204,7 @@ namespace Overworld.Objects.Editor {
 
       // Undo, Redo:
       var currentlySelectedTiles = _selectedTiles.ToArray();
+      _updateTileCount(0);
       editor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
         this,
         editor => {
@@ -207,6 +213,7 @@ namespace Overworld.Objects.Editor {
             _selectedTiles.Add(previousTile);
             editor.TilesSelectionController.ToggleSelected(this, previousTile, true);
           });
+          _updateTileCount(_selectedTiles.Count);
           Debug.Log($"Undoing selection. Applying {previousTilesSelected.Length} previously selected tiles.");
         },
         editor => {
@@ -215,6 +222,7 @@ namespace Overworld.Objects.Editor {
             _selectedTiles.Add(currentTile);
             editor.TilesSelectionController.ToggleSelected(this, currentTile, true);
           });
+          _updateTileCount(_selectedTiles.Count);
           Debug.Log($"Redoing selection. Re-applying {currentlySelectedTiles.Length} previously un-done selected tiles.");
         }
       ));
@@ -268,7 +276,35 @@ namespace Overworld.Objects.Editor {
       }
 
       editor.TilesSelectionController.ClearTempSelection();
+      _updateTileCount(_selectedTiles.Count);
     }
+
+    private void _updateTileCount(int count) {
+      _settingsWindow?.GetField("Selected Tile Count").TryToSetValue(count.ToString(), out _);
+    }
+
+    /// <summary>
+    /// Edit modes for the tile selector tool
+    /// </summary>
+    public enum EditModes {
+      Add,
+      Subtract
+    }
+
+    public View GetSettingsWindow()
+      => _settingsWindow ??= new ViewBuilder("Tile Selector")
+        .AddField(new ReadOnlyTextField(_selectedTiles.Count.ToString(), "Selected Tile Count"))
+        .AddField(new ToggleField("Sticky", "If a new select shouldn't be created every time you click, and values should be added to, or removed from the current selection."))
+        .AddField(new ToggleField("Lock Mode", "Locks the select mode to one of the below modes."))
+        .AddField(new DropdownSelectField<EditModes>("Mode") {
+          EnabledIfCheckers = new() {
+            {
+              "ifLocked",
+              (field, view) => view.GetFieldValue<bool>("Lock Mode")
+            }
+          }
+        })
+      .Build();
 
 #if UNITY_EDITOR
     [MenuItem("Assets/Create/Overworld/UI/Tools/Tiles Selector Editor Tool")]

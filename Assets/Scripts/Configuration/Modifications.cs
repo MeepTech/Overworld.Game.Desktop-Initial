@@ -1,7 +1,4 @@
 ﻿using Meep.Tech.Data;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace Overworld.Data {
   public sealed partial class Modifications : Meep.Tech.Data.Configuration.Modifications {

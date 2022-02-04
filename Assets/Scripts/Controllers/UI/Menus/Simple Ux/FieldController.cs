@@ -1,4 +1,5 @@
-﻿using Overworld.Ux.Simple;
+﻿using Meep.Tech.Collections.Generic;
+using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -103,6 +104,12 @@ namespace Overworld.Controllers.SimpleUx {
     protected abstract void _setFieldEnabled(bool toEnabled = true);
 
     /// <summary>
+    /// Used to set the field as enabled or disbaled.
+    /// </summary>
+    protected virtual void _setFieldVisible(bool toVisible = false)
+      => gameObject.SetActive(toVisible);
+
+    /// <summary>
     /// Used to set the field as valid or invalid.
     /// </summary>
     protected abstract void _setFieldValid(bool toValid = true);
@@ -167,8 +174,20 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     internal void _updateFieldEnabledState() {
       /// check if the field should still be enabled:
-      if(FieldData.Enable is not null)
-        if (!FieldData.Enable(FieldData, View.Data)) {
+      if(FieldData.EnabledIfCheckers?.Any() ?? false)
+        if (!FieldData.EnabledIfCheckers.Values.Any(checker => !checker(FieldData, View.Data))) {
+          _setFieldEnabled(false);
+        } else
+          _setFieldEnabled(true);
+    }
+
+    /// <summary>
+    /// Can be used to check if the field should be hidden, and update the field to the correct state.
+    /// </summary>
+    internal void _updateFieldHiddenState() {
+      /// check if the field should still be enabled:
+      if(FieldData.HideIfCheckers?.Any() ?? false)
+        if (!FieldData.HideIfCheckers.Values.Any(checker => !checker(FieldData, View.Data))) {
           _setFieldEnabled(false);
         } else
           _setFieldEnabled(true);

@@ -2,7 +2,7 @@
 using Meep.Tech.Collections.Generic;
 using Meep.Tech.Data;
 using Overworld.Utilities;
-using Overworld.Ux.Simple;
+using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +25,9 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// The controller prefabs for each type of Simple Ux Field.
     /// </summary>
-    public static IReadOnlyDictionary<Ux.Simple.DataField.DisplayType, FieldController> FieldControllerPrefabs
+    public static IReadOnlyDictionary<DataField.DisplayType, FieldController> FieldControllerPrefabs
       => _prefabs;
-    static Dictionary<Ux.Simple.DataField.DisplayType, FieldController> _prefabs;
+    static Dictionary<DataField.DisplayType, FieldController> _prefabs;
 
     #region Unity Inspector Set Fields
 

@@ -7,13 +7,13 @@
   "targets": {
     ".NETStandard,Version=v2.1": {},
     ".NETStandard,Version=v2.1/": {
-      "Overworld.Script/1.0.0": {
+      "Overworld.SimpleUx.Data/1.0.0": {
         "dependencies": {
           "Meep.Tech.Data": "1.0.0",
           "Overworld.Data": "1.0.0"
         },
         "runtime": {
-          "Overworld.Script.dll": {}
+          "Overworld.SimpleUx.Data.dll": {}
         }
       },
       "CompareNETObjects/4.74.0": {
@@ -128,7 +128,7 @@
     }
   },
   "libraries": {
-    "Overworld.Script/1.0.0": {
+    "Overworld.SimpleUx.Data/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

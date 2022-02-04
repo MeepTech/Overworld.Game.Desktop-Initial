@@ -1,5 +1,5 @@
 using Overworld.Controllers.SimpleUx;
-using Overworld.Ux.Simple;
+using Simple.Ux.Data;
 using UnityEngine;
 
 public class Test_SimpleUx : MonoBehaviour {
