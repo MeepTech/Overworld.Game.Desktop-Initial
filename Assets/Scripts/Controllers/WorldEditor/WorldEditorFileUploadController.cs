@@ -23,18 +23,22 @@ namespace Overworld.Controllers.Editor {
     void OnUploadFiles(List<string> aPathNames, POINT aDropPoint) {
       Dictionary<string, object> options = new() {
         {
-          $"{WorldController.CurrentUser?.UniqueName ?? "No-Name"} 's Custom Assets",
+          IArchetypePorter.MoveFinishedFilesToFinishedImportsFolderSetting,
           true
         },
         {
-          Tile.Porter.PixelsPerTileOption,
-          _worldEditor.WorldController.World.Options.TileWidthInPixels
+          IArchetypePorter.PagkageNameOverrideSetting,
+          $"{WorldController.CurrentUser?.UniqueName ?? "No-Name"} 's Custom Assets"
         }
       };
 
       // TOOD: validate file types:
       /// Tiles Tab
       if(_worldEditor.WorldEditorEditorMainMenu.TabbedMenuController.enabledTab.id == 0) {
+        options.Add(
+          Tile.Porter.PixelsPerTileOption,
+          _worldEditor.WorldController.World.Options.TileWidthInPixels
+        );
 
         // import tile background in place:
         if(Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift) || _worldEditor.WorldEditorEditorMainMenu.ActiveOptions.ImportTilemapsAsBackgroundsInPlace) {
