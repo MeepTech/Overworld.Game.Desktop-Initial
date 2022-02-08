@@ -1,4 +1,5 @@
 ﻿using Overworld.Controllers.World;
+using System.Linq;
 using UnityEngine;
 
 namespace Overworld.Controllers.Player {
@@ -50,17 +51,24 @@ namespace Overworld.Controllers.Player {
     }
 
     Vector3? _dragFromPosition;
+    WorldController _worldController;
 
-    void Update() {
-      WorldController worldController = Demiurge.Self.WorldController;
-      if(worldController.World.Options.AllowDragging || worldController.IsInEditMode) {
-        /// drag can be prevented in a tool by overriding the right click button
-        if(worldController.IsInEditMode && (worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.HotKeys?.Contains(KeyCode.Mouse1) ?? false)) {
-          return;
-        }
+    void Awake() {
+      _worldController = Demiurge.Self.WorldController;
+    }
 
-        DragUpdateLogic();
-      }
+    void Start() {
+      _worldController.Controls.onActionTriggered += context
+        => {
+          if(context.action.name == "Drag Current View" && (_worldController.World.Options.AllowDragging || _worldController.IsInEditMode)) {
+            /// drag can be prevented in a tool by overriding the right click button
+            if(_worldController.IsInEditMode && (!(_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.ReservedControlPaths.Contains(context.action.bindings.First().path)) ?? false)) {
+              return;
+            }
+
+            DragUpdateLogic();
+          }
+        };
     }
 
     /// <summary>

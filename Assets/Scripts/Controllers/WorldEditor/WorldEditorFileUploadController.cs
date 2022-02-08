@@ -23,7 +23,7 @@ namespace Overworld.Controllers.Editor {
     void OnUploadFiles(List<string> aPathNames, POINT aDropPoint) {
       Dictionary<string, object> options = new() {
         {
-          $"{WorldController.CurrentUser.UniqueName} 's Custom Assets",
+          $"{WorldController.CurrentUser?.UniqueName ?? "No-Name"} 's Custom Assets",
           true
         },
         {

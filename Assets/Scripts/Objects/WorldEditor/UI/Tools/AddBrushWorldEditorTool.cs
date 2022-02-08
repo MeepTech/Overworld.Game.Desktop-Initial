@@ -1,5 +1,4 @@
-﻿using Meep.Tech.Collections;
-using Meep.Tech.Collections.Generic;
+﻿using Meep.Tech.Collections.Generic;
 using Overworld.Controllers.Editor;
 using Overworld.Data;
 using Simple.Ux.Data;
@@ -21,7 +20,7 @@ namespace Overworld.Objects.Editor {
     }
 
     (string, Vector2Int)? _lastEditedLocation
-    = null;
+      = null;
 
     public override Func<WorldEditorController, Sprite> GetBackgroundPreview {
       get;
@@ -29,104 +28,106 @@ namespace Overworld.Objects.Editor {
       _getSelectedTileType(worldEditor)?
         .DefaultBackground?.sprite;
 
-    public override HashSet<KeyCode> HotKeys
-      => new() {
-        KeyCode.Mouse0
-      };
-
+    [SerializeField, ReadOnly]
     bool _clicked
     = false;
 
     Dictionary<Vector2Int, (Tile? old, Tile? @new)> _editedTiles
-    = new ();
+      = new ();
 
+    [SerializeField, ReadOnly]
     string _activeBoard
       = null;
     View _settingsWindow;
+    [SerializeField, ReadOnly]
     Shapes _currentShape 
       = Shapes.Round;
+    [SerializeField, ReadOnly]
     int _brushSize 
       = 1;
 
-    public override void WhileEquipedDo(WorldEditorController editor) {
-      if(Input.GetMouseButtonDown(0)) {
-        /// if there's a selection check if it's in the selection first.
-        if(editor.ToolController.SelectionData?.SelectionIsActive ?? false) {
-          Vector2Int clickedLocation = editor.WorldController.TileSelector.HoveredTileLocation;
-          if(!editor.ToolController.SelectionData.IsSelected(clickedLocation)) {
+    protected internal override void UseTool(ActionStatus actionStatus) {
+      switch(actionStatus) {
+        case ActionStatus.Down:
+          /// if there's a selection check if it's in the selection first.
+          if(WorldEditor.ToolController.SelectionData?.SelectionIsActive ?? false) {
+            Vector2Int clickedLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+            if(!WorldEditor.ToolController.SelectionData.IsSelected(clickedLocation)) {
+              return;
+            }
+          }
+          _clicked = true;
+          _activeBoard = WorldEditor.WorldController.TileBoards.CurrentDominantTileBoardForUser.BoardKey;
+          break;
+        case ActionStatus.Held:// get where we want to edit
+          Vector2Int editTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+
+          /// if there's a selection check if it's in the selection first.
+          if(WorldEditor.ToolController.SelectionData?.SelectionIsActive ?? false) {
+            if(!WorldEditor.ToolController.SelectionData.IsSelected(editTileLocation)) {
+              return;
+            }
+          }
+          _clicked = true;
+
+          var locationKey = (
+            _activeBoard,
+            editTileLocation
+          );
+
+          Tile.Type activeTileType
+            = _getSelectedTileType(WorldEditor);
+
+          if(activeTileType is null) {
             return;
           }
-        }
-        _clicked = true;
-        _activeBoard = editor.WorldController.TileBoards.CurrentDominantTileBoardForUser.BoardKey;
-      }
 
-      if(Input.GetMouseButton(0) && _clicked) {
-        // get where we want to edit
-        Vector2Int editTileLocation = editor.WorldController.TileSelector.HoveredTileLocation;
-
-        /// if there's a selection check if it's in the selection first.
-        if(editor.ToolController.SelectionData?.SelectionIsActive ?? false) {
-          if(!editor.ToolController.SelectionData.IsSelected(editTileLocation)) {
-            return;
+          // if the brush hasn't moved, don't edit the same tile twice:
+          if(_lastEditedLocation != null) {
+            if(_lastEditedLocation == locationKey) {
+              return;
+            }
           }
-        }
 
-        var locationKey = (
-        _activeBoard,
-        editTileLocation
-      );
-
-        Tile.Type activeTileType
-        = _getSelectedTileType(editor);
-        if(activeTileType is null) {
-          return;
-        }
-
-        // if the brush hasn't moved, don't edit the same tile twice:
-        if(_lastEditedLocation != null) {
-          if(_lastEditedLocation == locationKey) {
-            return;
+          var beforeTile = WorldEditor.WorldController.TileSelector.HoveredTile;
+          WorldEditor.WorldController.TileBoards[_activeBoard].UpdateTile(
+            editTileLocation,
+            activeTileType
+          );
+          var afterTile = WorldEditor.WorldController.TileSelector.HoveredTile;
+          if(!(beforeTile is null && afterTile is null) && !_editedTiles.ContainsKey(editTileLocation)) {
+            _editedTiles[editTileLocation] = (beforeTile, afterTile);
           }
-        }
 
-        var beforeTile = editor.WorldController.TileSelector.HoveredTile;
-        editor.WorldController.TileBoards[_activeBoard].UpdateTile(
-          editTileLocation,
-          activeTileType
-        );
-        var afterTile = editor.WorldController.TileSelector.HoveredTile;
-        if(!(beforeTile is null && afterTile is null) && !_editedTiles.ContainsKey(editTileLocation)) {
-          _editedTiles[editTileLocation] = (beforeTile, afterTile);
-        }
+          _lastEditedLocation = locationKey;
+          break;
+        case ActionStatus.Up:
+          if(_clicked) {
+            _lastEditedLocation = null;
+            _clicked = false;
 
-        _lastEditedLocation = locationKey;
-      }
+            // Undo, Redo:
+            var editedTiles = _editedTiles.ToArray();
+            var activeBoard = _activeBoard;
+            if(_editedTiles.Any()) {
+              WorldEditor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
+                this,
+                WorldEditor => editedTiles.ForEach(editedTileData
+                  => WorldEditor.WorldController.TileBoards[activeBoard].SetTile(editedTileData.Key, editedTileData.Value.old)),
+                WorldEditor => editedTiles.ForEach(editedTileData
+                  => WorldEditor.WorldController.TileBoards[activeBoard].SetTile(editedTileData.Key, editedTileData.Value.@new))
+              ));
 
-      if(Input.GetMouseButtonUp(0) && _clicked) {
-        _lastEditedLocation = null;
-        _clicked = false;
-
-        // Undo, Redo:
-        var editedTiles = _editedTiles.ToArray();
-        var activeBoard = _activeBoard;
-        if(_editedTiles.Any()) {
-          editor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
-            this,
-            editor => editedTiles.ForEach(editedTileData
-              => editor.WorldController.TileBoards[activeBoard].SetTile(editedTileData.Key, editedTileData.Value.old)),
-            editor => editedTiles.ForEach(editedTileData
-              => editor.WorldController.TileBoards[activeBoard].SetTile(editedTileData.Key, editedTileData.Value.@new))
-          ));
-
-          _activeBoard = null;
-          _editedTiles.Clear();
-        }
+              _activeBoard = null;
+              _editedTiles.Clear();
+            }
+          }
+          break;
       }
     }
 
-    public View GetSettingsWindow()
-      => _settingsWindow ??= new ViewBuilder("Brush Settings")
+    protected override ViewBuilder BuildSettingsView(ViewBuilder builder)
+      => builder
         .AddField(new RangeSliderField(
             name: "Size",
             min: 1,
@@ -142,8 +143,7 @@ namespace Overworld.Objects.Editor {
               this._currentShape
                 = (Shapes)((updatedField as DropdownSelectField)?.Value?.FirstOrDefault().Value ?? 0);
             })
-          })
-      .Build();
+          });
 
     static Tile.Type _getSelectedTileType(WorldEditorController editor)
       => editor.WorldEditorEditorMainMenu.TilesMenu.EnabledTileSubMenu?.SelectedTileTypeOption;

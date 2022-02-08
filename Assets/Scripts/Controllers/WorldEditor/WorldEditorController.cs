@@ -4,6 +4,7 @@ using UnityEngine;
 using Overworld.Controllers.World;
 using Meep.Tech.Collections;
 using Meep.Tech.Collections.Generic;
+using UnityEngine.InputSystem;
 
 namespace Overworld.Controllers.Editor {
 
@@ -41,6 +42,13 @@ namespace Overworld.Controllers.Editor {
     WorldEditorTilesSelectorGridController _tilesSelectionController;
 
     /// <summary>
+    /// The controller for the selected tiles display
+    /// </summary>
+    public PlayerInput Controls
+      => _editorControls;[SerializeField]
+    PlayerInput _editorControls;
+
+    /// <summary>
     /// Objects to toggle off when not in world edit mode.
     /// </summary>
     [SerializeField]
@@ -65,6 +73,10 @@ namespace Overworld.Controllers.Editor {
       }
     }
 
+    void OnEnable() {
+      _activateEditMode();
+    }
+
     void OnDisable() {
       _deActivateEditMode();
     }
@@ -73,10 +85,12 @@ namespace Overworld.Controllers.Editor {
       if(!_initialized) {
         _initialize();
       }
+      Controls.actions.FindActionMap("World Editor Controls", true).Enable();
       _worldEditModeObjects.ForEach(gameObj => gameObj.SetActive(true));
     }
 
     void _deActivateEditMode() {
+      Controls.actions.FindActionMap("World Editor Controls", true).Disable();
       _worldEditModeObjects?.ForEach(gameObj => gameObj?.SetActive(false));
     }
 

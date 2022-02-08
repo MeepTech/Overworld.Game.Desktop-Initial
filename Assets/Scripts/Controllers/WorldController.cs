@@ -3,6 +3,7 @@ using Overworld.Controllers.Player;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 
 namespace Overworld.Controllers.World {
   [DefaultExecutionOrder(-99)]
@@ -61,6 +62,12 @@ namespace Overworld.Controllers.World {
     bool _mouseIsOverUI;
 
     /// <summary>
+    /// The in game controlls for the current world.
+    /// </summary>
+    public PlayerInput Controls 
+      => _inGameControls;[SerializeField] PlayerInput _inGameControls;
+
+    /// <summary>
     /// The current user in control of the game.
     /// TODO: impliment
     /// </summary>
@@ -88,6 +95,11 @@ namespace Overworld.Controllers.World {
     } = TileBoardsController.BaseTileBackgroundsBoardKey;
 
     #endregion
+
+    void Awake() {
+      Controls.actions.FindActionMap("In-Game Character Controls", true).Enable();
+      Controls.actions.FindActionMap("Viewport Controls", true).Enable();
+    }
 
     void Update() {
       _mouseIsOverUI = IsPointerOverUIElement();

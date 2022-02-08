@@ -47,6 +47,8 @@ namespace Overworld.Controllers.Editor {
         if(tool.GetBackgroundPreview is not null) {
           _backgroundPreviewCallbacks.Add((toolOption, tool));
         }
+
+        tool._initialize();
       }
     }
 

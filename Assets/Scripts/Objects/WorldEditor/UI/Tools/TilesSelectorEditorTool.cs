@@ -3,59 +3,46 @@ using Meep.Tech.Collections.Generic;
 using Overworld.Controllers.Editor;
 using Overworld.Utilities;
 using Simple.Ux.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Overworld.Objects.Editor {
   public class TilesSelectorEditorTool : WorldEditorTool, IHasAnOpenableSettingsWindow {
 
-    public override HashSet<KeyCode> HotKeys
-      => new() {
-        KeyCode.Space,
-        KeyCode.Mouse0,
-        KeyCode.LeftShift,
-        KeyCode.RightShift,
-        KeyCode.LeftControl,
-        KeyCode.RightControl,
-        KeyCode.LeftAlt,
-        KeyCode.RightAlt
-      };
+    const string SelectedTileCountFieldKey = "Selected Tile Count";
+    const string LockModeFieldKey = "Lock Additive Mode";
+    const string ModeFieldKey = "Additive Mode";
+    const string StickyFieldKey = "Sticky";
+    const string UseBrushFieldKey = "Use Brush To Draw";
+    const string SnapDrawModeFieldKey = "Snap Draw Mode";
 
-    (Vector2Int init, Vector2Int end)? _currentAreaSelection;
+    const string ClearSelectionActionName
+      = "Clear Select Tool Selection";
 
-    Vector2Int? _lastModifiedLocation
-    = null;
+    public override InputActionMap ExtraBindings {
+      get;
+    } = new InputActionMap(nameof(TilesSelectorEditorTool))
+      .AppendAction(ClearSelectionActionName, InputActionType.Button, "<Keyboard>/0");
 
-    internal HashSet<Vector2Int>
-      _selectedTiles
-        = new();
-
-    Vector2Int?
-    _currentSelectedTile
-      = null;
-
-    bool _altDrawModeEnabled
-    = false;
-
-    bool? _specialSetToEnabled
-    = false;
-
-    bool _stickySelect
-    = false;
-
-    bool _selectSpecialAltSingleClickActive
-    = false;
+    /// <summary>
+    /// Edit modes for the tile selector tool
+    /// </summary>
+    public enum EditModes {
+      Add,
+      Subtract
+    }
 
     public override string Description
       => $"Select tiles with the mouse. Drag to select a square area of tiles."
-        + $"\n\t- Holding shift while using most tools will override to this tool"
-        + $"\n\t- CTRL+Click to add or subtract from the current selection (uses the first clicked and toggled tile to determine whether to add or remove). Shift+Click also does this when not in override mode."
+        + $"\n\t- Holding shift while using most tools will override to this tool. Snap mode is not available in override mode."
+        + $"\n\t- CTRL+Click to add or subtract from the current selection (uses the first clicked and toggled tile to determine whether to add or remove)."
         + $"\n\t- ALT+Click to draw by dragging, add or subtract is determined same as above"
-        + $"\n\t- Shift+ALT+Click to draw in a square from the last placed tile (can be used to draw lines too). If CTRL is also held it add or subtract."
-        + $"\n\t- ESC to clear current selection. Right Click also does if you don't drag the mouse too much.";
-
+        + $"\n\t- Shift+Click to snap draw in a square from the last clicked tile (can be used to draw lines too)"
+        + $"\n\t- ESC to clear current selection.";
 
     /// <summary>
     /// Check if the selection is active
@@ -63,8 +50,32 @@ namespace Overworld.Objects.Editor {
     public bool SelectionIsActive
       => _selectedTiles.Any();
 
+    internal HashSet<Vector2Int> _selectedTiles= new();
+    (Vector2Int init, Vector2Int end)? _currentAreaSelection;
+    [SerializeField, ReadOnly]
+    Vector2Int? _lastModifiedLocation = null;
+    [SerializeField, ReadOnly]
+    Vector2Int? _currentSelectedTile = null;
+    [SerializeField, ReadOnly]
     Vector2Int? _rightClickLocation;
-    View _settingsWindow;
+    [SerializeField, ReadOnly]
+    bool? _specialSetToEnabled;
+    [SerializeField, ReadOnly]
+    bool _altBrushModeIsEnabled;
+    [SerializeField, ReadOnly]
+    bool _stickySelectIsEnabled;
+    [SerializeField, ReadOnly]
+    bool _selectSpecialAltSingleClickActive;
+    [SerializeField, ReadOnly]
+    bool _modeLockActive;
+    [SerializeField, ReadOnly]
+    bool _brushLockActive;
+    [SerializeField, ReadOnly]
+    bool _stickyLockActive;
+    [SerializeField, ReadOnly]
+    bool _snapModeLockActive;
+    [SerializeField, ReadOnly]
+    bool _snapModeLockIsEnabled;
 
     /// <summary>
     /// Check if a tile is selected by the tool
@@ -72,8 +83,151 @@ namespace Overworld.Objects.Editor {
     public bool IsSelected(Vector2Int vector2Int)
       => _selectedTiles.Contains(vector2Int);
 
-    public override void WhileEquipedDo(WorldEditorController editor) {
-      Vector2Int mouseoverTileLocation = editor.WorldController.TileSelector.HoveredTileLocation;
+    /// <summary>
+    /// Clear the meta settings for the temp select
+    /// </summary>
+    public void ClearMetaSettings() {
+      _currentSelectedTile = null;
+      _selectSpecialAltSingleClickActive = false;
+      _currentAreaSelection = null;
+      _lastModifiedLocation = null;
+
+      _clearSpecialSetTo();
+      _dissableBrushMode();
+      _setStickyInactive();
+      _snapModeLockIsEnabled 
+        = _snapModeLockActive;
+    }
+
+    protected override void OnInitialize() {
+      WorldEditor.Controls.onActionTriggered += context => {
+        if(context.action.name == ClearSelectionActionName) {
+          _dismissCurrentSelection();
+        }
+      };
+    }
+
+    protected override ViewBuilder BuildSettingsView(ViewBuilder builder)
+      => builder
+        .AddField(new ReadOnlyTextField(_selectedTiles.Count.ToString(), SelectedTileCountFieldKey))
+        .AddField(new ToggleField(StickyFieldKey, "If a new select shouldn't be created every time you click, and values should be added to, or removed from the current selection."))
+        .AddField(new ToggleField(LockModeFieldKey, "Locks the select mode to one of the below modes."))
+        .AddField(new DropdownSelectField<EditModes>(ModeFieldKey) {
+          EnabledIfCheckers = new() {
+            {
+              "unLocked",
+              (field, view) => view.GetFieldValue<bool>(LockModeFieldKey)
+            }
+          }
+        })
+      .AddField(new ToggleField(UseBrushFieldKey, "Locks to brush add/subtract mode.") {
+        EnabledIfCheckers = new() {
+          {
+            "unLocked",
+            (field, view) => !view.GetFieldValue<bool>(SnapDrawModeFieldKey)
+          }
+        }
+      })
+      .AddField(new ToggleField(SnapDrawModeFieldKey, "Locks to Snap add/subtract mode.") {
+        EnabledIfCheckers = new() {
+          {
+            "unLocked",
+            (field, view) => !view.GetFieldValue<bool>(UseBrushFieldKey)
+          }
+        }
+      });
+
+    void OnDestroy() {
+      ClearMetaSettings();
+      _selectedTiles.Clear();
+    }
+
+    protected internal override void UseTool(ActionStatus actionStatus) {
+      Vector2Int mouseoverTileLocation;
+      switch(actionStatus) {
+        case ActionStatus.Down:
+          mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+          bool specialModeEnabled = ControledModeEnabled || AltModeEnabled || ShiftedModeEnabled;
+          if((_stickyLockActive = SettingsWindow?.GetFieldValue<bool>(StickyFieldKey) ?? false) || ControledModeEnabled) {
+            _setStickyActive();
+          }
+          if((_modeLockActive = SettingsWindow?.GetFieldValue<bool>(LockModeFieldKey) ?? false) || specialModeEnabled) {
+            _setSpecialSetAdditiveType();
+          }
+          // brush:
+          if((_brushLockActive = SettingsWindow?.GetFieldValue<bool>(UseBrushFieldKey) ?? false) || AltModeEnabled) {
+            _selectSpecialAltSingleClickActive = true;
+            _enableBrushMode();
+          } // snap mode:
+          else if((_snapModeLockActive = SettingsWindow?.GetFieldValue<bool>(SnapDrawModeFieldKey) ?? false) || ShiftedModeEnabled) {
+            if(_lastModifiedLocation is not null) {
+
+              // This prevents the snap functionaliy from making a new empty selection.
+              if(_specialSetToEnabled.HasValue && !_specialSetToEnabled.Value) {
+                if(!_stickySelectIsEnabled) {
+                  _specialSetToEnabled = true;
+                }
+              }
+              _snapModeLockIsEnabled = true;
+              _currentSelectedTile = mouseoverTileLocation;
+              _lastModifiedLocation = _selectSpecialAltSingleClickActive ? _lastModifiedLocation : mouseoverTileLocation;
+              _currentAreaSelection = (_lastModifiedLocation.Value, mouseoverTileLocation);
+              _onSelectDone(mouseoverTileLocation);
+
+              return;
+            }
+          }
+
+          _currentSelectedTile = mouseoverTileLocation;
+          _lastModifiedLocation = _selectSpecialAltSingleClickActive ? _lastModifiedLocation : mouseoverTileLocation;
+          break;
+        case ActionStatus.Held:
+          mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+          // If we dragged the mouse at all:
+          if(_lastModifiedLocation.HasValue && mouseoverTileLocation != _lastModifiedLocation.Value) {
+            // no alt draw mode, on drag use area selection:
+            if(!_altBrushModeIsEnabled) {
+              if(_currentAreaSelection is null) {
+                _currentAreaSelection = (_lastModifiedLocation.Value, mouseoverTileLocation);
+              } else {
+                _currentAreaSelection = (_currentAreaSelection.Value.init, mouseoverTileLocation);
+              }
+
+              //_selectSpecialAltSingleClickActive = false;
+              //_currentSelectedTile = null;
+              WorldEditor.TilesSelectionController.ClearTempSelection();
+              _currentAreaSelection.Value.init.Until(
+                _currentAreaSelection.Value.end,
+                tempSelectedTile => WorldEditor.TilesSelectionController.ToggleSelected(this, tempSelectedTile, true, true)
+              );
+            } // alt draw mode is enabled, change only the drawn on tile to what we originally chose:
+            else {
+              WorldEditor.TilesSelectionController.ToggleSelected(this, mouseoverTileLocation, _specialSetToEnabled.Value);
+            }
+
+            _currentSelectedTile = null;
+            _selectSpecialAltSingleClickActive = false;
+            _lastModifiedLocation = mouseoverTileLocation;
+          }
+
+          break;
+        case ActionStatus.Up:
+          if(!_snapModeLockIsEnabled) {
+            mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+            _onSelectDone(mouseoverTileLocation);
+          } else if (!_snapModeLockActive) {
+            _snapModeLockIsEnabled = false;
+          }
+          break;
+      }
+    }
+
+    protected internal override void OnDequip(WorldEditorTool next = null) {
+      ClearMetaSettings();
+    }
+
+    protected internal override void OnUpdateWhileEquiped() {
+      /*Vector2Int mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
 
       // right click to dismiss (unless you move too far)
       if(Input.GetMouseButtonDown(1)) {
@@ -87,7 +241,7 @@ namespace Overworld.Objects.Editor {
       }
       if(Input.GetMouseButtonUp(1)) {
         if(_rightClickLocation is not null) {
-          _dismissCurrentSelection(editor);
+          _dismissCurrentSelection(WorldEditor);
         }
       }
 
@@ -100,28 +254,28 @@ namespace Overworld.Objects.Editor {
           if(Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) {
             _selectSpecialAltSingleClickActive = true;
             if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
-              _stickySelect = true;
+              _stickySelectIsEnabled = true;
               _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
             }
           } // if not clicking alt and not in override mode
           else {
-            _stickySelect = true;
+            _stickySelectIsEnabled = true;
             _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
           }
 
           /// Control keeps the items in sticky select
         } else if(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)) {
-          _stickySelect = true;
+          _stickySelectIsEnabled = true;
           _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
         } // enable alt draw mode =
         else if(Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt)) {
           _specialSetToEnabled = !_selectedTiles.Contains(mouseoverTileLocation);
-          _altDrawModeEnabled = true;
-          _stickySelect = true;
+          _altBrushModeIsEnabled = true;
+          _stickySelectIsEnabled = true;
         }  // toggle the clicked tile otherwise in a new select:
         else {
           _specialSetToEnabled = true;
-          _stickySelect = false;
+          _stickySelectIsEnabled = false;
         }
 
         _currentSelectedTile = mouseoverTileLocation;
@@ -129,7 +283,7 @@ namespace Overworld.Objects.Editor {
       } else if(Input.GetMouseButton(0)) {
         if(_lastModifiedLocation.HasValue && mouseoverTileLocation != _lastModifiedLocation.Value) {
           // no alt draw mode, on drag use area selection:
-          if(!_altDrawModeEnabled) {
+          if(!_altBrushModeIsEnabled) {
             if(_currentAreaSelection is null) {
               _currentAreaSelection = (_lastModifiedLocation.Value, mouseoverTileLocation);
             } else {
@@ -138,14 +292,14 @@ namespace Overworld.Objects.Editor {
 
             _selectSpecialAltSingleClickActive = false;
             _currentSelectedTile = null;
-            editor.TilesSelectionController.ClearTempSelection();
+            WorldEditor.TilesSelectionController.ClearTempSelection();
             _currentAreaSelection.Value.init.Until(
               _currentAreaSelection.Value.end,
-              tempSelectedTile => editor.TilesSelectionController.ToggleSelected(this, tempSelectedTile, true, true)
+              tempSelectedTile => WorldEditor.TilesSelectionController.ToggleSelected(this, tempSelectedTile, true, true)
             );
           } // alt draw mode is enabled, change only the drawn on tile to what we originally chose:
           else {
-            editor.TilesSelectionController.ToggleSelected(this, mouseoverTileLocation, _specialSetToEnabled.Value);
+            WorldEditor.TilesSelectionController.ToggleSelected(this, mouseoverTileLocation, _specialSetToEnabled.Value);
           }
 
           _currentSelectedTile = null;
@@ -155,32 +309,32 @@ namespace Overworld.Objects.Editor {
       } // on release mouse, clear setings etc:
         else if(Input.GetMouseButtonUp(0)) {
         var previousTilesSelected = _selectedTiles.ToArray();
-        _onSelectDone(editor, mouseoverTileLocation);
+        _onSelectDone(WorldEditor, mouseoverTileLocation);
         ClearMetaSettings();
         _lastModifiedLocation = mouseoverTileLocation;
 
         // Undo, Redo:
         var currentlySelectedTiles = _selectedTiles.ToArray();
-        editor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
+        WorldEditor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
           this,
-          editor => {
-            editor.TilesSelectionController.ClearSelection();
+          WorldEditor => {
+            WorldEditor.TilesSelectionController.ClearSelection();
             _selectedTiles.Clear();
             previousTilesSelected.ForEach(previousTile => {
               _selectedTiles.Add(previousTile);
-              editor.TilesSelectionController.ToggleSelected(this, previousTile, true);
+              WorldEditor.TilesSelectionController.ToggleSelected(this, previousTile, true);
             });
             _updateTileCount(_selectedTiles.Count);
             Debug.Log($"Undoing selection. Applying {previousTilesSelected.Length} previously selected tiles.");
           },
-          editor => {
-            editor.TilesSelectionController.ClearSelection();
+          WorldEditor => {
+            WorldEditor.TilesSelectionController.ClearSelection();
             _selectedTiles.Clear();
             currentlySelectedTiles.ForEach(currentTile => {
               _selectedTiles.Add(currentTile);
-              editor.TilesSelectionController.ToggleSelected(this, currentTile, true);
+              WorldEditor.TilesSelectionController.ToggleSelected(this, currentTile, true);
             });
-      _updateTileCount(_selectedTiles.Count);
+            _updateTileCount(_selectedTiles.Count);
             Debug.Log($"Redoing selection. Re-applying {currentlySelectedTiles.Length} previously un-done selected tiles.");
           }
         ));
@@ -188,11 +342,11 @@ namespace Overworld.Objects.Editor {
 
       /// Escape clears the current selection:
       if(Input.GetKeyDown(KeyCode.Escape)) {
-        _dismissCurrentSelection(editor);
-      }
+        _dismissCurrentSelection(WorldEditor);
+      }*/
     }
 
-    void _dismissCurrentSelection(WorldEditorController editor) {
+    void _dismissCurrentSelection() {
       if(!_selectedTiles.Any()) {
         return;
       }
@@ -200,12 +354,12 @@ namespace Overworld.Objects.Editor {
       var previousTilesSelected = _selectedTiles.ToArray();
 
       _selectedTiles.Clear();
-      editor.TilesSelectionController.ClearSelection();
+      WorldEditor.TilesSelectionController.ClearSelection();
 
       // Undo, Redo:
       var currentlySelectedTiles = _selectedTiles.ToArray();
       _updateTileCount(0);
-      editor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
+      WorldEditor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
         this,
         editor => {
           editor.TilesSelectionController.ClearSelection();
@@ -228,83 +382,118 @@ namespace Overworld.Objects.Editor {
       ));
     }
 
-    /// <summary>
-    /// Clear the meta settings for the temp select
-    /// </summary>
-    public void ClearMetaSettings() {
-      _specialSetToEnabled = null;
-      _currentSelectedTile = null;
-      _selectSpecialAltSingleClickActive = false;
-      _currentAreaSelection = null;
-      _stickySelect = false;
-      _altDrawModeEnabled = false;
-      _lastModifiedLocation = null;
-    }
-
-    void OnDestroy() {
-      ClearMetaSettings();
-      _selectedTiles.Clear();
-    }
-
-    void _onSelectDone(WorldEditorController editor, Vector2Int mouseoverTileLocation) {
+    void _onSelectDone(Vector2Int mouseoverTileLocation) {
+      var previousTilesSelected = _selectedTiles.ToArray();
       if(_selectSpecialAltSingleClickActive) {
-        if(!_stickySelect) {
+        if(!_stickySelectIsEnabled) {
           _selectedTiles.Clear();
-          editor.TilesSelectionController.ClearSelection();
+          WorldEditor.TilesSelectionController.ClearSelection();
         }
 
         // uses last clicked location if there's no location stored in this tool:
-        (_lastModifiedLocation ?? editor.WorldController.TileSelector.SelectedTileLocation).Until(mouseoverTileLocation, selectionTile =>
-          editor.TilesSelectionController.ToggleSelected(this, selectionTile, true)
+        (_lastModifiedLocation ?? WorldEditor.WorldController.TileSelector.SelectedTileLocation).Until(mouseoverTileLocation, selectionTile =>
+          WorldEditor.TilesSelectionController.ToggleSelected(this, selectionTile, true)
         );
 
         return;
+      } else {
+
+        if(!_stickySelectIsEnabled) {
+          _selectedTiles.Clear();
+          WorldEditor.TilesSelectionController.ClearSelection();
+        }
+
+        if(_currentSelectedTile.HasValue) {
+          WorldEditor.TilesSelectionController.ToggleSelected(this, _currentSelectedTile.Value, _specialSetToEnabled ?? true);
+        } else if(_currentAreaSelection.HasValue) {
+          _currentAreaSelection.Value.init.Until(
+            _currentAreaSelection.Value.end,
+            tempSelectedTile => WorldEditor.TilesSelectionController.ToggleSelected(this, tempSelectedTile, _stickySelectIsEnabled ? _specialSetToEnabled : true)
+          );
+        }
+
+        WorldEditor.TilesSelectionController.ClearTempSelection();
       }
 
-      if(!_stickySelect) {
-        _selectedTiles.Clear();
-        editor.TilesSelectionController.ClearSelection();
-      }
+      // Undo, Redo:
+      var currentlySelectedTiles = _selectedTiles.ToArray();
+      WorldEditor.ToolController.AppendHistoryAction(new WorldEditorToolController.HistoricalAction(
+        this,
+        WorldEditor => {
+          WorldEditor.TilesSelectionController.ClearSelection();
+          _selectedTiles.Clear();
+          previousTilesSelected.ForEach(previousTile => {
+            _selectedTiles.Add(previousTile);
+            WorldEditor.TilesSelectionController.ToggleSelected(this, previousTile, true);
+          });
+          _updateTileCount(_selectedTiles.Count);
+          Debug.Log($"Undoing selection. Applying {previousTilesSelected.Length} previously selected tiles.");
+        },
+        WorldEditor => {
+          WorldEditor.TilesSelectionController.ClearSelection();
+          _selectedTiles.Clear();
+          currentlySelectedTiles.ForEach(currentTile => {
+            _selectedTiles.Add(currentTile);
+            WorldEditor.TilesSelectionController.ToggleSelected(this, currentTile, true);
+          });
+          _updateTileCount(_selectedTiles.Count);
+          Debug.Log($"Redoing selection. Re-applying {currentlySelectedTiles.Length} previously un-done selected tiles.");
+        }
+      ));
 
-      if(_currentSelectedTile.HasValue) {
-        editor.TilesSelectionController.ToggleSelected(this, _currentSelectedTile.Value, _specialSetToEnabled ?? true);
-      } else if(_currentAreaSelection.HasValue) {
-        _currentAreaSelection.Value.init.Until(
-          _currentAreaSelection.Value.end,
-          tempSelectedTile => editor.TilesSelectionController.ToggleSelected(this, tempSelectedTile, _stickySelect ? _specialSetToEnabled : true)
-        );
-      }
-
-      editor.TilesSelectionController.ClearTempSelection();
+      ClearMetaSettings();
+      _lastModifiedLocation = mouseoverTileLocation;
       _updateTileCount(_selectedTiles.Count);
     }
 
-    private void _updateTileCount(int count) {
-      _settingsWindow?.GetField("Selected Tile Count").TryToSetValue(count.ToString(), out _);
+    void _updateTileCount(int count) {
+      SettingsWindow?.GetField(SelectedTileCountFieldKey).TryToSetValue(count.ToString(), out _);
     }
 
-    /// <summary>
-    /// Edit modes for the tile selector tool
-    /// </summary>
-    public enum EditModes {
-      Add,
-      Subtract
+    void _setStickyActive() {
+      _stickySelectIsEnabled = true;
+      if(!_stickyLockActive) {
+        SettingsWindow?.GetField(StickyFieldKey).TryToSetValue(true, out _);
+      }
     }
 
-    public View GetSettingsWindow()
-      => _settingsWindow ??= new ViewBuilder("Tile Selector")
-        .AddField(new ReadOnlyTextField(_selectedTiles.Count.ToString(), "Selected Tile Count"))
-        .AddField(new ToggleField("Sticky", "If a new select shouldn't be created every time you click, and values should be added to, or removed from the current selection."))
-        .AddField(new ToggleField("Lock Mode", "Locks the select mode to one of the below modes."))
-        .AddField(new DropdownSelectField<EditModes>("Mode") {
-          EnabledIfCheckers = new() {
-            {
-              "ifLocked",
-              (field, view) => view.GetFieldValue<bool>("Lock Mode")
-            }
-          }
-        })
-      .Build();
+    void _setStickyInactive() {
+      if(!_stickyLockActive) {
+        _stickySelectIsEnabled = false;
+        SettingsWindow?.GetField(StickyFieldKey).TryToSetValue(false, out _);
+      }
+    }
+
+    void _enableBrushMode() {
+      _altBrushModeIsEnabled = true;
+      if(!_brushLockActive) {
+        SettingsWindow?.GetField(UseBrushFieldKey).TryToSetValue(true, out _);
+      }
+    }
+
+    void _dissableBrushMode() {
+      if(!_brushLockActive) {
+        _altBrushModeIsEnabled = false;
+        SettingsWindow?.GetField(UseBrushFieldKey).TryToSetValue(false, out _);
+      }
+    }
+
+    void _setSpecialSetAdditiveType() {
+      Vector2Int mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
+      EditModes? overrideMode = _modeLockActive ? SettingsWindow?.GetFieldValue<EditModes>(ModeFieldKey) : null;
+      _specialSetToEnabled = overrideMode?.Equals(EditModes.Add) ?? !_selectedTiles.Contains(mouseoverTileLocation);
+      if(overrideMode != null) {
+        SettingsWindow?.GetField(ModeFieldKey).TryToSetValue(overrideMode ?? (_specialSetToEnabled.Value ? EditModes.Add : EditModes.Subtract), out _);
+        SettingsWindow?.GetField(LockModeFieldKey).TryToSetValue(true, out _);
+      }
+    }
+
+    void _clearSpecialSetTo() {
+      if(!_modeLockActive) {
+        _specialSetToEnabled = null;
+        SettingsWindow?.GetField(LockModeFieldKey).TryToSetValue(false, out _);
+      }
+    }
 
 #if UNITY_EDITOR
     [MenuItem("Assets/Create/Overworld/UI/Tools/Tiles Selector Editor Tool")]

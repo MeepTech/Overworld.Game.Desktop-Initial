@@ -388,7 +388,7 @@ namespace Overworld.Controllers.SimpleUx {
             float columnHeight = column?._elementsArea.rect.height ?? 0;
 
             maxColumnHeight = maxColumnHeight < columnHeight ? columnHeight : maxColumnHeight;
-            return Math.Min(350, columnHeight);
+            return Math.Min(250, columnHeight);
           });
 
           pannel._columnArea.sizeDelta = pannel._columnArea.sizeDelta.ReplaceY(maxColumnHeight);

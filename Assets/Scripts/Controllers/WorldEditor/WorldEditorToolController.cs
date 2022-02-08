@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Overworld.Controllers.Editor {
+
+  /// <summary>
+  /// Controls the tools that can edit the world.
+  /// </summary>
   public partial class WorldEditorToolController : MonoBehaviour {
 
     /// <summary>
@@ -15,10 +19,10 @@ namespace Overworld.Controllers.Editor {
     /// <summary>
     /// Tile selection tool data
     /// </summary>
-    public TilesSelectorEditorTool SelectionData {
-      get;
-      private set;
-    }
+    public TilesSelectorEditorTool SelectionData
+      => _selectionToolData;
+    [SerializeField]
+    TilesSelectorEditorTool _selectionToolData;
 
     /// <summary>
     /// The tool currently enabled in the editor.
@@ -35,7 +39,10 @@ namespace Overworld.Controllers.Editor {
     }
     [SerializeField, ReadOnly]
     WorldEditorTool _currentlyEnabledTool;
+    [SerializeField, ReadOnly]
     WorldEditorTool _tempHiddenTool;
+    [SerializeField, ReadOnly]
+    WorldEditorTool _previouslyEnabledTool;
 
 #if UNITY_EDITOR
     [SerializeField, ReadOnly]
@@ -48,11 +55,48 @@ namespace Overworld.Controllers.Editor {
     Stack<HistoricalAction> _rolledBackHistory
     = new();
 
+    void Start() {
+      WorldEditor.Controls.onActionTriggered += callbackContext => {
+        if(callbackContext.action.actionMap.name != "UI") {
+          Debug.Log(callbackContext.action);
+        }
+
+        // Switch to the select tool on hot key click
+        switch(callbackContext.action.name) {
+          case "Temp-Enable Select Tool Hot-Key": 
+            if(CurrentlyEnabledTool is not null && CurrentlyEnabledTool.Name != SelectionData.Name && callbackContext.action.phase == UnityEngine.InputSystem.InputActionPhase.Started) {
+              _tempHiddenTool = CurrentlyEnabledTool;
+              CurrentlyEnabledTool = SelectionData;
+            } else if (_tempHiddenTool is not null && callbackContext.action.phase != UnityEngine.InputSystem.InputActionPhase.Performed) {
+              CurrentlyEnabledTool = _tempHiddenTool;
+              _tempHiddenTool = null;
+            }
+          break;
+          case "Undo":
+            if(callbackContext.phase == UnityEngine.InputSystem.InputActionPhase.Performed) {
+              UndoAction();
+            }
+            break;
+          case "Redo":
+            if(callbackContext.phase == UnityEngine.InputSystem.InputActionPhase.Performed) {
+              RedoAction();
+            }
+            break;
+          case "Unequip Current Tool":
+            if(callbackContext.phase == UnityEngine.InputSystem.InputActionPhase.Performed) {
+              DissableEnabledTool(CurrentlyEnabledTool);
+            }
+            break;
+        }
+      };
+    }
+
     void Update() {
       if(!WorldEditor.WorldController.MouseIsOverUI) {
-        CurrentlyEnabledTool?.WhileEquipedDo(WorldEditor);
+        CurrentlyEnabledTool?._onUpdate();
+        CurrentlyEnabledTool?.OnUpdateWhileEquiped();
       }
-      if(Input.GetKeyDown(KeyCode.Y)
+      /*if(Input.GetKeyDown(KeyCode.Y)
 #if !UNITY_EDITOR
       && (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.RightControl))
 #endif
@@ -65,10 +109,10 @@ namespace Overworld.Controllers.Editor {
 #endif
     ) {
         UndoAction();
-      }
+      }*/
 
       /// While space is held down with any other tool being active, we switch to the selection tool:
-      if(CurrentlyEnabledTool is not null && Input.GetKeyDown(KeyCode.Space)) {
+      /*if(CurrentlyEnabledTool is not null && Input.GetKeyDown(KeyCode.Space)) {
         _tempHiddenTool = CurrentlyEnabledTool;
         _currentlyEnabledTool = SelectionData;
       } else if(CurrentlyEnabledTool is not null && Input.GetKeyUp(KeyCode.Space)) {
@@ -77,22 +121,19 @@ namespace Overworld.Controllers.Editor {
       } else if(_tempHiddenTool is not null && !Input.GetKey(KeyCode.Space)) {
         _currentlyEnabledTool = _tempHiddenTool;
         _tempHiddenTool = null;
-      }
+      }*/
     }
 
     /// <summary>
     /// Called to enable a tool in the editor
     /// </summary>
-    /// <param name="tool"></param>
     public void EnableTool(WorldEditorTool tool) {
-      //CurrentlyEnabledTool?.OnDisable(_worldEditor);
+      CurrentlyEnabledTool?.OnDequip(tool);
       CurrentlyEnabledTool?.FromMenu?
         .OnToolDissabled(CurrentlyEnabledTool);
-      if(tool is TilesSelectorEditorTool selectionTool) {
-        SelectionData = selectionTool;
-      }
+      _previouslyEnabledTool = CurrentlyEnabledTool;
       CurrentlyEnabledTool = tool;
-      //CurrentlyEnabledTool.OnEnable(_worldEditor);
+      CurrentlyEnabledTool.OnEquip(_previouslyEnabledTool);
     }
 
     /// <summary>
@@ -100,7 +141,8 @@ namespace Overworld.Controllers.Editor {
     /// </summary>
     public void DissableEnabledTool(WorldEditorTool tool) {
       if(tool == CurrentlyEnabledTool) {
-        //CurrentlyEnabledTool.OnDisable(_worldEditor);
+        CurrentlyEnabledTool?.OnDequip(null);
+        _previouslyEnabledTool = CurrentlyEnabledTool;
         CurrentlyEnabledTool = null;
       }
     }

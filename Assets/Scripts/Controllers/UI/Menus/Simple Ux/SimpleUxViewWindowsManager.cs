@@ -1,6 +1,4 @@
-﻿using Meep.Tech.Collections;
-using Meep.Tech.Collections.Generic;
-using Meep.Tech.Data;
+﻿using Meep.Tech.Collections.Generic;
 using Simple.Ux.Data;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,7 +46,8 @@ namespace Overworld.Controllers.SimpleUx {
     Dictionary<string, ViewController> _windowsById
         = new();
 
-    HashSet<string> _editorModeWindows;
+    HashSet<string> _editorModeWindows
+      = new();
 
     /// <summary>
     /// The current set of views being controller and managed.

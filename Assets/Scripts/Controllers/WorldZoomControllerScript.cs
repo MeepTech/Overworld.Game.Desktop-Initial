@@ -1,4 +1,5 @@
 using Overworld.Controllers.World;
+using System.Linq;
 using UnityEngine;
 
 namespace Overworld.Controllers.Player {
@@ -31,8 +32,22 @@ namespace Overworld.Controllers.Player {
       _worldController = GetComponent<WorldController>();
     }
 
+    void Start() {
+      _worldController.Controls.onActionTriggered += context
+        => {
+          if(context.action.name == "Zoom") {
+            /// scroll can be prevented in a tool by overriding the middle mouse button.
+            if(_worldController.IsInEditMode && (!(_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.ReservedControlPaths.Contains(context.control.path) ?? true))) {
+              return;
+            }
+
+            ZoomUpdateLogic();
+          }
+        };
+    }
+
     // Update is called once per frame
-    void Update() {
+    /*void Update() {
       /// scroll can be prevented in a tool by overriding the middle mouse button.
       if(_worldController.IsInEditMode
         && (_worldController.WorldEditor.ToolController.CurrentlyEnabledTool?.HotKeys?.Contains(KeyCode.Mouse2) ?? false)
@@ -41,7 +56,7 @@ namespace Overworld.Controllers.Player {
       }
 
       ZoomUpdateLogic();
-    }
+    }*/
 
     /// <summary>
     /// the update logic needed to zoom in and out.
