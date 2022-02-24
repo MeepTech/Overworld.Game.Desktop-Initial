@@ -1,4 +1,5 @@
 ﻿using Overworld.Controllers.Editor;
+using Overworld.Controllers.SimpleUx;
 using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
@@ -107,7 +108,7 @@ namespace Overworld.Objects.Editor {
     /// The compiled settings window for this tool.
     /// This will be null until GetSettingsWindow is called.
     /// </summary>
-    protected View SettingsWindow {
+    protected ViewController SettingsWindow {
       get;
       private set;
     } bool _hasSettingsWindow 
@@ -246,7 +247,7 @@ namespace Overworld.Objects.Editor {
     /// <summary>
     /// Get the settings window for this tool.
     /// </summary>
-    public View GetSettingsWindow() {
+    public ViewController GetSettingsWindow() {
       if(SettingsWindow is null && _hasSettingsWindow) {
         var builder = new ViewBuilder(Name)
           .StartNewPannel(new("Settings"));
@@ -270,7 +271,7 @@ namespace Overworld.Objects.Editor {
          ) {
           _hasSettingsWindow = false;
         } else
-          SettingsWindow = builder.Build();
+          SettingsWindow = SimpleUxViewWindowsManager.Current.InitializeNewWindowForView(builder.Build(), inEditor:true);
       }
 
       return SettingsWindow;

@@ -37,10 +37,10 @@ namespace Overworld.Controllers.SimpleUx {
     public override TitleController Title
       => _title ??= _titleTextField.GetComponent<TitleController>(); TitleController _title;
 
-    public override object GetCurrentValue()
+    public override object GetCurrentlyDisplayedValue()
       => _valueIndicator?.text;
 
-    protected override void _intializeForFieldData() {
+    protected override void IntializeForFieldData() {
       if(FieldData is RangeSliderField rangeSliderData) {
         _slider.minValue = (float)rangeSliderData.ValidRange.min;
         _slider.maxValue = (float)rangeSliderData.ValidRange.max;
@@ -64,15 +64,15 @@ namespace Overworld.Controllers.SimpleUx {
       }
     }
 
-    protected override void _addOnChangeListener(DataField dataField) {
+    protected override void AddOnChangeListener(DataField dataField) {
       _slider.onValueChanged.AddListener(_ => OnFieldChanged());
     }
 
-    protected override void _setFieldValid(bool toValid = true) {
+    protected override void SetFieldValid(bool toValid = true) {
       _sliderKnob.color = toValid ? ValidFieldInputBackgroundColor : InvalidFieldInputBackgroundColor;
     }
 
-    protected override void _setFieldEnabled(bool toEnabled = true) {
+    protected override void SetFieldEnabled(bool toEnabled = true) {
       _slider.interactable = !FieldData.IsReadOnly && toEnabled;
     }
 

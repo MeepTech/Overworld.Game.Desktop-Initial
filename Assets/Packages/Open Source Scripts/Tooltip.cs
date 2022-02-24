@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// Modifed by Meep, original taken from: https://answers.unity.com/questions/1253570/creating-a-tooltip-when-hovering-over-a-ui-button.html
+/// A hovering tooltip.
 /// </summary>
 public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
 

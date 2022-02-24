@@ -17,12 +17,6 @@ namespace Overworld.Controllers.SimpleUx {
   public class ViewController : MonoBehaviour {
 
     /// <summary>
-    /// The rect transform for the view window.
-    /// </summary>
-    public RectTransform RectTransform
-      => _rectTransform;
-
-    /// <summary>
     /// The controller prefabs for each type of Simple Ux Field.
     /// </summary>
     public static IReadOnlyDictionary<DataField.DisplayType, FieldController> FieldControllerPrefabs
@@ -67,6 +61,12 @@ namespace Overworld.Controllers.SimpleUx {
       = null;
 
     /// <summary>
+    /// The rect transform for the view window.
+    /// </summary>
+    public RectTransform RectTransform
+      => _rectTransform;
+
+    /// <summary>
     /// If this view should show it's close button.
     /// </summary>
     public bool ShouldShowCloseButton {
@@ -99,7 +99,7 @@ namespace Overworld.Controllers.SimpleUx {
       => gameObject.activeSelf;
 
     /// <summary>
-    /// The view this is controlling
+    /// The data model for the View this is controlling
     /// </summary>
     public View Data {
       get;
@@ -127,11 +127,14 @@ namespace Overworld.Controllers.SimpleUx {
     bool _dimensionsAreDirty;
     bool _waitedWhileDirty;
     Vector2 _minDimensions;
+    // TODO: this is not needed anymore, remove as if always 0
     internal int _waitingOnDirtyChildren;
     bool _dirtyPannel;
     int _dirtyPannelWaited;
     Stack<HistoricalAction> _history
       = new();
+
+    #region Unity Functions
 
     /// <summary>
     /// Setup
@@ -192,6 +195,10 @@ namespace Overworld.Controllers.SimpleUx {
       }
     }
 
+    #endregion
+
+    #region Initialization
+
     /// <summary>
     /// Initialize this view for the view data.
     /// </summary>
@@ -241,16 +248,96 @@ namespace Overworld.Controllers.SimpleUx {
       _dimensionsAreDirty = true;
     }
 
+    #endregion
+
+    #region Data Fetching
+
+    /// <summary>
+    ///  Get a field controller by key.
+    ///  Throws on failure.
+    /// </summary>
+    public FieldController GetField(string fieldDataKey) 
+      => _fields[fieldDataKey];
+
+    /// <summary>
+    /// Try to get a field controller by key.
+    /// </summary>
+    public bool TryToGetField(string fieldDataKey, out FieldController field) 
+      => _fields.TryGetValue(fieldDataKey, out field);
+
+    /// <summary>
+    /// Try to get a field controller by key.
+    /// null on not found
+    /// </summary>
+    public FieldController TryToGetField(string fieldDataKey) 
+      => _fields.TryGetValue(fieldDataKey, out FieldController field)
+        ? field
+        : null;
+
+    /// <summary>
+    /// Try to get a field controller by key.
+    /// null on not found
+    /// </summary>
+    public FieldController TryToGetFieldValue(string fieldDataKey) 
+      => _fields.TryGetValue(fieldDataKey, out FieldController field)
+        ? field
+        : null;
+
+    #endregion
+
+    #region Data Manipulation
+
+    /// <summary>
+    /// Try to set a field value by key.
+    /// This will update the displayed field value.
+    /// </summary>
+    public bool TryToUpdateFieldValue(string fieldDataKey, object value, out string statusMessage) {
+      if(_fields.TryGetValue(fieldDataKey, out FieldController fieldController)) {
+        if(fieldController.TryToUpdateFieldValue(value, out statusMessage)) {
+          return true;
+        }
+      } else
+        statusMessage = $"Field with data key: {fieldDataKey}, not found in view: {Data.MainTitle.Text}!";
+
+      return false;
+    }
+
+    /// <summary>
+    /// Set a field value by key.
+    /// This will update the displayed field value.
+    /// This throws on failure
+    /// </summary>
+    public void UpdateFieldValue(string fieldDataKey, object value) {
+      if(_fields.TryGetValue(fieldDataKey, out FieldController fieldController)) {
+        if(fieldController.TryToUpdateFieldValue(value, out string statusMessage)) {
+          return;
+        } else 
+          throw new InvalidOperationException($"Could not update the Field with Data Key:{fieldDataKey}, on the View: {Data.MainTitle.Text}:{Id}.\n Error: {statusMessage}");
+      } else
+        throw new KeyNotFoundException($"Field with data key: {fieldDataKey}, not found in view: {Data.MainTitle.Text}!");
+    }
+
     /// <summary>
     /// Revert the changes in the forum to their defaults.
     /// </summary>
     public void RevertAllChanges() {
       foreach(string changedfieldKey in _changedFields) {
         _fields[changedfieldKey].FieldData.ResetValueToDefault();
-        _fields[changedfieldKey]._refreshCurrentValue();
+        _fields[changedfieldKey].RefreshCurrentlyDisplayedValue();
       }
       _changedFields.Clear();
     }
+
+    /// <summary>
+    /// Refresh all field's displayed values based on the internal data model.
+    /// This could be costly.
+    /// </summary>
+    public void Refresh()
+      => _fields.ForEach(field => field.Value.RefreshCurrentlyDisplayedValue());
+
+    #endregion
+
+    #region Window Manipulation
 
     /// <summary>
     /// Close this view
@@ -313,6 +400,8 @@ namespace Overworld.Controllers.SimpleUx {
           - new Vector2(0, -15);
     }
 
+    #endregion
+
     /// <summary>
     /// Called when an element of the view is updated.
     /// </summary>
@@ -368,8 +457,8 @@ namespace Overworld.Controllers.SimpleUx {
       return simpleUxPannelController;
     }
 
-    void _updateAllFieldsForChangesIn(DataField Field) {
-      _fields.Values.ForEach(field => field._onOtherFieldUpdated(Data, Field));
+    void _updateAllFieldsForChangesIn(DataField originalFieldData) {
+      _fields.Values.ForEach(field => field._onOtherFieldUpdated(Data, originalFieldData));
     }
 
     /// <summary>

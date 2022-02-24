@@ -1,5 +1,4 @@
-﻿using Meep.Tech.Collections.Generic;
-using Simple.Ux.Data;
+﻿using Simple.Ux.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +59,7 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     ///<summary><inheritdoc/></summary>
-    public IUxViewElement Element 
+    public IUxViewElement Element
       => FieldData;
 
     ///<summary><inheritdoc/></summary>
@@ -77,55 +76,72 @@ namespace Overworld.Controllers.SimpleUx {
     /// <summary>
     /// Used to initialize the field for the applied FieldData.
     /// </summary>
-    protected abstract void _intializeForFieldData();
+    protected abstract void IntializeForFieldData();
 
     /// <summary>
     /// Used to attach OnFieldChanged to a listener.
     /// </summary>
-    protected abstract void _addOnChangeListener(DataField dataField);
+    protected abstract void AddOnChangeListener(DataField dataField);
 
     /// <summary>
     /// Should be called when the field is changed.
     /// </summary>
     protected virtual void OnFieldChanged() {
       DataField original = FieldData.Copy();
-      if(!FieldData.TryToSetValue(GetCurrentValue(), out string message)) {
+      if(!FieldData.TryToSetValue(GetCurrentlyDisplayedValue(), out string message)) {
         Debug.LogError(message);
       } else {
         View._onUpdated(original);
       }
     }
 
-    public abstract object GetCurrentValue();
+    ///<summary><inheritdoc/></summary>
+    public abstract object GetCurrentlyDisplayedValue();
 
     /// <summary>
     /// Used to set the field as enabled or disbaled.
     /// </summary>
-    protected abstract void _setFieldEnabled(bool toEnabled = true);
+    protected abstract void SetFieldEnabled(bool toEnabled = true);
 
     /// <summary>
     /// Used to set the field as enabled or disbaled.
     /// </summary>
-    protected virtual void _setFieldVisible(bool toVisible = false)
+    protected virtual void SetFieldVisible(bool toVisible = false)
       => gameObject.SetActive(toVisible);
 
     /// <summary>
     /// Used to set the field as valid or invalid.
     /// </summary>
-    protected abstract void _setFieldValid(bool toValid = true);
+    protected abstract void SetFieldValid(bool toValid = true);
 
     /// <summary>
     /// Can add extra logic when this field specifically is updated.
     /// </summary>
-    protected internal virtual void _onThisFieldUpdated(DataField originalFieldData) {}
+    protected internal virtual void OnThisFieldUpdated(DataField originalFieldData) { }
 
     /// <summary>
     /// Called when any other field in the view is updated, including this one.
     /// updatedElement may also be null (this happens when the view first finishes initializing).
     /// </summary>
-    protected internal virtual void _onOtherFieldUpdated(View view, IUxViewElement updatedElement = null) {
+    internal void _onOtherFieldUpdated(View view, IUxViewElement originalElementData = null) {
       _updateFieldEnabledState();
+      _updateFieldHiddenState();
+
+      // if the values are the same, skip the rest:
+      if(view.TryToGetField((originalElementData as DataField)?.DataKey)?.Value 
+        == (originalElementData as DataField)?.Value
+      ) {
+        return;
+      }
+
+      OnOtherFieldValueChanged(view, originalElementData);
     }
+
+    /// <summary>
+    /// Called when any other field in the view is updated, including this one.
+    /// updatedElement may also be null (this happens when the view first finishes initializing).
+    /// </summary>
+    protected virtual void OnOtherFieldValueChanged(View view, IUxViewElement originalElementData = null) {}
 
     /// <summary>
     /// Used to refresh the currently displayed value to the internal one.
@@ -143,10 +159,24 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     /// <summary>
+    /// Try to update a field value, and update the displayed view.
+    /// Use this to manually update the value of a view externally.
+    /// </summary>
+    public bool TryToUpdateFieldValue(object value, out string resultMessage) {
+      if(FieldData.TryToSetValue(value, out resultMessage)) {
+        View._changedFields.Add(FieldData.DataKey);
+        RefreshCurrentlyDisplayedValue();
+        return true;
+      }
+
+      return false;
+    }
+
+    /// <summary>
     /// Used to refresh the currently displayed value to the internal one
     /// </summary>
-    internal virtual void _refreshCurrentValue() {
-      var original = GetCurrentValue();
+    public void RefreshCurrentlyDisplayedValue() {
+      var original = GetCurrentlyDisplayedValue();
       var @new = FieldData.Value;
       if(original != @new) {
         RefreshCurrentDisplayForCurrentValue(@new);
@@ -165,8 +195,8 @@ namespace Overworld.Controllers.SimpleUx {
       if(ValidFieldDataTypes?.Any() ?? false) {
         ValidateFieldType(FieldData.GetType(), ValidFieldDataTypes);
       }
-      _intializeForFieldData();
-      _addOnChangeListener(dataField);
+      IntializeForFieldData();
+      AddOnChangeListener(dataField);
     }
 
     /// <summary>
@@ -174,11 +204,10 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     internal void _updateFieldEnabledState() {
       /// check if the field should still be enabled:
-      if(FieldData.EnabledIfCheckers?.Any() ?? false)
-        if (!FieldData.EnabledIfCheckers.Values.Any(checker => !checker(FieldData, View.Data))) {
-          _setFieldEnabled(false);
-        } else
-          _setFieldEnabled(true);
+      if(FieldData.IsEnabled) {
+        SetFieldEnabled(false);
+      } else
+        SetFieldEnabled(true);
     }
 
     /// <summary>
@@ -186,11 +215,10 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     internal void _updateFieldHiddenState() {
       /// check if the field should still be enabled:
-      if(FieldData.HideIfCheckers?.Any() ?? false)
-        if (!FieldData.HideIfCheckers.Values.Any(checker => !checker(FieldData, View.Data))) {
-          _setFieldEnabled(false);
-        } else
-          _setFieldEnabled(true);
+      if(FieldData.IsHidden) {
+        SetFieldVisible(false);
+      } else
+        SetFieldVisible(true);
     }
 
     void _initializeTooltip() {

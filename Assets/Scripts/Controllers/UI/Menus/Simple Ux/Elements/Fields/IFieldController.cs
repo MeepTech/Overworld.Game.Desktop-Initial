@@ -39,8 +39,10 @@ namespace Overworld.Controllers.SimpleUx {
     }
 
     /// <summary>
-    /// Get the current in game value of this simple Ux Field
+    /// Get the current in game value displayed in this simple Ux Field.
+    /// This could be different from the value in FieldData.Value if the
+    ///   value entered into the input is invalid.
     /// </summary>
-    object GetCurrentValue();
+    object GetCurrentlyDisplayedValue();
   }
 }

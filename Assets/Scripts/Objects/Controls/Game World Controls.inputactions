@@ -1118,7 +1118,7 @@
                 {
                     "name": "",
                     "id": "bbd244fd-2b8c-4b1d-a12b-7b417595d8dc",
-                    "path": "<Keyboard>/alt",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Mouse + Keyboard;Keyboard",
@@ -1129,7 +1129,7 @@
                 {
                     "name": "",
                     "id": "7ab7a140-83d1-4dc1-9ab3-6ecbd734416a",
-                    "path": "<Keyboard>/alt",
+                    "path": "<Keyboard>/shift",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard;Mouse + Keyboard",

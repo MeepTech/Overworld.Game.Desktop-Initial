@@ -32,10 +32,10 @@ namespace Overworld.Controllers.SimpleUx {
     public override TitleController Title
       => _title ??= _titleTextField.GetComponent<TitleController>(); TitleController _title;
 
-    public override object GetCurrentValue()
+    public override object GetCurrentlyDisplayedValue()
       => _toggle.isOn;
 
-    protected override void _intializeForFieldData() {
+    protected override void IntializeForFieldData() {
       RefreshCurrentDisplayForCurrentValue((bool)FieldData.Value);
       if(FieldData.IsReadOnly) {
         _toggle.interactable = false;
@@ -48,15 +48,15 @@ namespace Overworld.Controllers.SimpleUx {
     protected override string GetTitleText()
       => ": " + FieldData.Name;
 
-    protected override void _addOnChangeListener(DataField dataField) {
+    protected override void AddOnChangeListener(DataField dataField) {
       _toggle.onValueChanged.AddListener(_ => OnFieldChanged());
     }
 
-    protected override void _setFieldValid(bool toValid = true) {
+    protected override void SetFieldValid(bool toValid = true) {
       _toggleBackground.color = toValid ? ValidFieldInputBackgroundColor : InvalidFieldInputBackgroundColor;
     }
 
-    protected override void _setFieldEnabled(bool toEnabled = true) {
+    protected override void SetFieldEnabled(bool toEnabled = true) {
       _toggle.interactable = !FieldData.IsReadOnly && toEnabled;
     }
 

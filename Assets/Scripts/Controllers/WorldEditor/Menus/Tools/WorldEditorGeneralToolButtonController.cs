@@ -57,7 +57,7 @@ namespace Overworld.Controllers.Editor {
 
     public void OnPointerClick(PointerEventData eventData) {
       if(eventData.button == PointerEventData.InputButton.Right && _tool is IHasAnOpenableSettingsWindow toolWithWindow) {
-        SimpleUx.SimpleUxViewWindowsManager.Current.OpenViewInWorldEditorMode(toolWithWindow.GetSettingsWindow());
+        SimpleUx.SimpleUxViewWindowsManager.Current.OpenWindow(toolWithWindow.GetSettingsWindow());
       }
     }
   }

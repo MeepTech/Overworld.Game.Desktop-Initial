@@ -36,10 +36,10 @@ namespace Overworld.Controllers.SimpleUx {
     public override TitleController Title
       => _title ??= _titleTextField.GetComponent<TitleController>(); TitleController _title;
 
-    public override object GetCurrentValue()
+    public override object GetCurrentlyDisplayedValue()
       => (FieldData as DropdownSelectField).Options.TryToGetPairAtIndex(_dropdown.value).AsSingleItemEnumerable().ToList();
 
-    protected override void _intializeForFieldData() {
+    protected override void IntializeForFieldData() {
 
       RefreshCurrentDisplayForCurrentValue(FieldData.Value);
       if(FieldData.IsReadOnly) {
@@ -63,17 +63,17 @@ namespace Overworld.Controllers.SimpleUx {
         throw new ArgumentException($"Value[={newValue}] of type: {newValue.GetType().FullName}, is not a List of KeyValuePair<string, object> with a single entry.");
     }
 
-    protected override void _addOnChangeListener(DataField dataField) {
+    protected override void AddOnChangeListener(DataField dataField) {
       _dropdown.onValueChanged.AddListener(_ => OnFieldChanged());
     }
 
-    protected override void _setFieldValid(bool toValid = true) {
+    protected override void SetFieldValid(bool toValid = true) {
       ColorBlock colorBlock = _dropdown.colors;
       colorBlock.normalColor = toValid ? Color.white : InvalidFieldInputBackgroundColor;
       _dropdown.colors = colorBlock;
     }
 
-    protected override void _setFieldEnabled(bool toEnabled = true) {
+    protected override void SetFieldEnabled(bool toEnabled = true) {
       _dropdown.interactable = !FieldData.IsReadOnly && toEnabled;
     }
   }

@@ -320,6 +320,13 @@ namespace Overworld.Controllers.SimpleUx {
       }
 
       // if we didn't find an existing window, make a new one:
+      return InitializeNewWindowForView(view, dataIsPersistent, inEditor, true);
+    }
+
+    /// <summary>
+    /// Initialize a new window for the given view data
+    /// </summary>
+    public ViewController InitializeNewWindowForView(View view, bool dataIsPersistent = true, bool inEditor = false, bool openNewWindow = false) {
       ViewController newView = Instantiate(
         SimpleUxGlobalManager.DefaultViewPrefab,
         inEditor
@@ -332,7 +339,10 @@ namespace Overworld.Controllers.SimpleUx {
       newView.InitializeFor(view);
       _trackWindow(newView, dataIsPersistent, inEditor);
 
-      newView.Open();
+      if(openNewWindow) {
+        newView.Open();
+      }
+
       return newView;
     }
 

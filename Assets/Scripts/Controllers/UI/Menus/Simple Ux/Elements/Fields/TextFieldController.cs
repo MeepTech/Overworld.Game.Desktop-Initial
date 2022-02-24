@@ -39,10 +39,10 @@ namespace Overworld.Controllers.SimpleUx {
     public override TitleController Title
       => _title ??= _titleTextField.GetComponent<TitleController>(); TitleController _title;
 
-    public override object GetCurrentValue()
+    public override object GetCurrentlyDisplayedValue()
       => _inputTextController.text;
 
-    protected override void _intializeForFieldData() {
+    protected override void IntializeForFieldData() {
       RefreshCurrentDisplayForCurrentValue(FieldData.Value);
       if(FieldData.IsReadOnly) {
         _inputTextField.color = Color.white;
@@ -67,15 +67,15 @@ namespace Overworld.Controllers.SimpleUx {
       _inputTextController.text = newValue as string;
     }
 
-    protected override void _addOnChangeListener(DataField dataField) {
+    protected override void AddOnChangeListener(DataField dataField) {
       _inputTextController.onValueChanged.AddListener(_ => OnFieldChanged());
     }
 
-    protected override void _setFieldValid(bool toValid = true) {
+    protected override void SetFieldValid(bool toValid = true) {
       _inputTextBackground.color = toValid ? ValidFieldInputBackgroundColor : InvalidFieldInputBackgroundColor;
     }
 
-    protected override void _setFieldEnabled(bool toEnabled = true) {
+    protected override void SetFieldEnabled(bool toEnabled = true) {
       _inputTextController.readOnly = FieldData.IsReadOnly || !toEnabled;
     }
   }

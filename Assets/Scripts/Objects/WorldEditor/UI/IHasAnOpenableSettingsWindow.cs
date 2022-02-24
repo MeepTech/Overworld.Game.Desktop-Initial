@@ -1,4 +1,4 @@
-﻿using Simple.Ux.Data;
+﻿using Overworld.Controllers.SimpleUx;
 
 namespace Overworld.Objects.Editor {
 
@@ -10,6 +10,6 @@ namespace Overworld.Objects.Editor {
     /// <summary>
     /// Get the view's settings window.
     /// </summary>
-    View GetSettingsWindow();
+    ViewController GetSettingsWindow();
   }
 }

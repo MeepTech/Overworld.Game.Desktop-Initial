@@ -148,18 +148,18 @@ namespace Overworld.Objects.Editor {
         case ActionStatus.Down:
           mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
           bool specialModeEnabled = ControledModeEnabled || AltModeEnabled || ShiftedModeEnabled;
-          if((_stickyLockActive = SettingsWindow?.GetFieldValue<bool>(StickyFieldKey) ?? false) || ControledModeEnabled) {
+          if((_stickyLockActive = SettingsWindow?.Data.GetFieldValue<bool>(StickyFieldKey) ?? false) || ControledModeEnabled) {
             _setStickyActive();
           }
-          if((_modeLockActive = SettingsWindow?.GetFieldValue<bool>(LockModeFieldKey) ?? false) || specialModeEnabled) {
+          if((_modeLockActive = SettingsWindow?.Data.GetFieldValue<bool>(LockModeFieldKey) ?? false) || specialModeEnabled) {
             _setSpecialSetAdditiveType();
           }
           // brush:
-          if((_brushLockActive = SettingsWindow?.GetFieldValue<bool>(UseBrushFieldKey) ?? false) || AltModeEnabled) {
+          if((_brushLockActive = SettingsWindow?.Data.GetFieldValue<bool>(UseBrushFieldKey) ?? false) || AltModeEnabled) {
             _selectSpecialAltSingleClickActive = true;
             _enableBrushMode();
           } // snap mode:
-          else if((_snapModeLockActive = SettingsWindow?.GetFieldValue<bool>(SnapDrawModeFieldKey) ?? false) || ShiftedModeEnabled) {
+          else if((_snapModeLockActive = SettingsWindow?.Data.GetFieldValue<bool>(SnapDrawModeFieldKey) ?? false) || ShiftedModeEnabled) {
             if(_lastModifiedLocation is not null) {
 
               // This prevents the snap functionaliy from making a new empty selection.
@@ -447,51 +447,51 @@ namespace Overworld.Objects.Editor {
     }
 
     void _updateTileCount(int count) {
-      SettingsWindow?.GetField(SelectedTileCountFieldKey).TryToSetValue(count.ToString(), out _);
+      SettingsWindow?.UpdateFieldValue(SelectedTileCountFieldKey, count.ToString());
     }
 
     void _setStickyActive() {
       _stickySelectIsEnabled = true;
       if(!_stickyLockActive) {
-        SettingsWindow?.GetField(StickyFieldKey).TryToSetValue(true, out _);
+        SettingsWindow?.UpdateFieldValue(StickyFieldKey, true);
       }
     }
 
     void _setStickyInactive() {
       if(!_stickyLockActive) {
         _stickySelectIsEnabled = false;
-        SettingsWindow?.GetField(StickyFieldKey).TryToSetValue(false, out _);
+        SettingsWindow?.UpdateFieldValue(StickyFieldKey, false);
       }
     }
 
     void _enableBrushMode() {
       _altBrushModeIsEnabled = true;
       if(!_brushLockActive) {
-        SettingsWindow?.GetField(UseBrushFieldKey).TryToSetValue(true, out _);
+        SettingsWindow?.UpdateFieldValue(UseBrushFieldKey, true);
       }
     }
 
     void _dissableBrushMode() {
       if(!_brushLockActive) {
         _altBrushModeIsEnabled = false;
-        SettingsWindow?.GetField(UseBrushFieldKey).TryToSetValue(false, out _);
+        SettingsWindow?.UpdateFieldValue(UseBrushFieldKey, false);
       }
     }
 
     void _setSpecialSetAdditiveType() {
       Vector2Int mouseoverTileLocation = WorldEditor.WorldController.TileSelector.HoveredTileLocation;
-      EditModes? overrideMode = _modeLockActive ? SettingsWindow?.GetFieldValue<EditModes>(ModeFieldKey) : null;
+      EditModes? overrideMode = _modeLockActive ? SettingsWindow?.Data.GetFieldValue<EditModes>(ModeFieldKey) : null;
       _specialSetToEnabled = overrideMode?.Equals(EditModes.Add) ?? !_selectedTiles.Contains(mouseoverTileLocation);
       if(overrideMode != null) {
-        SettingsWindow?.GetField(ModeFieldKey).TryToSetValue(overrideMode ?? (_specialSetToEnabled.Value ? EditModes.Add : EditModes.Subtract), out _);
-        SettingsWindow?.GetField(LockModeFieldKey).TryToSetValue(true, out _);
+        SettingsWindow?.UpdateFieldValue(ModeFieldKey, overrideMode ?? (_specialSetToEnabled.Value ? EditModes.Add : EditModes.Subtract));
+        SettingsWindow?.UpdateFieldValue(LockModeFieldKey, true);
       }
     }
 
     void _clearSpecialSetTo() {
       if(!_modeLockActive) {
         _specialSetToEnabled = null;
-        SettingsWindow?.GetField(LockModeFieldKey).TryToSetValue(false, out _);
+        SettingsWindow?.UpdateFieldValue(LockModeFieldKey, false);
       }
     }
 
