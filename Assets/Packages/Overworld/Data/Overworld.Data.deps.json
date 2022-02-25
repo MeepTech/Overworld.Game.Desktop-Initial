@@ -11,6 +11,7 @@
         "dependencies": {
           "Meep.Tech.Data": "1.0.0",
           "Simple.Ux.Data": "1.0.0",
+          "Simple.Ux.XBam.Components": "1.0.0",
           "UnityEditor.CoreModule": "0.0.0.0",
           "UnityEditor": "0.0.0.0",
           "UnityEngine.AnimationModule": "0.0.0.0",
@@ -65,6 +66,14 @@
         },
         "runtime": {
           "Simple.Ux.Data.dll": {}
+        }
+      },
+      "Simple.Ux.XBam.Components/1.0.0": {
+        "dependencies": {
+          "Simple.Ux.Data": "1.0.0"
+        },
+        "runtime": {
+          "Simple.Ux.XBam.Components.dll": {}
         }
       },
       "UnityEditor.CoreModule/0.0.0.0": {
@@ -710,6 +719,11 @@
       "sha512": ""
     },
     "Simple.Ux.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Simple.Ux.XBam.Components/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

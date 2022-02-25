@@ -46,16 +46,9 @@ namespace Assets.Scripts.Configuration {
 
       // Add the converter for tags to both settings:
       settings.ModelSerializerOptions = new Model.Serializer.Settings {
-        ConfigureModelJsonSerializerSettings = (defaultResolver, converters) => {
+        ConfigureJsonSerializerSettings = (defaultResolver, converters) => {
           var defaultSettings = settings.ModelSerializerOptions
-            .ConfigureComponentJsonSerializerSettings(defaultResolver, converters);
-          defaultSettings.Converters.Add(new Entity.Animation.Tag.JsonConverter());
-
-          return defaultSettings;
-        },
-        ConfigureComponentJsonSerializerSettings = (defaultResolver, converters) => {
-          var defaultSettings = settings.ModelSerializerOptions
-            .ConfigureComponentJsonSerializerSettings(defaultResolver, converters);
+            .ConfigureJsonSerializerSettings(defaultResolver, converters);
           defaultSettings.Converters.Add(new Entity.Animation.Tag.JsonConverter());
 
           return defaultSettings;
