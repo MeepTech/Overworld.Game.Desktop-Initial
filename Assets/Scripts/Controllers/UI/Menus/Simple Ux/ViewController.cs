@@ -257,20 +257,20 @@ namespace Overworld.Controllers.SimpleUx {
     ///  Throws on failure.
     /// </summary>
     public FieldController GetField(string fieldDataKey) 
-      => _fields[fieldDataKey];
+      => _fields[fieldDataKey.ToLower()];
 
     /// <summary>
     /// Try to get a field controller by key.
     /// </summary>
     public bool TryToGetField(string fieldDataKey, out FieldController field) 
-      => _fields.TryGetValue(fieldDataKey, out field);
+      => _fields.TryGetValue(fieldDataKey.ToLower(), out field);
 
     /// <summary>
     /// Try to get a field controller by key.
     /// null on not found
     /// </summary>
     public FieldController TryToGetField(string fieldDataKey) 
-      => _fields.TryGetValue(fieldDataKey, out FieldController field)
+      => _fields.TryGetValue(fieldDataKey.ToLower(), out FieldController field)
         ? field
         : null;
 
@@ -279,7 +279,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// null on not found
     /// </summary>
     public FieldController TryToGetFieldValue(string fieldDataKey) 
-      => _fields.TryGetValue(fieldDataKey, out FieldController field)
+      => _fields.TryGetValue(fieldDataKey.ToLower(), out FieldController field)
         ? field
         : null;
 
@@ -292,7 +292,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// This will update the displayed field value.
     /// </summary>
     public bool TryToUpdateFieldValue(string fieldDataKey, object value, out string statusMessage) {
-      if(_fields.TryGetValue(fieldDataKey, out FieldController fieldController)) {
+      if(TryToGetField(fieldDataKey, out FieldController fieldController)) {
         if(fieldController.TryToUpdateFieldValue(value, out statusMessage)) {
           return true;
         }
@@ -308,7 +308,7 @@ namespace Overworld.Controllers.SimpleUx {
     /// This throws on failure
     /// </summary>
     public void UpdateFieldValue(string fieldDataKey, object value) {
-      if(_fields.TryGetValue(fieldDataKey, out FieldController fieldController)) {
+      if(TryToGetField(fieldDataKey, out FieldController fieldController)) {
         if(fieldController.TryToUpdateFieldValue(value, out string statusMessage)) {
           return;
         } else 
@@ -322,8 +322,8 @@ namespace Overworld.Controllers.SimpleUx {
     /// </summary>
     public void RevertAllChanges() {
       foreach(string changedfieldKey in _changedFields) {
-        _fields[changedfieldKey].FieldData.ResetValueToDefault();
-        _fields[changedfieldKey].RefreshCurrentlyDisplayedValue();
+        GetField(changedfieldKey).FieldData.ResetValueToDefault();
+        GetField(changedfieldKey).RefreshCurrentlyDisplayedValue();
       }
       _changedFields.Clear();
     }

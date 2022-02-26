@@ -205,9 +205,9 @@ namespace Overworld.Controllers.SimpleUx {
     internal void _updateFieldEnabledState() {
       /// check if the field should still be enabled:
       if(FieldData.IsEnabled) {
-        SetFieldEnabled(false);
-      } else
         SetFieldEnabled(true);
+      } else
+        SetFieldEnabled(false);
     }
 
     /// <summary>

@@ -248,7 +248,7 @@ namespace Overworld.Objects.Editor {
     /// Get the settings window for this tool.
     /// </summary>
     public ViewController GetSettingsWindow() {
-      if(SettingsWindow is null && _hasSettingsWindow) {
+      if(SettingsWindow == null && _hasSettingsWindow) {
         var builder = new ViewBuilder(Name)
           .StartNewPannel(new("Settings"));
         BuildSettingsView(builder);

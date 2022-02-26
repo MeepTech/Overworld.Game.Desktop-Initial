@@ -2327,6 +2327,25 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Meep.Tech.Data.IModel.IBuilderFactory" -->
+        <member name="T:Meep.Tech.Data.IModel.IReadableComponentStorage">
+            <summary>
+            Readble Component Storage more specific to a model.
+            Includes serialization requirements...
+            <inheritdoc/>
+            </summary>
+        </member>
+        <member name="P:Meep.Tech.Data.IModel.IReadableComponentStorage.Components">
+            <summary>
+            The components, which will be serialized with the model.
+            </summary>
+        </member>
+        <member name="T:Meep.Tech.Data.IModel.IWriteableComponentStorage">
+            <summary>
+            Readble Component Storage more specific to a model.
+            Includes serialization requirements...
+            <inheritdoc/>
+            </summary>
+        </member>
         <member name="T:Meep.Tech.Data.IModel.IComponent">
             <summary>
             A Component for an Model. Contains datas. Logic should usually be kept to Archetypes
@@ -2552,6 +2571,9 @@
             The accessor for the default Icomponents implimentation
             </summary>
         </member>
+        <member name="M:Meep.Tech.Data.Model`1.WithComponents.Equals(System.Object)">
+            <summary><inheritdoc/></summary>
+        </member>
         <member name="M:Meep.Tech.Data.Model`1.WithComponents.GetComponent(System.String)">
             <summary>
             Get a component if it exists. Throws if it doesn't
@@ -2759,13 +2781,13 @@
             Build the model.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.IModel`1.Builder._initializeModelComponents(Meep.Tech.Data.IReadableComponentStorage)">
+        <member name="M:Meep.Tech.Data.IModel`1.Builder._initializeModelComponents(Meep.Tech.Data.IModel.IReadableComponentStorage)">
             <summary>
             Loop though each model component and initialize them.
             This also adds all model data componnets linked to an archetype component first.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.IModel`1.Builder._finalizeModelComponents(Meep.Tech.Data.IReadableComponentStorage)">
+        <member name="M:Meep.Tech.Data.IModel`1.Builder._finalizeModelComponents(Meep.Tech.Data.IModel.IReadableComponentStorage)">
             <summary>
             Loop though each model component and finalize them.
             </summary>
@@ -4204,6 +4226,16 @@
         <member name="M:Meep.Tech.Data.Utility.StringUtilities.LimitTo(System.String,System.Int32,System.Boolean)">
             <summary>
             Limit a string to a max size, with or without elipses.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.JsonExtensions.GetValue``1(Newtonsoft.Json.Linq.JObject,System.String,System.StringComparison,System.String)">
+            <summary>
+            Try to get a value by type, case insensitive by default.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.JsonExtensions.TryGetValue``1(Newtonsoft.Json.Linq.JObject,System.String,System.StringComparison,``0)">
+            <summary>
+            Try to get a value by type, case insensitive by default.
             </summary>
         </member>
         <member name="T:Meep.Tech.Data.TypeExtensions">
