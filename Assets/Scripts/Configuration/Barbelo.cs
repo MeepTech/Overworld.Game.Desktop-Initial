@@ -1,6 +1,7 @@
 ﻿using Meep.Tech.Data;
 using Meep.Tech.Data.Configuration;
 using Overworld.Data;
+using Overworld.Data.Entities.Components;
 using Overworld.Script;
 using UnityEngine;
 
@@ -60,6 +61,9 @@ namespace Assets.Scripts.Configuration {
       loader.Initialize(
         Omniverse = new Universe(loader, "Overworld")
       );
+
+      /*Character character = Archetypes<Character.Type>._
+        .Make<Character>((nameof(BasicPhysicalStats.Height), 10));*/
     }
   }
 }

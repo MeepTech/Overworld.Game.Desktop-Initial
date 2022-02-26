@@ -34,6 +34,9 @@ namespace Overworld.Controllers.World {
     public string BoardKey {
       get => _boardKey;
     }
+
+    #region Unity Inspector Set Values
+
     [SerializeField]
     [Tooltip("The tilemap's unique board key")]
     internal string _boardKey;
@@ -49,6 +52,8 @@ namespace Overworld.Controllers.World {
     [SerializeField]
     [Tooltip("The hookMap for the tilemap this controls")]
     internal Tilemap _hookMap;
+
+    #endregion
 
     Dictionary<Vector2Int, MeshCollider> _heightMapCollisionChunks
     = new();
@@ -180,37 +185,33 @@ namespace Overworld.Controllers.World {
         chunkStart + HeightMapChunkSize.X_0_Y() - 1.SquareVector().X_0_Y(),
         tileLocationKey => {
           Overworld.Data.Tile? currentTile = Board[tileLocationKey.X_Z()];
-          if(tileLocationKey.x == 1 && tileLocationKey.z == 1) {
-            int x = 1;
-            x++;
-          }
           float tileHeight = currentTile?.Height ?? 0;
-        // if it's a bottomless pit, skip the tile:
-        if(tileHeight == TileBoard.PitDepth) {
-          // continue:
-          return;
+          // if it's a bottomless pit, skip the tile:
+          if(tileHeight == TileBoard.PitDepth) {
+            // continue:
+            return;
           }
 
-        // actually, fuck math, lets use logic:
-        Vector3 previousCornerTop = ((Vector3)tileLocationKey).ReplaceY(tileHeight);
+          // actually, fuck math, lets use logic:
+          Vector3 previousCornerTop = ((Vector3)tileLocationKey).ReplaceY(tileHeight);
           Overworld.Data.World.CardinalDirection currentSide = Overworld.Data.World.CardinalDirection.South;
           Overworld.Data.World.CardinalCorner currentCorner = Overworld.Data.World.CardinalCorner.SouthWest;
           Vector3[] topOfBoxCorners = new Vector3[4];
           Vector3[][] bottomsOFTheSidesOfTheBox = new Vector3[4][];
 
-        /// For each cardinal direction, we'll build part of the top and the given box side:
-        foreach(Overworld.Data.World.CardinalDirection direction in Enum.GetValues(typeof(Overworld.Data.World.CardinalDirection))) {
+          /// For each cardinal direction, we'll build part of the top and the given box side:
+          foreach (Overworld.Data.World.CardinalDirection direction in Enum.GetValues(typeof(Overworld.Data.World.CardinalDirection))) {
             Vector3 currentTopCornerVertex = previousCornerTop + Overworld.Data.World.CardinalOffsets[direction].X_0_Y();
             currentSide = currentSide.TurnClockwise();
             currentCorner = currentCorner.TurnClockwise();
             topOfBoxCorners[(int)currentCorner] = currentTopCornerVertex;
 
             Overworld.Data.Tile? neighbor = Board[tileLocationKey.X_Z() + Overworld.Data.World.CardinalOffsets[currentSide]];
-          // if the neighbor is higher or the same height we don't need to make a side face in this direction for this tile's collider.
-          // if the current tile is taller though, we will need to add the bottom corners to draw this face of the box
-          // also ignore pits.
-          float neighborHeight = neighbor?.Height ?? 0;
-            if(neighborHeight < tileHeight && neighborHeight != TileBoard.PitDepth) {
+            // if the neighbor is higher or the same height we don't need to make a side face in this direction for this tile's collider.
+            // if the current tile is taller though, we will need to add the bottom corners to draw this face of the box
+            // also ignore pits.
+            float neighborHeight = neighbor?.Height ?? 0;
+            if (neighborHeight < tileHeight && neighborHeight != TileBoard.PitDepth) {
               Vector3[] bottomCorners = new Vector3[2];
               bottomCorners[0] = currentTopCornerVertex.ReplaceY(neighborHeight);
               bottomCorners[1] = bottomCorners[0] + Overworld.Data.World.CardinalOffsets[currentSide.TurnCounterClockwise()].X_0_Y();
@@ -221,34 +222,34 @@ namespace Overworld.Controllers.World {
             previousCornerTop = currentTopCornerVertex;
           }
 
-        /// Construct the top of the box:
-        int topCornerTriIndex = currentTriangleVertexIndex;
-          _constructColliderBoxTopFace(topOfBoxCorners, ref verticies, ref triangles, ref currentTriangleVertexIndex, out int[] tris);
+          /// Construct the top of the box:
+          int topCornerTriIndex = currentTriangleVertexIndex;
+            _constructColliderBoxTopFace(topOfBoxCorners, ref verticies, ref triangles, ref currentTriangleVertexIndex, out int[] tris);
 
-        /// Foreach side that exists, construct it in a similar manner to the top:
-        foreach(Overworld.Data.World.CardinalDirection direction in Enum.GetValues(typeof(Overworld.Data.World.CardinalDirection))) {
-            Vector3[] sideOfBoxBottomCorners = bottomsOFTheSidesOfTheBox[(int)direction];
-            if(sideOfBoxBottomCorners is not null) {
-              _constructColliderBoxSideFace(
-                // South Corners:
-                sideOfBoxBottomCorners
-                  // right
-                  .Prepend(topOfBoxCorners[(int)direction.TurnCounterClockwise()])
+          /// Foreach side that exists, construct it in a similar manner to the top:
+          foreach(Overworld.Data.World.CardinalDirection direction in Enum.GetValues(typeof(Overworld.Data.World.CardinalDirection))) {
+              Vector3[] sideOfBoxBottomCorners = bottomsOFTheSidesOfTheBox[(int)direction];
+              if(sideOfBoxBottomCorners is not null) {
+                _constructColliderBoxSideFace(
+                  // South Corners:
+                  sideOfBoxBottomCorners
+                    // right
+                    .Prepend(topOfBoxCorners[(int)direction.TurnCounterClockwise()])
+                    // left
+                    .Prepend(topOfBoxCorners[(int)direction])
+                    .ToArray(),
+                  ref verticies,
+                  ref triangles,
+                  ref currentTriangleVertexIndex,
                   // left
-                  .Prepend(topOfBoxCorners[(int)direction])
-                  .ToArray(),
-                ref verticies,
-                ref triangles,
-                ref currentTriangleVertexIndex,
-                // left
-                tris[(int)direction.TurnClockwise()],
-                // right
-                tris[(int)direction]
-              );
+                  tris[(int)direction.TurnClockwise()],
+                  // right
+                  tris[(int)direction]
+                );
+              }
             }
           }
-        }
-      );
+        );
 
       meshCollider.sharedMesh = new() {
         vertices = verticies.ToArray(),

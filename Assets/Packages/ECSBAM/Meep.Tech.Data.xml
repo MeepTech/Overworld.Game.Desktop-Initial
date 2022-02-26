@@ -616,11 +616,6 @@
             Helper for potentially making an item without initializing a Builder object.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.Make(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.Make(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}})">
             <summary>
             Helper for potentially making an item without initializing a Builder object.
@@ -630,17 +625,6 @@
             <summary>
             Helper for potentially making an item without initializing a Builder object.
             </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.Make(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.Make(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a dictionary object
-            </summary>
-            <returns></returns>
         </member>
         <member name="M:Meep.Tech.Data.Archetype`2.Make``1(System.ValueTuple{System.String,System.Object}[])">
             <summary>
@@ -654,12 +638,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.Make``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a dictionary object
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.MakeAs``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}},``0@)">
             <summary>
             Helper for potentially making an item without initializing a dictionary object
@@ -667,12 +645,6 @@
             <returns></returns>
         </member>
         <member name="M:Meep.Tech.Data.Archetype`2.MakeAs``1(System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Object}},``0@)">
-            <summary>
-            Helper for potentially making an item without initializing a dictionary object
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.MakeAs``1(``0@,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
             <summary>
             Helper for potentially making an item without initializing a dictionary object
             </summary>
@@ -787,16 +759,6 @@
             Exposes the base set of builder Make functions that use a builder as their parameter publicly for ease of access. 
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
@@ -827,16 +789,6 @@
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make``1(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make(System.Collections.Generic.IEnumerable{System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}})">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
@@ -857,19 +809,21 @@
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters.Make``1(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="T:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters">
             <summary>
             Exposes the base set of builder Make functions that use a list of Params as their parameters publicly for ease of access. 
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters.MakeDefaultBuilder">
+            <summary>
+            The builder for the base model type of this archetype.
+            You can override this and add more default props to the return for utility.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters.MakeBuilder(System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            The builder for the base model type of this archetype.
+            You can override this and add more default props to the return for utility.
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.Archetype`2.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters.Make">
@@ -982,22 +936,7 @@
             <inheritdoc/>
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make``1(System.ValueTuple{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make``1(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make``1(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
@@ -1022,22 +961,7 @@
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make(System.ValueTuple{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithAllDefaultModelBuilders.Make(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
@@ -1067,22 +991,12 @@
             A root archetype with IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters implemented from the start.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make``1(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make``1(System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make``1(System.ValueTuple{System.String,System.Object}[])">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make``1(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
+        <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make(System.ValueTuple{System.String,System.Object}[])">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
@@ -1103,11 +1017,6 @@
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}})">
-            <summary>
-            Make a model from this archetype using a set of params to populate the default builder.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.Archetype`2.WithDefaultParamBasedModelBuilders.Make(System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
             <summary>
             Make a model from this archetype using a set of params to populate the default builder.
             </summary>
@@ -1487,6 +1396,18 @@
             Public make extensions for archeytpes that implement Archetype.IExposePublicMakers.WithBuilderParameters or ..Fully
             </summary>
         </member>
+        <member name="M:Meep.Tech.Data.ArchetypePublicBuilderMakers.MakeDefaultBuilder``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters)">
+            <summary>
+            The builder for the base model type of this archetype.
+            You can override this and add more default props to the return for utility.
+            </summary>
+        </member>
+        <member name="M:Meep.Tech.Data.ArchetypePublicBuilderMakers.MakeBuilder``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters,System.Collections.Generic.Dictionary{System.String,System.Object})">
+            <summary>
+            The builder for the base model type of this archetype.
+            You can override this and add more default props to the return for utility.
+            </summary>
+        </member>
         <member name="M:Meep.Tech.Data.ArchetypePublicBuilderMakers.DefaultModelBuilders``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithBuilderParameters)">
             <summary>
             Gets the exposed model builder Make functions for this archetype.
@@ -1646,22 +1567,6 @@
             Helper for potentially making an item without initializing a dictionary object
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            This does by default for models.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a dictionary object
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,``0@,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a dictionary object
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.Object}})">
             <summary>
             Helper for potentially making an item without initializing a Builder object.
@@ -1707,21 +1612,6 @@
             Helper for potentially making an item without initializing a Builder object.
             </summary>
         </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,``0@,System.ValueTuple{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
         <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}})">
             <summary>
             Helper for potentially making an item without initializing a Builder object.
@@ -1733,21 +1623,6 @@
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,``0@,System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}})">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``2(Meep.Tech.Data.Archetype{``0,``1}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
-            <summary>
-            Helper for potentially making an item without initializing a Builder object.
-            </summary>
-        </member>
-        <member name="M:Meep.Tech.Data.ArchetypePublicParameterListMakers.Make``3(Meep.Tech.Data.Archetype{``1,``2}.IExposeDefaultModelBuilderMakeMethods.WithParamListParameters,``0@,System.Collections.Generic.KeyValuePair{Meep.Tech.Data.IModel.Builder.Param,System.Object}[])">
             <summary>
             Helper for potentially making an item without initializing a Builder object.
             </summary>
@@ -4177,9 +4052,15 @@
             Get the first factory inherited by a given model:
             </summary>
         </member>
+        <member name="M:Meep.Tech.Data.Universe.ModelsData._findFirstInheritedDataItemFor``1(System.Type,System.Func{System.Type,``0},System.Func{System.Type,``0},System.Action{System.Type,``0})">
+            <summary>
+            Get the first factory inherited by a given model:
+            </summary>
+        </member>
         <member name="M:Meep.Tech.Data.Universe.ModelsData._findFirstInheritedCompareLogic(System.Type)">
             <summary>
             Get the first factory inherited by a given model:
+            TODO: this and the find first factory logic should be combined into one, with find first factory taking precidence. It's more up to date.
             </summary>
         </member>
         <member name="M:Meep.Tech.Data.Universe.ModelsData._makeDefaultCompareLogic">
